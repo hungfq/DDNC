@@ -1,6 +1,8 @@
+import 'package:ddnc/api/api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 
 class LoginPage extends StatefulWidget {
   @override
@@ -10,6 +12,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final service = ApiService.create();
   bool _isLoading = false;
 
   // String dropdownValue = 'Sinh vien';
@@ -29,6 +32,14 @@ class _LoginPageState extends State<LoginPage> {
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       final GoogleSignInAuthentication? googleAuth =
           await googleUser?.authentication;
+
+      // final response = await service.signIn(
+      //     accessToken: googleAuth?.accessToken,
+      //     type: dropdownKey
+      // );
+      //
+      // print('response: $response');
+
       // final AuthCredential credential = GoogleAuthProvider.credential(
       //   accessToken: googleAuth?.accessToken,
       //   idToken: googleAuth?.idToken,
@@ -76,7 +87,7 @@ class _LoginPageState extends State<LoginPage> {
                       radius: 60,
                       backgroundColor: Colors.white,
                       child: Image.asset(
-                        'lib/images/fit.png',
+                        'assets/images/fit.png',
                         height: 100,
                       ),
                     ),
@@ -143,7 +154,7 @@ class _LoginPageState extends State<LoginPage> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Image.asset(
-                            'lib/images/gg_logo.png',
+                            'assets/images/gg_logo.png',
                             height: 30,
                           ),
                           SizedBox(width: 10),
