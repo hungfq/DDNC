@@ -1,6 +1,9 @@
+import 'package:ddnc_new/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
+import 'api/api_service.dart';
+import 'package:http/http.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -9,7 +12,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final service = ApiService.create();
   bool _isLoading = false;
 
   // String dropdownValue = 'Sinh vien';
@@ -29,15 +32,17 @@ class _LoginPageState extends State<LoginPage> {
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       final GoogleSignInAuthentication? googleAuth =
       await googleUser?.authentication;
-      // final AuthCredential credential = GoogleAuthProvider.credential(
-      //   accessToken: googleAuth?.accessToken,
-      //   idToken: googleAuth?.idToken,
-      // );
-      // final UserCredential userCredential =
-      //     await _auth.signInWithCredential(credential);
-      // final User? user = userCredential.user;
-      print('Signed in accessToken: ${googleAuth?.accessToken}');
-      print('Signed in type: $dropdownKey');
+
+      var body = {
+        'access_token': googleAuth?.accessToken,
+        'type': dropdownKey
+      };
+
+      // final response = await service.signIn(body);
+      final response = await post(Uri.parse('http://10.0.2.2:8001/api/v2/auth/login'),body:body);
+      print('response: ${response.body}');
+
+
     } catch (error) {
       print("==================CO LOI ROI HUNG OI======================");
       print(error);
@@ -50,6 +55,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final user = context.watch<UserProvider>().user;
+
     return MaterialApp(
         home: Scaffold(
           body: Container(
