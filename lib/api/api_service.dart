@@ -14,8 +14,13 @@ abstract class ApiService extends ChopperService {
     return _$ApiService(client);
   }
 
-  @Post(path: 'v2/auth/login')
-  Future<Response<dynamic>> signIn(
+  @Get(path: 'v2/test')
+  Future<Response<dynamic>> testApi(
     @body dynamic request
   );
+
+  @Post(path: 'v2/auth/login')
+  Future<Response<dynamic>> signIn(
+      @body dynamic request
+      );
 }

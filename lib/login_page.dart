@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'api/api_service.dart';
-import 'package:http/http.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -38,8 +37,7 @@ class _LoginPageState extends State<LoginPage> {
         'type': dropdownKey
       };
 
-      // final response = await service.signIn(body);
-      final response = await post(Uri.parse('http://10.0.2.2:8001/api/v2/auth/login'),body:body);
+      final response = await service.signIn(body);
       print('response: ${response.body}');
 
 
