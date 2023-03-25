@@ -1,16 +1,16 @@
-import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:flutter/material.dart';
+import 'package:easy_sidemenu/easy_sidemenu.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _HomePageState extends State<HomePage> {
   PageController page = PageController();
   SideMenuController sideMenu = SideMenuController();
   @override
@@ -24,10 +24,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        centerTitle: true,
-      ),
       body: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -53,7 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     maxWidth: 150,
                   ),
                   child: Image.asset(
-                    'assets/images/easy_sidemenu.png',
+                    'assets/images/fit.png',
                   ),
                 ),
                 const Divider(
@@ -65,39 +61,39 @@ class _MyHomePageState extends State<MyHomePage> {
             footer: const Padding(
               padding: EdgeInsets.all(8.0),
               child: Text(
-                'mohada',
+                'Khoa CNTT',
                 style: TextStyle(fontSize: 15),
               ),
             ),
             items: [
               SideMenuItem(
                 priority: 0,
-                title: 'Dashboard',
+                title: 'ADMIN',
                 onTap: (page, _) {
                   sideMenu.changePage(page);
                 },
-                icon: const Icon(Icons.home),
+                icon: const Icon(Icons.admin_panel_settings),
                 badgeContent: const Text(
                   '3',
                   style: TextStyle(color: Colors.white),
                 ),
-                tooltipContent: "This is a tooltip for Dashboard item",
+                tooltipContent: "Admin",
               ),
               SideMenuItem(
                 priority: 1,
-                title: 'Users',
+                title: 'Giang vien',
                 onTap: (page, _) {
                   sideMenu.changePage(page);
                 },
-                icon: const Icon(Icons.supervisor_account),
+                icon: const Icon(Icons.supervised_user_circle_sharp),
               ),
               SideMenuItem(
                 priority: 2,
-                title: 'Files',
+                title: 'Sinh vien',
                 onTap: (page, _) {
                   sideMenu.changePage(page);
                 },
-                icon: const Icon(Icons.file_copy_rounded),
+                icon: const Icon(Icons.group),
                 trailing: Container(
                     decoration: const BoxDecoration(
                         color: Colors.amber,
@@ -113,7 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               SideMenuItem(
                 priority: 3,
-                title: 'Download',
+                title: '',
                 onTap: (page, _) {
                   sideMenu.changePage(page);
                 },
@@ -121,26 +117,26 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               SideMenuItem(
                 priority: 4,
-                title: 'Settings',
+                title: 'De tai',
                 onTap: (page, _) {
                   sideMenu.changePage(page);
                 },
                 icon: const Icon(Icons.settings),
               ),
-              // SideMenuItem(
-              //   priority: 5,
-              //   onTap:(page){
-              //     sideMenu.changePage(5);
-              //   },
-              //   icon: const Icon(Icons.image_rounded),
-              // ),
-              // SideMenuItem(
-              //   priority: 6,
-              //   title: 'Only Title',
-              //   onTap:(page){
-              //     sideMenu.changePage(6);
-              //   },
-              // ),
+              SideMenuItem(
+                priority: 5,
+                onTap:(page,_){
+                  sideMenu.changePage(page);
+                },
+                icon: const Icon(Icons.image_rounded),
+              ),
+              SideMenuItem(
+                priority: 6,
+                title: 'Only Title',
+                onTap:(page,_){
+                  sideMenu.changePage(page);
+                },
+              ),
               const SideMenuItem(
                 priority: 7,
                 title: 'Exit',
@@ -211,6 +207,105 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: const Center(
                     child: Text(
                       'Only Icon',
+                      style: TextStyle(fontSize: 35),
+                    ),
+                  ),
+                ),
+                Container(
+                  color: Colors.white,
+                  child: const Center(
+                    child: Text(
+                      'Hoi dong',
+                      style: TextStyle(fontSize: 35),
+                    ),
+                  ),
+                ),
+                Container(
+                  color: Colors.white,
+                  child: const Center(
+                    child: Text(
+                      'Lich dang ky',
+                      style: TextStyle(fontSize: 35),
+                    ),
+                  ),
+                ),
+                Container(
+                  color: Colors.white,
+                  child: const Center(
+                    child: Text(
+                      'Dashboard',
+                      style: TextStyle(fontSize: 35),
+                    ),
+                  ),
+                ),
+                Container(
+                  color: Colors.white,
+                  child: const Center(
+                    child: Text(
+                      'Users',
+                      style: TextStyle(fontSize: 35),
+                    ),
+                  ),
+                ),
+                Container(
+                  color: Colors.white,
+                  child: const Center(
+                    child: Text(
+                      'Files',
+                      style: TextStyle(fontSize: 35),
+                    ),
+                  ),
+                ),
+                Container(
+                  color: Colors.white,
+                  child: const Center(
+                    child: Text(
+                      'Download',
+                      style: TextStyle(fontSize: 35),
+                    ),
+                  ),
+                ),
+                Container(
+                  color: Colors.white,
+                  child: const Center(
+                    child: Text(
+                      'Settings',
+                      style: TextStyle(fontSize: 35),
+                    ),
+                  ),
+                ),
+                Container(
+                  color: Colors.white,
+                  child: const Center(
+                    child: Text(
+                      'Only Title',
+                      style: TextStyle(fontSize: 35),
+                    ),
+                  ),
+                ),
+                Container(
+                  color: Colors.white,
+                  child: const Center(
+                    child: Text(
+                      'Only Icon',
+                      style: TextStyle(fontSize: 35),
+                    ),
+                  ),
+                ),
+                Container(
+                  color: Colors.white,
+                  child: const Center(
+                    child: Text(
+                      'Hoi dong',
+                      style: TextStyle(fontSize: 35),
+                    ),
+                  ),
+                ),
+                Container(
+                  color: Colors.white,
+                  child: const Center(
+                    child: Text(
+                      'Lich dang ky',
                       style: TextStyle(fontSize: 35),
                     ),
                   ),
