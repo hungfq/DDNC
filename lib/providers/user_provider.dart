@@ -6,8 +6,8 @@ class UserProvider with ChangeNotifier {
 
   UserModel? get user => _user;
 
-  void setUser(UserModel user) {
-    _user = user;
+  Future<void> setUser(UserModel user) async {
+    this._user = user;
     notifyListeners();
   }
 }

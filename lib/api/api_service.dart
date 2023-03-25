@@ -4,7 +4,6 @@ part 'api_service.chopper.dart';
 
 @ChopperApi(baseUrl: '/api')
 abstract class ApiService extends ChopperService {
-
   static ApiService create() {
     final client = ChopperClient(
       baseUrl: Uri.parse("http://10.0.2.2:8001"),
@@ -15,12 +14,8 @@ abstract class ApiService extends ChopperService {
   }
 
   @Get(path: 'v2/test')
-  Future<Response<dynamic>> testApi(
-    @body dynamic request
-  );
+  Future<Response<dynamic>> testApi(@body dynamic request);
 
   @Post(path: 'v2/auth/login')
-  Future<Response<dynamic>> signIn(
-      @body dynamic request
-      );
+  Future<Response<dynamic>> signIn(@body dynamic request);
 }

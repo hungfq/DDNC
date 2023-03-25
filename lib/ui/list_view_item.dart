@@ -19,7 +19,7 @@ class MyListView extends StatelessWidget {
       title: 'Item 3',
       subtitle: 'Subtitle 3',
       imageUrl:
-          'https://cdn.pixabay.com/photo/2014/11/13/06/12/boy-529067_960_720.jpg  ',
+          'https://cdn.pixabay.com/photo/2014/11/13/06/12/boy-529067_960_720.jpg',
     ),
   ];
 
