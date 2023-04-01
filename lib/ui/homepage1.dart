@@ -39,6 +39,87 @@ final List<User> users3 = [
   User(name: 'Olivia sss', email: 'oliviawilliams@example.com', phone: '+1 (555) 555-5555'),
 ];
 
+final topics = [
+  Topic(
+    code: 'T001',
+    title: 'Topic 1',
+    description: 'This is the description of topic 1',
+    limit: 3,
+    lectureId: 1,
+    criticalLecturerId: 2,
+    students: ['John Doe', 'Jane Doe'],
+    schedule: 'Monday - Friday',
+    advisorLecturerGrade: 8,
+    committeePresidentGrade: 9,
+    committeeSecretaryLecturer: 7,
+  ),
+  Topic(
+    code: 'T002',
+    title: 'Topic 2',
+    description: 'This is the description of topic 2',
+    limit: 2,
+    lectureId: 3,
+    criticalLecturerId: 4,
+    students: ['John Doe', 'Jane Doe', 'James Doe'],
+    schedule: 'Monday - Wednesday',
+    advisorLecturerGrade: 7,
+    committeePresidentGrade: 8,
+    committeeSecretaryLecturer: 6,
+  ),
+  Topic(
+    code: 'T003',
+    title: 'Topic 1',
+    description: 'This is the description of topic 1',
+    limit: 3,
+    lectureId: 1,
+    criticalLecturerId: 2,
+    students: ['John Doe', 'Jane Doe'],
+    schedule: 'Monday - Friday',
+    advisorLecturerGrade: 8,
+    committeePresidentGrade: 9,
+    committeeSecretaryLecturer: 7,
+  ),
+  Topic(
+    code: 'T004',
+    title: 'Topic 1',
+    description: 'This is the description of topic 1',
+    limit: 3,
+    lectureId: 1,
+    criticalLecturerId: 2,
+    students: ['John Doe', 'Jane Doe'],
+    schedule: 'Monday - Friday',
+    advisorLecturerGrade: 8,
+    committeePresidentGrade: 9,
+    committeeSecretaryLecturer: 7,
+  ),
+  Topic(
+    code: 'T005',
+    title: 'Topic 1',
+    description: 'This is the description of topic 1',
+    limit: 3,
+    lectureId: 1,
+    criticalLecturerId: 2,
+    students: ['John Doe', 'Jane Doe'],
+    schedule: 'Monday - Friday',
+    advisorLecturerGrade: 8,
+    committeePresidentGrade: 9,
+    committeeSecretaryLecturer: 7,
+  ),
+  Topic(
+    code: 'T006',
+    title: 'Topic 1',
+    description: 'This is the description of topic 1',
+    limit: 3,
+    lectureId: 1,
+    criticalLecturerId: 2,
+    students: ['John Doe', 'Jane Doe'],
+    schedule: 'Monday - Friday',
+    advisorLecturerGrade: 8,
+    committeePresidentGrade: 9,
+    committeeSecretaryLecturer: 7,
+  ),
+];
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key, required this.title}) : super(key: key);
 
@@ -55,7 +136,7 @@ class _HomePageState extends State<HomePage> {
     UserList(users: users1),
     UserList(users: users2),
     UserList(users: users3),
-    UserList(users: users3),
+    TopicList(topics: topics),
     UserList(users: users3),
     UserList(users: users3),
     UserList(users: users3),
@@ -555,7 +636,6 @@ class Topic {
   String title;
   String description;
   int limit;
-  TimeOfDay thesisDefenseDate;
   int lectureId;
   int criticalLecturerId;
   List<String> students;
@@ -569,7 +649,6 @@ class Topic {
     required this.title,
     required this.description,
     required this.limit,
-    required this.thesisDefenseDate,
     required this.lectureId,
     required this.criticalLecturerId,
     required this.students,
@@ -579,114 +658,175 @@ class Topic {
     required this.committeeSecretaryLecturer,
   });
 }
-//
-// Topic topic1 = Topic(
-// code: 'T001',
-// title: 'Topic 1',
-// description: 'This is the description of topic 1',
-// limit: 3,
-// thesisDefenseDate: DateTime.now(),
-// lectureId: 1,
-// criticalLecturerId: 2,
-// students: ['John Doe', 'Jane Doe'],
-// schedule: 'Monday - Friday',
-// advisorLecturerGrade: 8,
-// committeePresidentGrade: 9,
-// committeeSecretaryLecturer: 7,
-// ),
-// Topic(
-// code: 'T002',
-// title: 'Topic 2',
-// description: 'This is the description of topic 2',
-// limit: 2,
-// thesisDefenseDate: DateTime.now(),
-// lectureId: 3,
-// criticalLecturerId: 4,
-// students: ['John Doe', 'Jane Doe', 'James Doe'],
-// schedule: 'Monday - Wednesday',
-// advisorLecturerGrade: 7,
-// committeePresidentGrade: 8,
-// committeeSecretaryLecturer: 6,
-// )
-//
-//
-// class TopicList extends StatefulWidget {
-//   @override
-//   _TopicListState createState() => _TopicListState();
-// }
-//
-// class _TopicListState extends State<TopicList> {
-//
-//
-//   void _addTopic(t) {
-//     // setState(() {
-//     //   _topics.add(Topic());
-//     // });
-//   }
-//
-//   void _editTopic(int index) {
-//     // TODO: implement topic editing
-//   }
-//
-//   void _removeTopic(int index) {
-//     setState(() {
-//       _topics.removeAt(index);
-//     });
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Topic List'),
-//       ),
-//       body: Container(
-//         padding: EdgeInsets.all(16.0),
-//         child: Column(
-//           children: [
-//             Row(
-//               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//               children: [
-//                 Text(
-//                   'List of Topics',
-//                   style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
-//                 ),
-//                 IconButton(
-//                   icon: Icon(Icons.add),
-//                   onPressed: () {
-//                     // Add new topic
-//                   },
-//                 ),
-//               ],
-//             ),
-//             SizedBox(height: 16.0),
-//             Expanded(
-//               child: ListView.builder(
-//                 itemCount: topics.length,
-//                 itemBuilder: (BuildContext context, int index) {
-//                   final topic = topics[index];
-//                   return Card(
-//                     child: ListTile(
-//                       title: Text(topic.title),
-//                       subtitle: Text(topic.description),
-//                       trailing: Icon(Icons.arrow_forward),
-//                       onTap: () {
-//                         // Navigate to topic details
-//                       },
-//                     ),
-//                   );
-//                 },
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//         floatingActionButton: FloatingActionButton(
-//         child: Icon(Icons.add),
-//         onPressed: () {
-//
-//         },
-//       ),
-//     );
-//   }
-// }
+
+
+
+
+
+
+class TopicList extends StatefulWidget {
+  final List<Topic> topics;
+
+  TopicList({required this.topics});
+
+  @override
+  _TopicListState createState() => _TopicListState();
+}
+
+class _TopicListState extends State<TopicList> {
+
+
+  void _addTopic(t) {
+    // setState(() {
+    //   _topics.add(Topic());
+    // });
+  }
+
+  void _editTopic(int index) {
+    // TODO: implement topic editing
+  }
+
+  void _removeTopic(int index) {
+    setState(() {
+      widget.topics.removeAt(index);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: topics.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final topic = topics[index];
+                  return Column(
+                    children: [
+                      Card(
+                        child: InkWell(
+                          onTap: () {
+                            // Navigate to topic details
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        topic.title,
+                                        style: TextStyle(
+                                          fontSize: 18.0,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    Text(
+                                      topic.code,
+                                      style: TextStyle(
+                                        fontSize: 14.0,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 8.0),
+                                Text(
+                                  topic.description,
+                                  style: TextStyle(
+                                    fontSize: 16.0,
+                                  ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                SizedBox(height: 16.0),
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.person,
+                                      color: Colors.grey,
+                                      size: 16.0,
+                                    ),
+                                    SizedBox(width: 8.0),
+                                    Text(
+                                      '${topic.lectureId} (Lecturer)',
+                                      style: TextStyle(
+                                        fontSize: 14.0,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 8.0),
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.person_outline,
+                                      color: Colors.grey,
+                                      size: 16.0,
+                                    ),
+                                    SizedBox(width: 8.0),
+                                    Text(
+                                      '${topic.criticalLecturerId} (Critical Lecturer)',
+                                      style: TextStyle(
+                                        fontSize: 14.0,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                          child: Column(
+                            children: [
+                              IconButton(
+                                icon: Icon(Icons.remove),
+                                onPressed: () {
+                                  // Remove the topic from the list
+                                },
+                              ),
+                              IconButton(
+                                icon: Icon(Icons.edit),
+                                onPressed: () {
+                                  // Navigate to the topic editing screen
+                                },
+                              ),
+                              IconButton(
+                                icon: Icon(Icons.visibility),
+                                onPressed: () {
+                                  // Navigate to the topic detail screen
+                                },
+                              ),],
+                          )
+                      )
+                    ],
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      )
+      ,
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+
+        },
+      ),
+    );
+  }
+}
