@@ -1,3 +1,4 @@
+import 'package:ddnc_new/ui/pages/user/user_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:ddnc_new/ui/list_view_item.dart';
 
@@ -20,12 +21,7 @@ class ContentSection extends StatelessWidget {
           ),
           Container(
             color: Colors.white,
-            child: const Center(
-              child: Text(
-                'Users',
-                style: TextStyle(fontSize: 35),
-              ),
-            ),
+            child: UserListPage(),
           ),
           Container(
             color: Colors.white,
