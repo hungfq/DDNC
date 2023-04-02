@@ -1,11 +1,10 @@
 import 'package:ddnc_new/api/response/list_user_response.dart';
 import 'package:ddnc_new/api/response/result.dart';
 import 'package:ddnc_new/commons/helpers.dart';
-import 'package:ddnc_new/ui/components/primary_divider_horizontal.dart';
-import 'package:ddnc_new/ui/components/primary_text_view.dart';
 import 'package:ddnc_new/ui/components/smart_refresher_listview.dart';
 import 'package:ddnc_new/ui/pages/user/user_list/blocs/user_list_bloc.dart';
 import 'package:ddnc_new/ui/pages/user/user_list/blocs/user_list_state.dart';
+import 'package:ddnc_new/ui/pages/user/user_list/components/user_show.dart';
 import 'package:ddnc_new/ui/resources/dimens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -197,51 +196,107 @@ class _UserItem extends StatelessWidget {
     // var onSurfaceColor = _theme.colorScheme.onSurface;
 
     return GestureDetector(
-      behavior: HitTestBehavior.translucent,
-      // onTap: () => onItemClicked.call(po),
-      child: Container(
-        padding: const EdgeInsets.fromLTRB(
-          Dimens.marginPaddingSizeXMini,
-          Dimens.marginPaddingSizeMini,
-          Dimens.marginPaddingSizeXMini,
-          Dimens.marginPaddingSizeXMini,
-        ),
-        margin: const EdgeInsets.only(
-          bottom: Dimens.marginPaddingSizeXMini,
-        ),
-        decoration: BoxDecoration(
-          color: theme.colorScheme.surface,
-          borderRadius: const BorderRadius.all(
-              Radius.circular(Dimens.mediumComponentRadius)),
-          border: Border.all(color: theme.dividerColor),
-        ),
-        child: Column(
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
+        behavior: HitTestBehavior.translucent,
+        // onTap: () => onItemClicked.call(po),
+        child: Container(
+          padding: const EdgeInsets.fromLTRB(
+            Dimens.marginPaddingSizeTiny,
+            Dimens.marginPaddingSizeMini,
+            Dimens.marginPaddingSizeXXTiny,
+            Dimens.marginPaddingSizeTiny,
+          ),
+          margin: const EdgeInsets.only(
+            bottom: Dimens.marginPaddingSizeXMini,
+          ),
+          decoration: BoxDecoration(
+            color: theme.colorScheme.surface,
+            borderRadius: const BorderRadius.all(
+                Radius.circular(Dimens.mediumComponentRadius)),
+            border: Border.all(color: theme.dividerColor),
+          ),
+          child: ListTile(
+            leading: const CircleAvatar(
+              child: Icon(Icons.person),
+            ),
+            title: Text(user.name ?? ""),
+            subtitle: Text(user.email ?? ""),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                const Text(
-                  'Name:',
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
-                  ),
+                IconButton(
+                  icon: Icon(Icons.visibility),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => UserShowPage(user: user),
+                      ),
+                    );
+                  },
                 ),
-                SizedBox(height: 8.0),
-                Text(
-                  user.name ?? "",
-                  style: const TextStyle(
-                    fontSize: 16.0,
-                  ),
+                IconButton(
+                  icon: Icon(Icons.edit),
+                  onPressed: () async {
+                    // dynamic userUpdated = await Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) => UserEditPage(user: user),
+                    //   ),
+                    // );
+                    // if (userUpdated != null) {
+                    //   setState(() {
+                    //     widget.users[index] = User(
+                    //         name: userUpdated['name'],
+                    //         email: userUpdated['email'],
+                    //         phone: userUpdated['phone']);
+                    //   });
+                    // }
+                    // print(userUpdated);
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text("Confirm Delete"),
+                          content: Text(
+                              "Are you sure you want to delete this user?"),
+                          actions: [
+                            TextButton(
+                              child: Text("Cancel"),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                            TextButton(
+                              child: Text("Delete"),
+                              onPressed: () {
+                                // setState(() {
+                                //   widget.users.removeAt(index);
+                                // });
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
                 ),
               ],
             ),
-            const SizedBox(height: Dimens.marginPaddingSizeXXXTiny),
-            const PrimaryDividerHorizontal(),
-            const SizedBox(height: Dimens.marginPaddingSizeMini),
-          ],
-        ),
-      ),
-    );
+            onTap: () {
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (context) => UserViewPage(user: user),
+              //   ),
+              // );
+            },
+          ),
+        ));
   }
 }

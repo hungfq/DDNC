@@ -1,5 +1,7 @@
+import 'package:ddnc_new/commons/app_page.dart';
 import 'package:ddnc_new/commons/constants.dart';
 import 'package:ddnc_new/ui/base/base_page_state.dart';
+import 'package:ddnc_new/ui/components/primary_btn_menu.dart';
 import 'package:ddnc_new/ui/components/primary_sliver_app_bar.dart';
 import 'package:ddnc_new/ui/pages/user/user_list/blocs/user_list_bloc.dart';
 import 'package:ddnc_new/ui/pages/user/user_list/blocs/user_list_state.dart';
@@ -11,10 +13,10 @@ class UserListPage extends StatefulWidget {
   const UserListPage({Key? key}) : super(key: key);
 
   @override
-  State<UserListPage> createState() => _PoListPageState();
+  State<UserListPage> createState() => _UserListPageState();
 }
 
-class _PoListPageState extends State<UserListPage> with BasePageState {
+class _UserListPageState extends State<UserListPage> with BasePageState {
   late UserListBloc _userListBloc;
   final ScrollController _scrollController = ScrollController();
 
@@ -28,6 +30,9 @@ class _PoListPageState extends State<UserListPage> with BasePageState {
     });
     super.initState();
   }
+
+  @override
+  String page() => AppPages.userListPage;
 
   @override
   void dispose() {
@@ -53,10 +58,13 @@ class _PoListPageState extends State<UserListPage> with BasePageState {
         body: NestedScrollView(
           controller: _scrollController,
           headerSliverBuilder: (_, __) => [
-            const PrimarySliverAppBar(
+            PrimarySliverAppBar(
               title: "User List",
               pinned: true,
               floating: true,
+              actions: [
+                PrimaryBtnMenu(),
+              ],
             ),
           ],
           body: UserListView(),

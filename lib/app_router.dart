@@ -1,6 +1,8 @@
 import 'package:ddnc_new/repositories/account_repository.dart';
 import 'package:ddnc_new/repositories/user_repository.dart';
 import 'package:ddnc_new/ui/homepage1.dart';
+import 'package:ddnc_new/ui/pages/master/blocs/master_bloc.dart';
+import 'package:ddnc_new/ui/pages/master/master_page.dart';
 import 'package:ddnc_new/ui/pages/sign_in/blocs/sign_in_bloc.dart';
 import 'package:ddnc_new/ui/pages/sign_in/sign_in_page.dart';
 import 'package:ddnc_new/ui/pages/user/user_list/blocs/user_list_bloc.dart';
@@ -15,6 +17,16 @@ class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       //region systems
+      case AppPages.masterPage:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => MasterBloc(
+              accountRepository: AccountRepository.of(context),
+            ),
+            child: const MasterPage(),
+          ),
+          settings: settings,
+        );
       case AppPages.signInPage:
         return MaterialPageRoute(
           builder: (_) => BlocProvider<SignInBloc>(

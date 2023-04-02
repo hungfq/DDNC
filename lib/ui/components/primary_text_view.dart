@@ -40,9 +40,9 @@ class PrimaryTextView extends StatelessWidget {
       maxLines: maxLines,
       strutStyle: strutStyle,
       textWidthBasis: textWidthBasis ?? defaultTextStyle.textWidthBasis,
-      textHeightBehavior: textHeightBehavior ??
-          defaultTextStyle.textHeightBehavior ??
-          DefaultTextHeightBehavior.of(context),
+      // textHeightBehavior: textHeightBehavior ??
+      //     defaultTextStyle.textHeightBehavior ??
+      //     DefaultTextHeightBehavior.of(context),
       text: TextSpan(
         style: effectiveTextStyle,
         text: data,

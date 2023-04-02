@@ -2,11 +2,14 @@ import 'dart:async';
 
 import 'package:ddnc_new/commons/constants.dart';
 import 'package:ddnc_new/modules/navigation/navigation_service.dart';
+import 'package:ddnc_new/ui/pages/master/blocs/master_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 mixin BasePageState<T extends StatefulWidget> on State<T> {
   bool _isInit = false;
 
+  MasterBloc? _masterBloc;
   StreamSubscription<String>? _scannerResultSub;
 
   bool hasScanningSupport() =>
@@ -15,6 +18,11 @@ mixin BasePageState<T extends StatefulWidget> on State<T> {
   void onScanResult(String result) {} // process scanning result
 
   void pageInitState() async {} // init once time with getting modal page route
+
+  MasterBloc get masterBloc {
+    _masterBloc ??= context.read<MasterBloc>();
+    return _masterBloc!;
+  }
 
   @override
   void didChangeDependencies() async {

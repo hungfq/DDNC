@@ -167,7 +167,7 @@ class _LoginPageState extends State<LoginPage> {
                           try {
                             await _signInWithGoogle();
                             // Navigator.of(context).pushNamedAndRemoveUntil(AppPages.homePage, (route) => false);
-                            Navigator.of(context).pushNamedAndRemoveUntil(AppPages.userListPage, (route) => false);
+                            Navigator.of(context).pushNamedAndRemoveUntil(AppPages.masterPage, (route) => false);
                           } catch (e) {
                             print(e);
                           }
