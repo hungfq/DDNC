@@ -4,6 +4,7 @@ import 'package:ddnc_new/commons/helpers.dart';
 import 'package:ddnc_new/ui/components/smart_refresher_listview.dart';
 import 'package:ddnc_new/ui/pages/user/user_list/blocs/user_list_bloc.dart';
 import 'package:ddnc_new/ui/pages/user/user_list/blocs/user_list_state.dart';
+import 'package:ddnc_new/ui/pages/user/user_list/components/user_edit.dart';
 import 'package:ddnc_new/ui/pages/user/user_list/components/user_show.dart';
 import 'package:ddnc_new/ui/resources/dimens.dart';
 import 'package:flutter/material.dart';
@@ -223,35 +224,28 @@ class _UserItem extends StatelessWidget {
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                IconButton(
-                  icon: Icon(Icons.visibility),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => UserShowPage(user: user),
-                      ),
-                    );
-                  },
-                ),
+                // IconButton(
+                //   icon: Icon(Icons.visibility),
+                //   onPressed: () {
+                //     Navigator.push(
+                //       context,
+                //       MaterialPageRoute(
+                //         builder: (context) => UserShowPage(user: user),
+                //       ),
+                //     );
+                //   },
+                // ),
                 IconButton(
                   icon: Icon(Icons.edit),
                   onPressed: () async {
-                    // dynamic userUpdated = await Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) => UserEditPage(user: user),
-                    //   ),
-                    // );
-                    // if (userUpdated != null) {
-                    //   setState(() {
-                    //     widget.users[index] = User(
-                    //         name: userUpdated['name'],
-                    //         email: userUpdated['email'],
-                    //         phone: userUpdated['phone']);
-                    //   });
-                    // }
-                    // print(userUpdated);
+                    dynamic userUpdated = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => UserEditPage(user: user),
+                      ),
+                    );
+                    print(userUpdated);
+                    // TODO: call api update
                   },
                 ),
                 IconButton(
@@ -289,12 +283,12 @@ class _UserItem extends StatelessWidget {
               ],
             ),
             onTap: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) => UserViewPage(user: user),
-              //   ),
-              // );
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => UserShowPage(user: user),
+                ),
+              );
             },
           ),
         ));
