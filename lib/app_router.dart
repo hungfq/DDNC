@@ -1,10 +1,13 @@
 import 'package:ddnc_new/repositories/account_repository.dart';
+import 'package:ddnc_new/repositories/topic_repository.dart';
 import 'package:ddnc_new/repositories/user_repository.dart';
 import 'package:ddnc_new/ui/homepage1.dart';
 import 'package:ddnc_new/ui/pages/master/blocs/master_bloc.dart';
 import 'package:ddnc_new/ui/pages/master/master_page.dart';
 import 'package:ddnc_new/ui/pages/sign_in/blocs/sign_in_bloc.dart';
 import 'package:ddnc_new/ui/pages/sign_in/sign_in_page.dart';
+import 'package:ddnc_new/ui/pages/topic/topic_list/blocs/topic_list_bloc.dart';
+import 'package:ddnc_new/ui/pages/topic/topic_list_page.dart';
 import 'package:ddnc_new/ui/pages/user/user_list/blocs/user_list_bloc.dart';
 import 'package:ddnc_new/ui/pages/user/user_list_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -54,6 +57,16 @@ class AppRouter {
               userRepository: UserRepository.of(context),
             ),
             child: const UserListPage(),
+          ),
+          settings: settings,
+        );
+        case AppPages.topicListPage:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider<TopicListBloc>(
+            create: (context) => TopicListBloc(
+              topicRepository: TopicRepository.of(context),
+            ),
+            child: const TopicListPage(),
           ),
           settings: settings,
         );

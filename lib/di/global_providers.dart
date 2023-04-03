@@ -1,3 +1,4 @@
+import 'package:ddnc_new/repositories/topic_repository.dart';
 import 'package:ddnc_new/repositories/user_repository.dart';
 import 'package:ddnc_new/ui/data/account.dart';
 import 'package:provider/provider.dart';
@@ -46,6 +47,18 @@ List<SingleChildWidget> dependentServices = [
     update: (_, apiService, accountInfo, userRepository) =>
         userRepository ??
         UserRepository(
+          apiService: apiService,
+          accountInfo: accountInfo,
+        ),
+  ),
+  ProxyProvider2<ApiService, AccountInfo, TopicRepository>(
+    create: (context) => TopicRepository(
+      apiService: ApiService.of(context),
+      accountInfo: AccountInfo.of(context),
+    ),
+    update: (_, apiService, accountInfo, topicRepository) =>
+        topicRepository ??
+        TopicRepository(
           apiService: apiService,
           accountInfo: accountInfo,
         ),

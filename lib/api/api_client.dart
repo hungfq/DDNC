@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:chopper/chopper.dart';
+import 'package:ddnc_new/api/response/list_topic_response.dart';
 import 'package:ddnc_new/api/response/list_user_response.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -20,6 +21,7 @@ class ApiClient extends ChopperClient {
     converter: const JsonToTypeConverter({
       SignInResponse: SignInResponse.fromJson,
       ListUserResponse: ListUserResponse.fromJson,
+      ListTopicResponse: ListTopicResponse.fromJson,
     }),
   ) {
     if (kDebugMode) {
