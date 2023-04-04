@@ -1,3 +1,5 @@
+import 'package:ddnc_new/api/request/update_user_request.dart';
+
 abstract class UserListEvent {
   const UserListEvent();
 }
@@ -12,4 +14,10 @@ class UserListLoadMoreEvent extends UserListEvent {
 
 class UserListRefreshedEvent extends UserListEvent {
   const UserListRefreshedEvent();
+}
+
+class UserUpdatedEvent extends UserListEvent {
+  const UserUpdatedEvent(this.request);
+
+  final UpdateUserRequest request;
 }

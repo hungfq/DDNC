@@ -1,6 +1,8 @@
 import 'package:chopper/chopper.dart';
 import 'package:ddnc_new/api/request/list_user_request.dart';
 import 'package:ddnc_new/api/request/sign_in_request.dart';
+import 'package:ddnc_new/api/request/update_user_request.dart';
+import 'package:ddnc_new/api/response/common_success_response.dart';
 import 'package:ddnc_new/api/response/list_topic_response.dart';
 import 'package:ddnc_new/api/response/list_user_response.dart';
 import 'package:flutter/cupertino.dart';
@@ -42,6 +44,12 @@ abstract class ApiService extends ChopperService {
   Future<Response<ListUserResponse>> listUser({
     @Query("page") required int page,
     @Query("limit") int limit = Constants.itemPerPage,
+  });
+
+  @Put(path: 'v2/user/{userId}')
+  Future<Response<CommonSuccessResponse>> updateUser({
+    @Path("userId") required int userId,
+    @Body() required UpdateUserRequest request,
   });
 
   @Get(path: 'v2/topic')

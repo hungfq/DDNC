@@ -1,3 +1,4 @@
+import 'package:ddnc_new/api/request/update_user_request.dart';
 import 'package:ddnc_new/api/response/list_user_response.dart';
 import 'package:ddnc_new/api/response/resource.dart';
 import 'package:ddnc_new/api/response/result.dart';
@@ -21,6 +22,10 @@ class UserListBloc extends Bloc<UserListEvent, UserListState> {
       _onLoadMore,
       transformer: throttleDroppable(Constants.throttleDuration),
     );
+    on<UserUpdatedEvent>(
+      _onUserUpdated,
+      transformer: throttleDroppable(Constants.throttleDuration),
+    );
     // on<UserListRefreshedEvent>(
     //   _onRefreshed,
     //   transformer: throttleDroppable(Constants.throttleDuration),
@@ -28,6 +33,7 @@ class UserListBloc extends Bloc<UserListEvent, UserListState> {
   }
 
   final UserRepository _userRepository;
+  late int userId;
   Resource<ListUserResponse> _getListUserResult = Resource.loading();
 
   Resource<ListUserResponse> get getListUserResult => _getListUserResult;
@@ -52,9 +58,9 @@ class UserListBloc extends Bloc<UserListEvent, UserListState> {
   }
 
   Future<void> _onLoadMore(
-      UserListLoadMoreEvent event,
-      Emitter<UserListState> emit,
-      ) async {
+    UserListLoadMoreEvent event,
+    Emitter<UserListState> emit,
+  ) async {
     if (currentPage == totalPage) {
       emit(UserListLoadMoreState(_getListUserResult));
     } else {
@@ -76,6 +82,24 @@ class UserListBloc extends Bloc<UserListEvent, UserListState> {
     }
   }
 
+  Future<void> _onUserUpdated(
+    UserUpdatedEvent event,
+    Emitter<UserListState> emit,
+  ) async {
+    emit(UserUpdatedState(Resource.loading()));
+
+    var result = await _userRepository.updateUser(
+      userId: userId,
+      request: event.request,
+    );
+
+    if (result.state == Result.success) {
+      fetch();
+    }
+
+    emit(UserUpdatedState(result));
+  }
+
   //region actions
   void fetch() {
     add(const UserListFetchedEvent());
@@ -83,5 +107,14 @@ class UserListBloc extends Bloc<UserListEvent, UserListState> {
 
   void loadMore() {
     add(const UserListLoadMoreEvent());
+  }
+
+  void updateUser(
+      {required String code,
+      required String name,
+      required String email,
+      required String gender,
+      required String status}) {
+    add(UserUpdatedEvent(UpdateUserRequest(code, name, email, gender, status)));
   }
 }

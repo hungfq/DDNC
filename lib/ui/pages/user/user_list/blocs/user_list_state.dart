@@ -22,3 +22,9 @@ class UserListRefreshedState extends UserListState {
 
   final Resource<ListUserResponse> resource;
 }
+
+class UserUpdatedState extends UserListState {
+  const UserUpdatedState(this.resource);
+
+  final Resource<String> resource;
+}

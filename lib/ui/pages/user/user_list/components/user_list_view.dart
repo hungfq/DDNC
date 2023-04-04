@@ -163,6 +163,22 @@ class _UserListViewState extends State<UserListView> {
       }
       return;
     }
+
+    if (state is UserUpdatedState) {
+      var resource = state.resource;
+      switch (resource.state) {
+        case Result.loading:
+          break;
+        case Result.error:
+          break;
+        case Result.success:
+          _userListBloc.fetch();
+          break;
+        default:
+          break;
+      }
+      return;
+    }
   }
 
   void _onRefresh() async {
@@ -224,17 +240,6 @@ class _UserItem extends StatelessWidget {
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // IconButton(
-                //   icon: Icon(Icons.visibility),
-                //   onPressed: () {
-                //     Navigator.push(
-                //       context,
-                //       MaterialPageRoute(
-                //         builder: (context) => UserShowPage(user: user),
-                //       ),
-                //     );
-                //   },
-                // ),
                 IconButton(
                   icon: Icon(Icons.edit),
                   onPressed: () async {
@@ -244,42 +249,43 @@ class _UserItem extends StatelessWidget {
                         builder: (context) => UserEditPage(user: user),
                       ),
                     );
+
                     print(userUpdated);
-                    // TODO: call api update
+                    // _onEditSaveClick(userUpdated);
                   },
                 ),
-                IconButton(
-                  icon: Icon(Icons.delete),
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text("Confirm Delete"),
-                          content: Text(
-                              "Are you sure you want to delete this user?"),
-                          actions: [
-                            TextButton(
-                              child: Text("Cancel"),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                            TextButton(
-                              child: Text("Delete"),
-                              onPressed: () {
-                                // setState(() {
-                                //   widget.users.removeAt(index);
-                                // });
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  },
-                ),
+                // IconButton(
+                //   icon: Icon(Icons.delete),
+                //   onPressed: () {
+                //     showDialog(
+                //       context: context,
+                //       builder: (BuildContext context) {
+                //         return AlertDialog(
+                //           title: Text("Confirm Delete"),
+                //           content: Text(
+                //               "Are you sure you want to delete this user?"),
+                //           actions: [
+                //             TextButton(
+                //               child: Text("Cancel"),
+                //               onPressed: () {
+                //                 Navigator.of(context).pop();
+                //               },
+                //             ),
+                //             TextButton(
+                //               child: Text("Delete"),
+                //               onPressed: () {
+                //                 // setState(() {
+                //                 //   widget.users.removeAt(index);
+                //                 // });
+                //                 Navigator.of(context).pop();
+                //               },
+                //             ),
+                //           ],
+                //         );
+                //       },
+                //     );
+                //   },
+                // ),
               ],
             ),
             onTap: () {
