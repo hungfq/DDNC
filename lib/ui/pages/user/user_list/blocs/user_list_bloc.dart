@@ -1,4 +1,3 @@
-import 'package:ddnc_new/api/request/update_user_request.dart';
 import 'package:ddnc_new/api/response/list_user_response.dart';
 import 'package:ddnc_new/api/response/resource.dart';
 import 'package:ddnc_new/api/response/result.dart';
@@ -22,14 +21,10 @@ class UserListBloc extends Bloc<UserListEvent, UserListState> {
       _onLoadMore,
       transformer: throttleDroppable(Constants.throttleDuration),
     );
-    on<UserUpdatedEvent>(
-      _onUserUpdated,
+    on<UserListRefreshedEvent>(
+      _onRefreshed,
       transformer: throttleDroppable(Constants.throttleDuration),
     );
-    // on<UserListRefreshedEvent>(
-    //   _onRefreshed,
-    //   transformer: throttleDroppable(Constants.throttleDuration),
-    // );
   }
 
   final UserRepository _userRepository;
@@ -82,22 +77,24 @@ class UserListBloc extends Bloc<UserListEvent, UserListState> {
     }
   }
 
-  Future<void> _onUserUpdated(
-    UserUpdatedEvent event,
+  Future<void> _onRefreshed(
+    UserListRefreshedEvent event,
     Emitter<UserListState> emit,
   ) async {
-    emit(UserUpdatedState(Resource.loading()));
-
-    var result = await _userRepository.updateUser(
-      userId: userId,
-      request: event.request,
-    );
-
+    var result = await _userRepository.listUser();
     if (result.state == Result.success) {
-      fetch();
+      _getListUserResult = _getListUserResult.copyWith(
+        data: ListUserResponse(
+          result.data?.data ?? [],
+          _getListUserResult.data!.meta,
+        ),
+      );
     }
+    emit(UserListRefreshedState(result));
+  }
 
-    emit(UserUpdatedState(result));
+  void refresh() {
+    add(const UserListRefreshedEvent());
   }
 
   //region actions
@@ -107,14 +104,5 @@ class UserListBloc extends Bloc<UserListEvent, UserListState> {
 
   void loadMore() {
     add(const UserListLoadMoreEvent());
-  }
-
-  void updateUser(
-      {required String code,
-      required String name,
-      required String email,
-      required String gender,
-      required String status}) {
-    add(UserUpdatedEvent(UpdateUserRequest(code, name, email, gender, status)));
   }
 }

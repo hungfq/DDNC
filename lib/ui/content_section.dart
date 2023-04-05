@@ -1,4 +1,4 @@
-import 'package:ddnc_new/ui/pages/user/user_list_page.dart';
+import 'package:ddnc_new/ui/pages/user/user_list/user_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:ddnc_new/ui/list_view_item.dart';
 
