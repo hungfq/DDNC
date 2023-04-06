@@ -6,8 +6,10 @@ import 'package:ddnc_new/ui/pages/master/blocs/master_bloc.dart';
 import 'package:ddnc_new/ui/pages/master/master_page.dart';
 import 'package:ddnc_new/ui/pages/sign_in/blocs/sign_in_bloc.dart';
 import 'package:ddnc_new/ui/pages/sign_in/sign_in_page.dart';
+import 'package:ddnc_new/ui/pages/topic/topic_detail/blocs/topic_detail_bloc.dart';
+import 'package:ddnc_new/ui/pages/topic/topic_detail/topic_detail_page.dart';
 import 'package:ddnc_new/ui/pages/topic/topic_list/blocs/topic_list_bloc.dart';
-import 'package:ddnc_new/ui/pages/topic/topic_list_page.dart';
+import 'package:ddnc_new/ui/pages/topic/topic_list/topic_list_page.dart';
 import 'package:ddnc_new/ui/pages/user/user_detail/blocs/user_detail_bloc.dart';
 import 'package:ddnc_new/ui/pages/user/user_detail/user_detail_page.dart';
 import 'package:ddnc_new/ui/pages/user/user_list/blocs/user_list_bloc.dart';
@@ -79,6 +81,17 @@ class AppRouter {
               topicRepository: TopicRepository.of(context),
             ),
             child: const TopicListPage(),
+          ),
+          settings: settings,
+        );
+      case AppPages.topicDetailPage:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider<TopicDetailBloc>(
+            create: (context) => TopicDetailBloc(
+              topicRepository: TopicRepository.of(context),
+              // userRepository: UserRepository.of(context),
+            ),
+            child: const TopicDetailPage(),
           ),
           settings: settings,
         );

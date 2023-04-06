@@ -1,6 +1,6 @@
 import 'package:chopper/chopper.dart';
-import 'package:ddnc_new/api/request/list_user_request.dart';
 import 'package:ddnc_new/api/request/sign_in_request.dart';
+import 'package:ddnc_new/api/request/update_topic_request.dart';
 import 'package:ddnc_new/api/request/update_user_request.dart';
 import 'package:ddnc_new/api/response/common_success_response.dart';
 import 'package:ddnc_new/api/response/list_topic_response.dart';
@@ -42,8 +42,10 @@ abstract class ApiService extends ChopperService {
 
   @Get(path: 'v2/user')
   Future<Response<ListUserResponse>> listUser({
-    @Query("page") required int page,
+    @Query("search") required String search,
+    @Query("type") required String type,
     @Query("limit") int limit = Constants.itemPerPage,
+    @Query("page") required int page,
   });
 
   @Put(path: 'v2/user/{userId}')
@@ -56,5 +58,11 @@ abstract class ApiService extends ChopperService {
   Future<Response<ListTopicResponse>> listTopic({
     @Query("page") required int page,
     @Query("limit") int limit = Constants.itemPerPage,
+  });
+
+  @Put(path: 'v2/topic/{topicId}')
+  Future<Response<CommonSuccessResponse>> updateTopic({
+    @Path("topicId") required int topicId,
+    @Body() required UpdateTopicRequest request,
   });
 }

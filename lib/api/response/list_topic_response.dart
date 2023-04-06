@@ -31,6 +31,8 @@ class TopicInfo {
   String? description;
   @JsonKey(name: "limit")
   int? limit;
+  @JsonKey(name: "thesisDefenseDate")
+  String? thesisDefenseDate;
   @JsonKey(name: "scheduleId")
   ModelSimple? schedule;
   @JsonKey(name: "lecturerId")
@@ -41,6 +43,8 @@ class TopicInfo {
   List<String>? studentCode;
   @JsonKey(name: "advisorLecturerGrade")
   double? advisorLecturerGrade;
+  @JsonKey(name: "criticalLecturerGrade")
+  double? criticalLecturerGrade;
   @JsonKey(name: "committeePresidentGrade")
   double? committeePresidentGrade;
   @JsonKey(name: "committeeSecretaryGrade")
@@ -52,11 +56,13 @@ class TopicInfo {
       this.title,
       this.description,
       this.limit,
+      this.thesisDefenseDate,
       this.schedule,
       this.lecturer,
       this.critical,
       this.studentCode,
       this.advisorLecturerGrade,
+      this.criticalLecturerGrade,
       this.committeePresidentGrade,
       this.committeeSecretaryGrade);
 

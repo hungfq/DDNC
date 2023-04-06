@@ -29,6 +29,8 @@ class UserListBloc extends Bloc<UserListEvent, UserListState> {
 
   final UserRepository _userRepository;
   late int userId;
+  String _search = "";
+  String _type = "";
   Resource<ListUserResponse> _getListUserResult = Resource.loading();
 
   Resource<ListUserResponse> get getListUserResult => _getListUserResult;
@@ -46,7 +48,7 @@ class UserListBloc extends Bloc<UserListEvent, UserListState> {
   ) async {
     emit(UserListFetchedState(Resource.loading()));
 
-    var result = await _userRepository.listUser();
+    var result = await _userRepository.listUser(_search, _type);
     _getListUserResult = result;
 
     emit(UserListFetchedState(_getListUserResult));
@@ -61,7 +63,7 @@ class UserListBloc extends Bloc<UserListEvent, UserListState> {
     } else {
       var nextPage = currentPage + 1;
 
-      var result = await _userRepository.listUser(nextPage);
+      var result = await _userRepository.listUser(_search, _type, nextPage);
       if (result.state == Result.success) {
         _getListUserResult = _getListUserResult.copyWith(
           data: ListUserResponse(
@@ -81,7 +83,7 @@ class UserListBloc extends Bloc<UserListEvent, UserListState> {
     UserListRefreshedEvent event,
     Emitter<UserListState> emit,
   ) async {
-    var result = await _userRepository.listUser();
+    var result = await _userRepository.listUser(_search, _type);
     if (result.state == Result.success) {
       _getListUserResult = _getListUserResult.copyWith(
         data: ListUserResponse(

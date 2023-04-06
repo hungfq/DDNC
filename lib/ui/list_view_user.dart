@@ -28,8 +28,8 @@ class UserListView extends StatelessWidget {
   ];
 
   Future<dynamic> fetchUser() async {
-    var request = await ListUserRequest('10');
-    var data = await service.listUser(limit: 10, page: 1);
+    // var request = await ListUserRequest('10');
+    // var data = await service.listUser(limit: 10, page: 1);
   }
 
   UserListView({super.key});
