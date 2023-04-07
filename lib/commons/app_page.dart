@@ -1,6 +1,5 @@
 class AppPages {
-
-  static const String startDestinationPage = userListPage;
+  static const String startDestinationPage = homePage;
 
   // accounts
   static const String signInPage = "sign_in_page";
@@ -16,6 +15,7 @@ class AppPages {
   // topic
   static const String topicListPage = "topic_list_page";
 
-
   static const String homePage = "home_page";
+
+  static const String committeePage = "committee_page";
 }

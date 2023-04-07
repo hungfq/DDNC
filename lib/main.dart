@@ -21,8 +21,8 @@ import 'di/global_providers.dart';
 // }
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp();
 
   runApp(MultiProvider(providers: globalProviders, child: const App()));
 }

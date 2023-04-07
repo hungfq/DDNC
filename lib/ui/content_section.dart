@@ -1,3 +1,4 @@
+import 'package:ddnc_new/ui/pages/committee.dart';
 import 'package:ddnc_new/ui/pages/user/user_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:ddnc_new/ui/list_view_item.dart';
@@ -11,25 +12,19 @@ class ContentSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Expanded(
+    return Expanded(
       child: PageView(
         controller: page,
         children: [
+          Container(color: Colors.white, child: MyListView()),
           Container(
             color: Colors.white,
-            child: MyListView()
+            child: CommitteeListPage(),
           ),
           Container(
             color: Colors.white,
-            child: UserListPage(),
-          ),
-          Container(
-            color: Colors.white,
-            child: const Center(
-              child: Text(
-                'Files',
-                style: TextStyle(fontSize: 35),
-              ),
+            child: Center(
+              child: CommitteeListPage(),
             ),
           ),
           Container(
