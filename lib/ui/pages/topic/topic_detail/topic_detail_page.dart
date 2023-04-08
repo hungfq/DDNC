@@ -1,37 +1,66 @@
-import 'package:ddnc_new/api/response/list_topic_response.dart';
-import 'package:ddnc_new/ui/admin_page/topic_section/schedule_selection.dart';
-import 'package:ddnc_new/ui/admin_page/topic_section/student_selection_page.dart';
+import 'package:ddnc_new/api/response/list_user_response.dart';
+import 'package:ddnc_new/ui/base/base_page_state.dart';
+import 'package:ddnc_new/ui/pages/topic/topic_detail/blocs/topic_detail_bloc.dart';
+import 'package:ddnc_new/ui/pages/topic/topic_detail/components/schedule_selection.dart';
+import 'package:ddnc_new/ui/pages/topic/topic_detail/components/student_selection.dart';
+import 'package:ddnc_new/ui/pages/topic/topic_list/components/topic_list_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class TopicEditPage extends StatefulWidget {
-  final TopicInfo topic;
-
-  TopicEditPage({required this.topic});
+class TopicDetailPage extends StatefulWidget {
+  const TopicDetailPage({Key? key}) : super(key: key);
 
   @override
-  _TopicEditPageState createState() => _TopicEditPageState();
+  State<TopicDetailPage> createState() => _TopicDetailPageState();
 }
 
-class _TopicEditPageState extends State<TopicEditPage> {
+class _TopicDetailPageState extends State<TopicDetailPage> with BasePageState {
+  late TopicDetailBloc _topicDetailBloc;
   final _formKey = GlobalKey<FormState>();
   final _studentsController = TextEditingController();
   final _scheduleController = TextEditingController();
-  String _lectureId = '';
-  String _title = '';
-  int _limit = 0;
-  String _description = '';
-  List<String> _selectedStudents = [];
+  late int _id;
+  late String _code;
+  late String _title;
+  late String _description;
+  late int _limit;
+  late String _thesisDefenseDate;
+  late int _scheduleId;
+  late int _lecturerId;
+  late int _criticalLecturerId;
+  late double _advisorLecturerGrade;
+  late double _criticalLecturerGrade;
+  late double _committeePresidentGrade;
+  late double _committeeSecretaryGrade;
+  late List<String> _students;
+  late List<UserInfo> _lecturers = [];
 
   @override
-  void initState() {
-    super.initState();
-    _lectureId = widget.topic.lecturer?.id.toString() ?? "";
-    _title = widget.topic.title ?? "";
-    _limit = widget.topic.limit ?? 0;
-    _description = widget.topic.description ?? "";
-    _selectedStudents = widget.topic.studentCode!;
-    _studentsController.text = _selectedStudents.join(', ');
-    _scheduleController.text = widget.topic.schedule?.name ?? "";
+  Future<void> pageInitState() async {
+    var arguments = ModalRoute.of(context)!.settings.arguments as Map;
+    _topicDetailBloc = context.read<TopicDetailBloc>();
+    _id = arguments[TopicListView.topic].id;
+    _code = arguments[TopicListView.topic].code ?? "";
+    _title = arguments[TopicListView.topic].title ?? "";
+    _description = arguments[TopicListView.topic].description ?? "";
+    _limit = arguments[TopicListView.topic].limit;
+    _thesisDefenseDate = arguments[TopicListView.topic].thesisDefenseDate ?? "";
+    _scheduleId = arguments[TopicListView.topic].schedule.id;
+    _lecturerId = arguments[TopicListView.topic].lecturer.id;
+    _criticalLecturerId = arguments[TopicListView.topic].critical.id;
+    _advisorLecturerGrade = arguments[TopicListView.topic].advisorLecturerGrade;
+    _criticalLecturerGrade =
+        arguments[TopicListView.topic].criticalLecturerGrade;
+    _committeePresidentGrade =
+        arguments[TopicListView.topic].committeePresidentGrade;
+    _committeeSecretaryGrade =
+        arguments[TopicListView.topic].committeeSecretaryGrade;
+    _students = arguments[TopicListView.topic].studentCode ?? [];
+
+    _studentsController.text = _students.join(', ');
+
+    _lecturers = await _topicDetailBloc.forceFetchUser("", "LECTURER");
+    super.pageInitState();
   }
 
   @override
@@ -43,16 +72,22 @@ class _TopicEditPageState extends State<TopicEditPage> {
 
   void _saveChanges() {
     if (_formKey.currentState!.validate()) {
-      // TopicInfo updatedTopic = TopicInfo(
-      //   widget.topic.id,
-      //   widget.topic.code,
-      //   _title,
-      //   _description,
-      //   _limit,
-      //   _scheduleController.value as ModelSimple?,
-      // );
-      // print(updatedTopic);
-      // TODO: Save updatedTopic to database or backend
+      _topicDetailBloc.topicId = _id;
+      _topicDetailBloc.updateTopic(
+        code: _code,
+        title: _title,
+        description: _description,
+        limit: _limit,
+        thesisDefenseDate: _thesisDefenseDate,
+        scheduleId: _scheduleId,
+        lecturerId: _lecturerId,
+        criticalLecturerId: _criticalLecturerId,
+        advisorLecturerGrade: _advisorLecturerGrade,
+        criticalLecturerGrade: _criticalLecturerGrade,
+        committeePresidentGrade: _committeePresidentGrade,
+        committeeSecretaryGrade: _committeeSecretaryGrade,
+        students: _students,
+      );
       Navigator.pop(context);
     }
   }
@@ -61,7 +96,7 @@ class _TopicEditPageState extends State<TopicEditPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Topic'),
+        title: const Text('Edit Topic'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -72,13 +107,13 @@ class _TopicEditPageState extends State<TopicEditPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Code: ${widget.topic.code}',
+                  'Code: $_code',
                   style: const TextStyle(
                     fontSize: 18.0,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 8.0),
+                const SizedBox(height: 8.0),
                 TextFormField(
                   initialValue: _title,
                   decoration: const InputDecoration(
@@ -96,15 +131,14 @@ class _TopicEditPageState extends State<TopicEditPage> {
                   },
                   onChanged: (value) {
                     setState(() {
-                      _title = value!;
+                      _title = value;
                     });
                   },
-
                 ),
-                SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 TextFormField(
                   initialValue: _description,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Description',
                     border: OutlineInputBorder(),
                   ),
@@ -119,13 +153,13 @@ class _TopicEditPageState extends State<TopicEditPage> {
                   },
                   onChanged: (value) {
                     setState(() {
-                      _description = value!;
+                      _description = value;
                     });
                   },
                 ),
-                SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 TextFormField(
-                  initialValue: widget.topic.limit.toString(),
+                  initialValue: _limit.toString(),
                   decoration: const InputDecoration(
                     labelText: 'Limit',
                     border: OutlineInputBorder(),
@@ -142,27 +176,26 @@ class _TopicEditPageState extends State<TopicEditPage> {
                   },
                   onChanged: (value) {
                     setState(() {
-                      _limit = int.parse(value!);
+                      _limit = int.parse(value);
                     });
-
                   },
                 ),
-                SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 DropdownButtonFormField<String>(
-                  value: _lectureId,
+                  value: _lecturerId.toString(),
                   decoration: const InputDecoration(
                     labelText: 'Lecture',
                     border: OutlineInputBorder(),
                   ),
-                  items: ['1', '2', '3', '4', '5']
+                  items: _lecturers
                       .map((value) => DropdownMenuItem<String>(
-                            value: value,
-                            child: Text('Lecture $value'),
+                            value: value.id.toString(),
+                            child: Text('${value.code} - ${value.name}'),
                           ))
                       .toList(),
                   onChanged: (value) {
                     setState(() {
-                      _lectureId = value!;
+                      _lecturerId = value! as int;
                     });
                   },
                   validator: (value) {
@@ -172,51 +205,43 @@ class _TopicEditPageState extends State<TopicEditPage> {
                     return null;
                   },
                 ),
-                SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 TextFormField(
                   controller: _studentsController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Students',
                     border: OutlineInputBorder(),
                   ),
                   onTap: () async {
-                    List<String> allStudents = [
-                      'Alice',
-                      'Bob',
-                      'Charlie',
-                      'Dave',
-                      'Eve'
-                    ];
-                    List<String> _selectedStudents = ['Alice', 'Dave'];
+                    List<UserInfo> allStudents = await _topicDetailBloc.forceFetchUser("", "STUDENT");
 
                     final newSelectedStudents = await Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => StudentSelectionPage(
                           allStudents: allStudents,
-                          selectedStudents: _selectedStudents,
+                          selectedStudents: _students,
                         ),
                       ),
                     );
 
                     if (newSelectedStudents != null) {
                       setState(() {
-                        _selectedStudents = newSelectedStudents;
-                        _studentsController.text = _selectedStudents.join(', ');
+                        _studentsController.text = newSelectedStudents.join(', ');
                       });
                     }
                   },
                   validator: (value) {
-                    if (_selectedStudents.isEmpty) {
+                    if (_students.isEmpty) {
                       return 'Please select at least one student';
                     }
                     return null;
                   },
                 ),
-                SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 TextFormField(
                   controller: _scheduleController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Schedule',
                     border: OutlineInputBorder(),
                   ),
@@ -225,7 +250,7 @@ class _TopicEditPageState extends State<TopicEditPage> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => ScheduleSelectionPage(
-                          selectedSchedule: widget.topic.schedule?.id.toString() ?? "",
+                          selectedSchedule: _scheduleId.toString(),
                         ),
                       ),
                     );
@@ -242,14 +267,13 @@ class _TopicEditPageState extends State<TopicEditPage> {
                     return null;
                   },
                 ),
-                SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 ElevatedButton(
                   onPressed: () {
                     _saveChanges();
                   },
-                  child: Text('Apply'),
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.purple,
+                    backgroundColor: Colors.purple,
                     padding: const EdgeInsets.symmetric(
                       horizontal: 16.0,
                       vertical: 12.0,
@@ -258,6 +282,7 @@ class _TopicEditPageState extends State<TopicEditPage> {
                       borderRadius: BorderRadius.circular(16.0),
                     ),
                   ),
+                  child: const Text('Apply'),
                 ),
               ],
             ),

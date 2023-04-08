@@ -23,7 +23,9 @@ class UserRepository {
   static UserRepository of(BuildContext context) =>
       Provider.of<UserRepository>(context, listen: false);
 
-  Future<Resource<ListUserResponse>> listUser([
+  Future<Resource<ListUserResponse>> listUser(
+    String search,
+    String type, [
     int page = 1,
     int itemPerPage = Constants.itemPerPage,
   ]) async {
@@ -32,6 +34,8 @@ class UserRepository {
           ApiResponse.create<ListUserResponse>(await _apiService.listUser(
         page: page,
         limit: itemPerPage,
+        search: search,
+        type: type,
       ));
 
       if (apiResource is ApiSuccessResponse) {
@@ -55,8 +59,9 @@ class UserRepository {
     try {
       var apiResource = ApiResponse.create<CommonSuccessResponse>(
           await _apiService.updateUser(
-            request: request, userId: userId,
-          ));
+        request: request,
+        userId: userId,
+      ));
 
       if (apiResource is ApiSuccessResponse) {
         return Resource.success(apiResource.body!.message);

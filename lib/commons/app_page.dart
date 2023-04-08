@@ -11,9 +11,11 @@ class AppPages {
 
   // user
   static const String userListPage = "user_list_page";
+  static const String userDetailPage = "user_detail_page";
 
   // topic
   static const String topicListPage = "topic_list_page";
+  static const String topicDetailPage = "topic_detail_page";
 
   static const String homePage = "home_page";
 

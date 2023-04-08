@@ -24,7 +24,7 @@ class UserInfo {
   @JsonKey(name: "_id")
   int id;
   @JsonKey(name: "code")
-  String? code;
+  String code;
   @JsonKey(name: "name")
   String? name;
   @JsonKey(name: "email")

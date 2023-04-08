@@ -1,22 +1,19 @@
-import 'package:ddnc_new/api/response/list_user_response.dart';
-import 'package:ddnc_new/api/response/result.dart';
-import 'package:ddnc_new/ui/pages/user/user_list/blocs/user_list_bloc.dart';
-import 'package:ddnc_new/ui/pages/user/user_list/blocs/user_list_state.dart';
+import 'package:ddnc_new/ui/base/base_page_state.dart';
+import 'package:ddnc_new/ui/pages/user/user_detail/blocs/user_detail_bloc.dart';
+import 'package:ddnc_new/ui/pages/user/user_list/components/user_list_view.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class UserEditPage extends StatefulWidget {
-  final UserInfo user;
-
-  UserEditPage({required this.user});
+class UserDetailPage extends StatefulWidget {
+  const UserDetailPage({Key? key}) : super(key: key);
 
   @override
-  _UserEditPageState createState() => _UserEditPageState();
+  State<UserDetailPage> createState() => _UserDetailPageState();
 }
 
-class _UserEditPageState extends State<UserEditPage> {
-  // late UserListBloc _userListBloc;
-
+class _UserDetailPageState extends State<UserDetailPage> with BasePageState {
+  late UserDetailBloc _userDetailBloc;
   final _formKey = GlobalKey<FormState>();
   late int _id;
   late String _code;
@@ -25,49 +22,29 @@ class _UserEditPageState extends State<UserEditPage> {
   late String _gender;
   late String _status;
 
-  // late String _address;
-
   @override
-  void initState() {
-    // _userListBloc = context.read<UserListBloc>();
-    // _userListBloc.userId = widget.user.id;
-    super.initState();
-    _id = widget.user.id;
-    _code = widget.user.code ?? "";
-    _name = widget.user.name ?? "";
-    _email = widget.user.email ?? "";
-    _gender = widget.user.gender ?? "";
-    _status = widget.user.status ?? "";
+  void pageInitState() {
+    var arguments = ModalRoute.of(context)!.settings.arguments as Map;
+    _userDetailBloc = context.read<UserDetailBloc>();
+    _id = arguments[UserListView.user].id;
+    _code = arguments[UserListView.user].code ?? "";
+    _name = arguments[UserListView.user].name ?? "";
+    _email = arguments[UserListView.user].email ?? "";
+    _gender = arguments[UserListView.user].gender ?? "";
+    _status = arguments[UserListView.user].status ?? "";
+    super.pageInitState();
   }
 
   void _saveChanges() {
     if (_formKey.currentState!.validate()) {
-      Navigator.pop(context, {
-        'id': _id,
-        'name': _name,
-        'email': _email,
-        'code': _code,
-        'gender': _gender,
-        'status': _status
-      });
-    }
-  }
-
-  void _handleListeners(BuildContext context, UserListState state) {
-    if (state is UserUpdatedState) {
-      var resource = state.resource;
-      switch (resource.state) {
-        case Result.loading:
-          break;
-        case Result.error:
-          break;
-        case Result.success:
-          // _userListBloc.fetch();
-          break;
-        default:
-          break;
-      }
-      return;
+      _userDetailBloc.userId = _id;
+      _userDetailBloc.updateUser(
+          code: _code,
+          name: _name,
+          email: _email,
+          gender: _gender,
+          status: _status);
+      Navigator.pop(context);
     }
   }
 

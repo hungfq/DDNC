@@ -1,10 +1,12 @@
 import 'package:ddnc_new/api/response/list_user_response.dart';
 import 'package:ddnc_new/api/response/result.dart';
+import 'package:ddnc_new/commons/app_page.dart';
 import 'package:ddnc_new/commons/helpers.dart';
+import 'package:ddnc_new/modules/navigation/navigation_service.dart';
 import 'package:ddnc_new/ui/components/smart_refresher_listview.dart';
 import 'package:ddnc_new/ui/pages/user/user_list/blocs/user_list_bloc.dart';
 import 'package:ddnc_new/ui/pages/user/user_list/blocs/user_list_state.dart';
-import 'package:ddnc_new/ui/pages/user/user_list/components/user_edit.dart';
+
 import 'package:ddnc_new/ui/pages/user/user_list/components/user_show.dart';
 import 'package:ddnc_new/ui/resources/dimens.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +15,9 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class UserListView extends StatefulWidget {
   const UserListView({Key? key}) : super(key: key);
+
+  static const String user = "user_key";
+  static const String userId = "user_id_key";
 
   @override
   State<UserListView> createState() => _UserListViewState();
@@ -72,8 +77,9 @@ class _UserListViewState extends State<UserListView> {
                   return _UserItem(
                     index: i,
                     user: userList[i],
-                    // onItemClicked: _onItemClicked,
-                    // onGrClicked: _onGrClicked,
+                    onItemClicked:() {
+                      _userListBloc.refresh();
+                    },
                   );
                 },
               ),
@@ -163,22 +169,6 @@ class _UserListViewState extends State<UserListView> {
       }
       return;
     }
-
-    if (state is UserUpdatedState) {
-      var resource = state.resource;
-      switch (resource.state) {
-        case Result.loading:
-          break;
-        case Result.error:
-          break;
-        case Result.success:
-          _userListBloc.fetch();
-          break;
-        default:
-          break;
-      }
-      return;
-    }
   }
 
   void _onRefresh() async {
@@ -195,26 +185,19 @@ class _UserItem extends StatelessWidget {
     Key? key,
     required this.index,
     required this.user,
-    // required this.onItemClicked,
-    // required this.onGrClicked,
+    required this.onItemClicked,
   }) : super(key: key);
 
   final int index;
   final UserInfo user;
-
-  // final Function(UserModel) onItemClicked;
-  // final Function(UserModel) onGrClicked;
+  final Function onItemClicked;
 
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
 
-    // var onBackgroundColor = _theme.colorScheme.onBackground;
-    // var onSurfaceColor = _theme.colorScheme.onSurface;
-
     return GestureDetector(
         behavior: HitTestBehavior.translucent,
-        // onTap: () => onItemClicked.call(po),
         child: Container(
           padding: const EdgeInsets.fromLTRB(
             Dimens.marginPaddingSizeTiny,
@@ -243,49 +226,13 @@ class _UserItem extends StatelessWidget {
                 IconButton(
                   icon: Icon(Icons.edit),
                   onPressed: () async {
-                    dynamic userUpdated = await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => UserEditPage(user: user),
-                      ),
-                    );
-
-                    print(userUpdated);
-                    // _onEditSaveClick(userUpdated);
+                    NavigationService.instance
+                        .pushNamed(AppPages.userDetailPage, args: {
+                      UserListView.userId: user.id,
+                      UserListView.user: user
+                    });
                   },
                 ),
-                // IconButton(
-                //   icon: Icon(Icons.delete),
-                //   onPressed: () {
-                //     showDialog(
-                //       context: context,
-                //       builder: (BuildContext context) {
-                //         return AlertDialog(
-                //           title: Text("Confirm Delete"),
-                //           content: Text(
-                //               "Are you sure you want to delete this user?"),
-                //           actions: [
-                //             TextButton(
-                //               child: Text("Cancel"),
-                //               onPressed: () {
-                //                 Navigator.of(context).pop();
-                //               },
-                //             ),
-                //             TextButton(
-                //               child: Text("Delete"),
-                //               onPressed: () {
-                //                 // setState(() {
-                //                 //   widget.users.removeAt(index);
-                //                 // });
-                //                 Navigator.of(context).pop();
-                //               },
-                //             ),
-                //           ],
-                //         );
-                //       },
-                //     );
-                //   },
-                // ),
               ],
             ),
             onTap: () {

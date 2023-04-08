@@ -15,9 +15,3 @@ class UserListLoadMoreEvent extends UserListEvent {
 class UserListRefreshedEvent extends UserListEvent {
   const UserListRefreshedEvent();
 }
-
-class UserUpdatedEvent extends UserListEvent {
-  const UserUpdatedEvent(this.request);
-
-  final UpdateUserRequest request;
-}

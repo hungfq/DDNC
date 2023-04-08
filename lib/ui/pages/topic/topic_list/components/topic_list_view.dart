@@ -1,10 +1,11 @@
 import 'package:ddnc_new/api/response/list_topic_response.dart';
 import 'package:ddnc_new/api/response/result.dart';
+import 'package:ddnc_new/commons/app_page.dart';
 import 'package:ddnc_new/commons/helpers.dart';
+import 'package:ddnc_new/modules/navigation/navigation_service.dart';
 import 'package:ddnc_new/ui/components/smart_refresher_listview.dart';
 import 'package:ddnc_new/ui/pages/topic/topic_list/blocs/topic_list_bloc.dart';
 import 'package:ddnc_new/ui/pages/topic/topic_list/blocs/topic_list_state.dart';
-import 'package:ddnc_new/ui/pages/topic/topic_list/components/topic_edit.dart';
 import 'package:ddnc_new/ui/pages/topic/topic_list/components/topic_show.dart';
 import 'package:ddnc_new/ui/resources/dimens.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,8 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class TopicListView extends StatefulWidget {
   const TopicListView({Key? key}) : super(key: key);
+
+  static const String topic = "topic_key";
 
   @override
   State<TopicListView> createState() => _TopicListViewState();
@@ -340,17 +343,9 @@ class _TopicItem extends StatelessWidget {
                     IconButton(
                       icon: Icon(Icons.edit),
                       onPressed: () async {
-                        TopicInfo? updatedTopic = await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => TopicEditPage(topic: topic),
-                          ),
-                        );
-                        // if (updatedTopic != null) {
-                        //   setState(() {
-                        //     widget.topics[index] = updatedTopic;
-                        //   });
-                        // }
+                        NavigationService.instance.pushNamed(
+                            AppPages.topicDetailPage,
+                            args: {TopicListView.topic: topic});
                       },
                     ),
                   ],
