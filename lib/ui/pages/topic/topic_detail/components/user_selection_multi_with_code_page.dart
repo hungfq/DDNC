@@ -1,26 +1,28 @@
 import 'package:ddnc_new/api/response/list_user_response.dart';
 import 'package:flutter/material.dart';
 
-class StudentSelectionPage extends StatefulWidget {
-  final List<String> selectedStudents;
-  final List<UserInfo> allStudents;
+class UserSelectionWithCodePage extends StatefulWidget {
+  late List<String> selectedUsers;
+  late List<UserInfo> allUsers;
+  late String pageTitle = "User";
 
-  StudentSelectionPage({
-    required this.selectedStudents,
-    required this.allStudents,
+  UserSelectionWithCodePage({
+    required this.selectedUsers,
+    required this.allUsers,
+    required this.pageTitle
   });
 
   @override
-  _StudentSelectionPageState createState() => _StudentSelectionPageState();
+  _UserSelectionWithCodePageState createState() => _UserSelectionWithCodePageState();
 }
 
-class _StudentSelectionPageState extends State<StudentSelectionPage> {
-  late List<UserInfo> _filteredStudents;
+class _UserSelectionWithCodePageState extends State<UserSelectionWithCodePage> {
+  late List<UserInfo> _filteredUser;
   late TextEditingController _searchController;
 
   @override
   void initState() {
-    _filteredStudents = widget.allStudents;
+    _filteredUser = widget.allUsers;
     _searchController = TextEditingController();
     super.initState();
   }
@@ -33,32 +35,32 @@ class _StudentSelectionPageState extends State<StudentSelectionPage> {
 
   void _onSearchChanged(String query) {
     setState(() {
-      _filteredStudents = widget.allStudents
-          .where((student) =>
-              student.code.toLowerCase().contains(query.toLowerCase()))
+      _filteredUser = widget.allUsers
+          .where((user) =>
+              user.code.toLowerCase().contains(query.toLowerCase()))
           .toList();
     });
   }
 
-  void _onStudentSelected(String student) {
+  void _onStudentSelected(String user) {
     setState(() {
-      if (widget.selectedStudents.contains(student)) {
-        widget.selectedStudents.remove(student);
+      if (widget.selectedUsers.contains(user)) {
+        widget.selectedUsers.remove(user);
       } else {
-        widget.selectedStudents.add(student);
+        widget.selectedUsers.add(user);
       }
     });
   }
 
   void _saveSelection() {
-    Navigator.pop(context, widget.selectedStudents);
+    Navigator.pop(context, widget.selectedUsers);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Select Students'),
+        title: Text('Select ${widget.pageTitle}'),
         actions: [
           TextButton(
             onPressed: _saveSelection,
@@ -78,8 +80,8 @@ class _StudentSelectionPageState extends State<StudentSelectionPage> {
             padding: const EdgeInsets.all(16.0),
             child: TextField(
               controller: _searchController,
-              decoration: const InputDecoration(
-                hintText: 'Search students',
+              decoration: InputDecoration(
+                hintText: 'Search ${widget.pageTitle}',
                 border: OutlineInputBorder(),
               ),
               onChanged: _onSearchChanged,
@@ -87,18 +89,18 @@ class _StudentSelectionPageState extends State<StudentSelectionPage> {
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: _filteredStudents.length,
+              itemCount: _filteredUser.length,
               itemBuilder: (context, index) {
-                final student = _filteredStudents[index];
+                final user = _filteredUser[index];
                 final isSelected =
-                    widget.selectedStudents.contains(student.code);
+                    widget.selectedUsers.contains(user.code);
                 return ListTile(
-                  title: Text(student.code),
+                  title: Text("${user.code} - ${user.name}"),
                   trailing: Icon(
                     isSelected ? Icons.check_circle : Icons.circle_outlined,
                     color: isSelected ? Colors.green : null,
                   ),
-                  onTap: () => _onStudentSelected(student.code),
+                  onTap: () => _onStudentSelected(user.code),
                 );
               },
             ),

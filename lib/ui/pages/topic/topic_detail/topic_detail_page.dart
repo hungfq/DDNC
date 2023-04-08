@@ -1,8 +1,10 @@
+import 'package:ddnc_new/api/response/list_topic_response.dart';
 import 'package:ddnc_new/api/response/list_user_response.dart';
 import 'package:ddnc_new/ui/base/base_page_state.dart';
 import 'package:ddnc_new/ui/pages/topic/topic_detail/blocs/topic_detail_bloc.dart';
 import 'package:ddnc_new/ui/pages/topic/topic_detail/components/schedule_selection.dart';
-import 'package:ddnc_new/ui/pages/topic/topic_detail/components/student_selection.dart';
+import 'package:ddnc_new/ui/pages/topic/topic_detail/components/user_selection_multi_with_code_page.dart';
+import 'package:ddnc_new/ui/pages/topic/topic_detail/components/user_selection_one_with_id_page.dart';
 import 'package:ddnc_new/ui/pages/topic/topic_list/components/topic_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,23 +19,24 @@ class TopicDetailPage extends StatefulWidget {
 class _TopicDetailPageState extends State<TopicDetailPage> with BasePageState {
   late TopicDetailBloc _topicDetailBloc;
   final _formKey = GlobalKey<FormState>();
+  final _lecturerController = TextEditingController();
   final _studentsController = TextEditingController();
   final _scheduleController = TextEditingController();
   late int _id;
   late String _code;
   late String _title;
-  late String _description;
-  late int _limit;
-  late String _thesisDefenseDate;
-  late int _scheduleId;
-  late int _lecturerId;
-  late int _criticalLecturerId;
-  late double _advisorLecturerGrade;
-  late double _criticalLecturerGrade;
-  late double _committeePresidentGrade;
-  late double _committeeSecretaryGrade;
-  late List<String> _students;
-  late List<UserInfo> _lecturers = [];
+  late String? _description;
+  late int? _limit;
+  late String? _thesisDefenseDate;
+  late int? _scheduleId;
+  late int? _lecturerId;
+  late ModelSimple? _lecturer;
+  late int? _criticalLecturerId;
+  late double? _advisorLecturerGrade;
+  late double? _criticalLecturerGrade;
+  late double? _committeePresidentGrade;
+  late double? _committeeSecretaryGrade;
+  late List<String> _students = [];
 
   @override
   Future<void> pageInitState() async {
@@ -47,6 +50,7 @@ class _TopicDetailPageState extends State<TopicDetailPage> with BasePageState {
     _thesisDefenseDate = arguments[TopicListView.topic].thesisDefenseDate ?? "";
     _scheduleId = arguments[TopicListView.topic].schedule.id;
     _lecturerId = arguments[TopicListView.topic].lecturer.id;
+    _lecturer = arguments[TopicListView.topic].lecturer;
     _criticalLecturerId = arguments[TopicListView.topic].critical.id;
     _advisorLecturerGrade = arguments[TopicListView.topic].advisorLecturerGrade;
     _criticalLecturerGrade =
@@ -57,14 +61,14 @@ class _TopicDetailPageState extends State<TopicDetailPage> with BasePageState {
         arguments[TopicListView.topic].committeeSecretaryGrade;
     _students = arguments[TopicListView.topic].studentCode ?? [];
 
+    _lecturerController.text = "${_lecturer?.code} - ${_lecturer?.name}";
     _studentsController.text = _students.join(', ');
-
-    _lecturers = await _topicDetailBloc.forceFetchUser("", "LECTURER");
     super.pageInitState();
   }
 
   @override
   void dispose() {
+    _lecturerController.dispose();
     _studentsController.dispose();
     _scheduleController.dispose();
     super.dispose();
@@ -76,16 +80,16 @@ class _TopicDetailPageState extends State<TopicDetailPage> with BasePageState {
       _topicDetailBloc.updateTopic(
         code: _code,
         title: _title,
-        description: _description,
-        limit: _limit,
-        thesisDefenseDate: _thesisDefenseDate,
-        scheduleId: _scheduleId,
-        lecturerId: _lecturerId,
-        criticalLecturerId: _criticalLecturerId,
-        advisorLecturerGrade: _advisorLecturerGrade,
-        criticalLecturerGrade: _criticalLecturerGrade,
-        committeePresidentGrade: _committeePresidentGrade,
-        committeeSecretaryGrade: _committeeSecretaryGrade,
+        description: _description!,
+        limit: _limit!,
+        thesisDefenseDate: _thesisDefenseDate!,
+        scheduleId: _scheduleId!,
+        lecturerId: _lecturerId!,
+        criticalLecturerId: _criticalLecturerId!,
+        advisorLecturerGrade: _advisorLecturerGrade!,
+        criticalLecturerGrade: _criticalLecturerGrade!,
+        committeePresidentGrade: _committeePresidentGrade!,
+        committeeSecretaryGrade: _committeeSecretaryGrade!,
         students: _students,
       );
       Navigator.pop(context);
@@ -181,26 +185,40 @@ class _TopicDetailPageState extends State<TopicDetailPage> with BasePageState {
                   },
                 ),
                 const SizedBox(height: 16.0),
-                DropdownButtonFormField<String>(
-                  value: _lecturerId.toString(),
+                TextFormField(
+                  controller: _lecturerController,
+                  readOnly: true,
                   decoration: const InputDecoration(
-                    labelText: 'Lecture',
+                    labelText: 'Lecturer',
                     border: OutlineInputBorder(),
                   ),
-                  items: _lecturers
-                      .map((value) => DropdownMenuItem<String>(
-                            value: value.id.toString(),
-                            child: Text('${value.code} - ${value.name}'),
-                          ))
-                      .toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      _lecturerId = value! as int;
-                    });
+                  onTap: () async {
+                    List<UserInfo> allLecturer =
+                        await _topicDetailBloc.forceFetchUser("", "LECTURER");
+
+                    final newSelectedLecturer = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => UserSelectionOneWithIdPage(
+                          selectedUserId: _lecturerId,
+                          selectedUser: _lecturer,
+                          allUsers: allLecturer,
+                          pageTitle: 'Lecturer',
+                        ),
+                      ),
+                    );
+
+                    if (newSelectedLecturer != null) {
+                      setState(() {
+                        _lecturerController.text = "${newSelectedLecturer.code} - ${newSelectedLecturer.name}";
+                      });
+                      _lecturer = newSelectedLecturer;
+                      _lecturerId = newSelectedLecturer.id;
+                    }
                   },
                   validator: (value) {
-                    if (value == null) {
-                      return 'Please select a lecture';
+                    if (_lecturerId != null) {
+                      return 'Please select lecturer';
                     }
                     return null;
                   },
@@ -208,26 +226,30 @@ class _TopicDetailPageState extends State<TopicDetailPage> with BasePageState {
                 const SizedBox(height: 16.0),
                 TextFormField(
                   controller: _studentsController,
+                  readOnly: true,
                   decoration: const InputDecoration(
                     labelText: 'Students',
                     border: OutlineInputBorder(),
                   ),
                   onTap: () async {
-                    List<UserInfo> allStudents = await _topicDetailBloc.forceFetchUser("", "STUDENT");
+                    List<UserInfo> allStudents =
+                        await _topicDetailBloc.forceFetchUser("", "STUDENT");
 
                     final newSelectedStudents = await Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => StudentSelectionPage(
-                          allStudents: allStudents,
-                          selectedStudents: _students,
+                        builder: (context) => UserSelectionWithCodePage(
+                          selectedUsers: _students,
+                          allUsers: allStudents,
+                          pageTitle: 'Student',
                         ),
                       ),
                     );
 
                     if (newSelectedStudents != null) {
                       setState(() {
-                        _studentsController.text = newSelectedStudents.join(', ');
+                        _studentsController.text =
+                            newSelectedStudents.join(', ');
                       });
                     }
                   },
