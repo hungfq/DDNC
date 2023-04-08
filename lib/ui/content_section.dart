@@ -1,9 +1,4 @@
-<<<<<<< HEAD
 import 'package:ddnc_new/ui/pages/committee.dart';
-import 'package:ddnc_new/ui/pages/user/user_list_page.dart';
-=======
-import 'package:ddnc_new/ui/pages/user/user_list/user_list_page.dart';
->>>>>>> 42169da6e783fa1c85b54f5537bc2df9ad8cf5bc
 import 'package:flutter/material.dart';
 import 'package:ddnc_new/ui/list_view_item.dart';
 
