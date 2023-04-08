@@ -3,6 +3,7 @@ import 'package:ddnc_new/api/request/sign_in_request.dart';
 import 'package:ddnc_new/api/request/update_topic_request.dart';
 import 'package:ddnc_new/api/request/update_user_request.dart';
 import 'package:ddnc_new/api/response/common_success_response.dart';
+import 'package:ddnc_new/api/response/list_schedule_response.dart';
 import 'package:ddnc_new/api/response/list_topic_response.dart';
 import 'package:ddnc_new/api/response/list_user_response.dart';
 import 'package:flutter/cupertino.dart';
@@ -64,5 +65,11 @@ abstract class ApiService extends ChopperService {
   Future<Response<CommonSuccessResponse>> updateTopic({
     @Path("topicId") required int topicId,
     @Body() required UpdateTopicRequest request,
+  });
+
+  @Get(path: 'v2/schedule')
+  Future<Response<ListScheduleResponse>> listSchedule({
+    @Query("limit") int limit = Constants.itemPerPage,
+    @Query("page") required int page,
   });
 }

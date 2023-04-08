@@ -1,8 +1,10 @@
+import 'package:ddnc_new/api/response/list_schedule_response.dart';
 import 'package:ddnc_new/api/response/list_topic_response.dart';
 import 'package:ddnc_new/api/response/list_user_response.dart';
 import 'package:ddnc_new/ui/base/base_page_state.dart';
 import 'package:ddnc_new/ui/pages/topic/topic_detail/blocs/topic_detail_bloc.dart';
 import 'package:ddnc_new/ui/pages/topic/topic_detail/components/schedule_selection.dart';
+import 'package:ddnc_new/ui/pages/topic/topic_detail/components/schedule_selection_one_with_id_page.dart';
 import 'package:ddnc_new/ui/pages/topic/topic_detail/components/user_selection_multi_with_code_page.dart';
 import 'package:ddnc_new/ui/pages/topic/topic_detail/components/user_selection_one_with_id_page.dart';
 import 'package:ddnc_new/ui/pages/topic/topic_list/components/topic_list_view.dart';
@@ -20,6 +22,7 @@ class _TopicDetailPageState extends State<TopicDetailPage> with BasePageState {
   late TopicDetailBloc _topicDetailBloc;
   final _formKey = GlobalKey<FormState>();
   final _lecturerController = TextEditingController();
+  final _criticalController = TextEditingController();
   final _studentsController = TextEditingController();
   final _scheduleController = TextEditingController();
   late int _id;
@@ -29,9 +32,11 @@ class _TopicDetailPageState extends State<TopicDetailPage> with BasePageState {
   late int? _limit;
   late String? _thesisDefenseDate;
   late int? _scheduleId;
+  late ModelSimple? _schedule;
   late int? _lecturerId;
   late ModelSimple? _lecturer;
   late int? _criticalLecturerId;
+  late ModelSimple? _critical;
   late double? _advisorLecturerGrade;
   late double? _criticalLecturerGrade;
   late double? _committeePresidentGrade;
@@ -49,9 +54,11 @@ class _TopicDetailPageState extends State<TopicDetailPage> with BasePageState {
     _limit = arguments[TopicListView.topic].limit;
     _thesisDefenseDate = arguments[TopicListView.topic].thesisDefenseDate ?? "";
     _scheduleId = arguments[TopicListView.topic].schedule.id;
+    _schedule = arguments[TopicListView.topic].schedule;
     _lecturerId = arguments[TopicListView.topic].lecturer.id;
     _lecturer = arguments[TopicListView.topic].lecturer;
     _criticalLecturerId = arguments[TopicListView.topic].critical.id;
+    _critical = arguments[TopicListView.topic].critical;
     _advisorLecturerGrade = arguments[TopicListView.topic].advisorLecturerGrade;
     _criticalLecturerGrade =
         arguments[TopicListView.topic].criticalLecturerGrade;
@@ -62,13 +69,16 @@ class _TopicDetailPageState extends State<TopicDetailPage> with BasePageState {
     _students = arguments[TopicListView.topic].studentCode ?? [];
 
     _lecturerController.text = "${_lecturer?.code} - ${_lecturer?.name}";
+    _criticalController.text = "${_critical?.code} - ${_critical?.name}";
     _studentsController.text = _students.join(', ');
+    _scheduleController.text = "${_schedule?.code} - ${_schedule?.name}";
     super.pageInitState();
   }
 
   @override
   void dispose() {
     _lecturerController.dispose();
+    _criticalController.dispose();
     _studentsController.dispose();
     _scheduleController.dispose();
     super.dispose();
@@ -83,13 +93,13 @@ class _TopicDetailPageState extends State<TopicDetailPage> with BasePageState {
         description: _description!,
         limit: _limit!,
         thesisDefenseDate: _thesisDefenseDate!,
-        scheduleId: _scheduleId!,
-        lecturerId: _lecturerId!,
-        criticalLecturerId: _criticalLecturerId!,
-        advisorLecturerGrade: _advisorLecturerGrade!,
-        criticalLecturerGrade: _criticalLecturerGrade!,
-        committeePresidentGrade: _committeePresidentGrade!,
-        committeeSecretaryGrade: _committeeSecretaryGrade!,
+        scheduleId: _scheduleId,
+        lecturerId: _lecturerId,
+        criticalLecturerId: _criticalLecturerId,
+        advisorLecturerGrade: _advisorLecturerGrade,
+        criticalLecturerGrade: _criticalLecturerGrade,
+        committeePresidentGrade: _committeePresidentGrade,
+        committeeSecretaryGrade: _committeeSecretaryGrade,
         students: _students,
       );
       Navigator.pop(context);
@@ -210,15 +220,56 @@ class _TopicDetailPageState extends State<TopicDetailPage> with BasePageState {
 
                     if (newSelectedLecturer != null) {
                       setState(() {
-                        _lecturerController.text = "${newSelectedLecturer.code} - ${newSelectedLecturer.name}";
+                        _lecturerController.text =
+                            "${newSelectedLecturer.code} - ${newSelectedLecturer.name}";
                       });
                       _lecturer = newSelectedLecturer;
                       _lecturerId = newSelectedLecturer.id;
                     }
                   },
                   validator: (value) {
-                    if (_lecturerId != null) {
+                    if (_lecturerId == null) {
                       return 'Please select lecturer';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16.0),
+                TextFormField(
+                  controller: _criticalController,
+                  readOnly: true,
+                  decoration: const InputDecoration(
+                    labelText: 'Critical Lecturer',
+                    border: OutlineInputBorder(),
+                  ),
+                  onTap: () async {
+                    List<UserInfo> allLecturer =
+                        await _topicDetailBloc.forceFetchUser("", "LECTURER");
+
+                    final newSelectedLecturer = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => UserSelectionOneWithIdPage(
+                          selectedUserId: _criticalLecturerId,
+                          selectedUser: _critical,
+                          allUsers: allLecturer,
+                          pageTitle: 'Critical',
+                        ),
+                      ),
+                    );
+
+                    if (newSelectedLecturer != null) {
+                      setState(() {
+                        _criticalController.text =
+                            "${newSelectedLecturer.code} - ${newSelectedLecturer.name}";
+                      });
+                      _critical = newSelectedLecturer;
+                      _criticalLecturerId = newSelectedLecturer.id;
+                    }
+                  },
+                  validator: (value) {
+                    if (_critical == null) {
+                      return 'Please select Critical lecturer';
                     }
                     return null;
                   },
@@ -263,28 +314,39 @@ class _TopicDetailPageState extends State<TopicDetailPage> with BasePageState {
                 const SizedBox(height: 16.0),
                 TextFormField(
                   controller: _scheduleController,
+                  readOnly: true,
                   decoration: const InputDecoration(
                     labelText: 'Schedule',
                     border: OutlineInputBorder(),
                   ),
                   onTap: () async {
-                    final selectedSchedule = await Navigator.push(
+                    List<ScheduleInfo> allSchedule =
+                        await _topicDetailBloc.forceFetchSchedule();
+
+                    final newSelected= await Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ScheduleSelectionPage(
-                          selectedSchedule: _scheduleId.toString(),
+                        builder: (context) => ScheduleSelectionOneWithIdPage(
+                          pageTitle: 'Schedule',
+                          selectedScheduleId: _scheduleId,
+                          selectedSchedule: _schedule,
+                          allSchedules: allSchedule,
                         ),
                       ),
                     );
-                    if (selectedSchedule != null) {
+
+                    if (newSelected != null) {
                       setState(() {
-                        _scheduleController.text = selectedSchedule;
+                        _scheduleController.text =
+                            "${newSelected.code} - ${newSelected.name}";
                       });
+                      _schedule = newSelected;
+                      _scheduleId = newSelected.id;
                     }
                   },
                   validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please select a schedule';
+                    if (_critical == null) {
+                      return 'Please select Schedule';
                     }
                     return null;
                   },

@@ -1,4 +1,5 @@
 import 'package:ddnc_new/api/request/update_topic_request.dart';
+import 'package:ddnc_new/api/response/list_schedule_response.dart';
 import 'package:ddnc_new/api/response/list_user_response.dart';
 import 'package:ddnc_new/api/response/resource.dart';
 import 'package:ddnc_new/commons/constants.dart';
@@ -65,22 +66,22 @@ class TopicDetailBloc extends Bloc<TopicDetailEvent, TopicDetailState> {
   void updateTopic(
       {required String code,
       required String title,
-      required String description,
-      required int limit,
-      required String thesisDefenseDate,
-      required int scheduleId,
-      required int lecturerId,
-      required int criticalLecturerId,
-      required double advisorLecturerGrade,
-      required double criticalLecturerGrade,
-      required double committeePresidentGrade,
-      required double committeeSecretaryGrade,
-      required List students}) {
+      String? description,
+      int? limit,
+      String? thesisDefenseDate,
+      int? scheduleId,
+      int? lecturerId,
+      int? criticalLecturerId,
+      double? advisorLecturerGrade,
+      double? criticalLecturerGrade,
+      double? committeePresidentGrade,
+      double? committeeSecretaryGrade,
+      List? students}) {
     add(TopicUpdatedEvent(UpdateTopicRequest(
       code,
       title,
       description,
-      limit,
+      limit!,
       thesisDefenseDate,
       scheduleId,
       lecturerId,
@@ -89,7 +90,7 @@ class TopicDetailBloc extends Bloc<TopicDetailEvent, TopicDetailState> {
       criticalLecturerGrade,
       committeePresidentGrade,
       committeeSecretaryGrade,
-      students,
+      students!,
     )));
   }
 
@@ -99,6 +100,11 @@ class TopicDetailBloc extends Bloc<TopicDetailEvent, TopicDetailState> {
 
   Future<List<UserInfo>> forceFetchUser(String search, String type) async {
     var result = await _topicRepository.getUsers(search, type);
+    return result.data ?? [];
+  }
+
+  Future<List<ScheduleInfo>> forceFetchSchedule() async {
+    var result = await _topicRepository.getSchedules();
     return result.data ?? [];
   }
 }

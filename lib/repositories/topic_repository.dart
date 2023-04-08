@@ -2,6 +2,7 @@ import 'package:ddnc_new/api/api_response.dart';
 import 'package:ddnc_new/api/api_service.dart';
 import 'package:ddnc_new/api/request/update_topic_request.dart';
 import 'package:ddnc_new/api/response/common_success_response.dart';
+import 'package:ddnc_new/api/response/list_schedule_response.dart';
 import 'package:ddnc_new/api/response/list_topic_response.dart';
 import 'package:ddnc_new/api/response/list_user_response.dart';
 import 'package:ddnc_new/api/response/resource.dart';
@@ -80,6 +81,25 @@ class TopicRepository {
     try {
       var apiResource = ApiResponse.create<ListUserResponse>(await _apiService
           .listUser(search: search, type: type, page: 1, limit: 9999));
+
+      if (apiResource is ApiSuccessResponse) {
+        return Resource.success(apiResource.body!.data);
+      } else if (apiResource is ApiEmptyResponse) {
+        return Resource.error("", apiResource.statusCode);
+      } else {
+        return Resource.error(apiResource.errorMessage, apiResource.statusCode);
+      }
+    } catch (e, s) {
+      var apiErrorResource = ApiResponse.error(e);
+      return Resource.error(
+          apiErrorResource.errorMessage, apiErrorResource.statusCode);
+    }
+  }
+
+  Future<Resource<List<ScheduleInfo>>> getSchedules() async {
+    try {
+      var apiResource = ApiResponse.create<ListScheduleResponse>(
+          await _apiService.listSchedule(page: 1, limit: 9999));
 
       if (apiResource is ApiSuccessResponse) {
         return Resource.success(apiResource.body!.data);

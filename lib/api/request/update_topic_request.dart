@@ -9,25 +9,25 @@ class UpdateTopicRequest {
   @JsonKey(name: "title")
   String title;
   @JsonKey(name: "description")
-  String description;
+  String? description;
   @JsonKey(name: "limit")
   int limit;
   @JsonKey(name: "thesisDefenseDate")
-  String thesisDefenseDate;
+  String? thesisDefenseDate;
   @JsonKey(name: "scheduleId")
-  int scheduleId;
+  int? scheduleId;
   @JsonKey(name: "lecturerId")
-  int lecturerId;
+  int? lecturerId;
   @JsonKey(name: "criticalLecturerId")
-  int criticalLecturerId;
+  int? criticalLecturerId;
   @JsonKey(name: "advisorLecturerGrade")
-  double advisorLecturerGrade;
+  double? advisorLecturerGrade;
   @JsonKey(name: "criticalLecturerGrade")
-  double criticalLecturerGrade;
+  double? criticalLecturerGrade;
   @JsonKey(name: "committeePresidentGrade")
-  double committeePresidentGrade;
+  double? committeePresidentGrade;
   @JsonKey(name: "committeeSecretaryGrade")
-  double committeeSecretaryGrade;
+  double? committeeSecretaryGrade;
   @JsonKey(name: "students")
   List students;
 
