@@ -215,8 +215,9 @@ class _UserItem extends StatelessWidget {
             border: Border.all(color: theme.dividerColor),
           ),
           child: ListTile(
-            leading: const CircleAvatar(
-              child: Icon(Icons.person),
+            leading: CircleAvatar(
+              backgroundImage: NetworkImage(user.picture ??
+                  'https://res.cloudinary.com/dfkpopvkp/image/upload/v1681039836/user-3814118-3187499_xvjv7p.webp'),
             ),
             title: Text(user.name ?? ""),
             subtitle: Text(user.email ?? ""),
