@@ -1,9 +1,11 @@
 import 'package:chopper/chopper.dart';
 import 'package:ddnc_new/api/request/sign_in_request.dart';
+import 'package:ddnc_new/api/request/update_committee_request.dart';
 import 'package:ddnc_new/api/request/update_schedule_request.dart';
 import 'package:ddnc_new/api/request/update_topic_request.dart';
 import 'package:ddnc_new/api/request/update_user_request.dart';
 import 'package:ddnc_new/api/response/common_success_response.dart';
+import 'package:ddnc_new/api/response/list_committee_response.dart';
 import 'package:ddnc_new/api/response/list_schedule_response.dart';
 import 'package:ddnc_new/api/response/list_topic_response.dart';
 import 'package:ddnc_new/api/response/list_user_response.dart';
@@ -89,5 +91,28 @@ abstract class ApiService extends ChopperService {
   @Delete(path: 'v2/schedule/{scheduleId}')
   Future<Response<CommonSuccessResponse>> deleteSchedule({
     @Path("scheduleId") required int scheduleId,
+  });
+
+  @Get(path: 'v2/committee')
+  Future<Response<ListCommitteeResponse>> listCommittee({
+    @Query("search") required String search,
+    @Query("limit") int limit = Constants.itemPerPage,
+    @Query("page") required int page,
+  });
+
+  @Post(path: 'v2/committee')
+  Future<Response<CommonSuccessResponse>> createCommittee({
+    @Body() required UpdateCommitteeRequest request,
+  });
+
+  @Put(path: 'v2/committee/{committeeId}')
+  Future<Response<CommonSuccessResponse>> updateCommittee({
+    @Path("committeeId") required int committeeId,
+    @Body() required UpdateCommitteeRequest request,
+  });
+
+  @Delete(path: 'v2/committee/{committeeId}')
+  Future<Response<CommonSuccessResponse>> deleteCommittee({
+    @Path("committeeId") required int committeeId,
   });
 }

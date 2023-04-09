@@ -1,8 +1,13 @@
 import 'package:ddnc_new/repositories/account_repository.dart';
+import 'package:ddnc_new/repositories/committee_repository.dart';
 import 'package:ddnc_new/repositories/schedule_repository.dart';
 import 'package:ddnc_new/repositories/topic_repository.dart';
 import 'package:ddnc_new/repositories/user_repository.dart';
 import 'package:ddnc_new/ui/homepage1.dart';
+import 'package:ddnc_new/ui/pages/committee/committee_detail/blocs/committee_detail_bloc.dart';
+import 'package:ddnc_new/ui/pages/committee/committee_detail/committee_detail_page.dart';
+import 'package:ddnc_new/ui/pages/committee/committee_list/blocs/committee_list_bloc.dart';
+import 'package:ddnc_new/ui/pages/committee/committee_list/committee_list_page.dart';
 import 'package:ddnc_new/ui/pages/master/blocs/master_bloc.dart';
 import 'package:ddnc_new/ui/pages/master/master_page.dart';
 import 'package:ddnc_new/ui/pages/schedule/schedule_detail/blocs/schedule_detail_bloc.dart';
@@ -117,6 +122,26 @@ class AppRouter {
               scheduleRepository: ScheduleRepository.of(context),
             ),
             child: const ScheduleDetailPage(),
+          ),
+          settings: settings,
+        );
+      case AppPages.committeeListPage:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider<CommitteeListBloc>(
+            create: (context) => CommitteeListBloc(
+              committeeRepository: CommitteeRepository.of(context),
+            ),
+            child: const CommitteeListPage(),
+          ),
+          settings: settings,
+        );
+      case AppPages.committeeDetailPage:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider<CommitteeDetailBloc>(
+            create: (context) => CommitteeDetailBloc(
+              committeeRepository: CommitteeRepository.of(context),
+            ),
+            child: const CommitteeDetailPage(),
           ),
           settings: settings,
         );

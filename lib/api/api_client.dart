@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:chopper/chopper.dart';
+import 'package:ddnc_new/api/response/list_committee_response.dart';
 import 'package:ddnc_new/api/response/list_schedule_response.dart';
 import 'package:ddnc_new/api/response/list_topic_response.dart';
 import 'package:ddnc_new/api/response/list_user_response.dart';
@@ -24,6 +25,7 @@ class ApiClient extends ChopperClient {
       ListUserResponse: ListUserResponse.fromJson,
       ListTopicResponse: ListTopicResponse.fromJson,
       ListScheduleResponse: ListScheduleResponse.fromJson,
+      ListCommitteeResponse: ListCommitteeResponse.fromJson,
     }),
   ) {
     if (kDebugMode) {

@@ -124,11 +124,18 @@ final List<DashboardMenu> _originalMenuItems = [
     subPages: [AppPages.topicDetailPage],
   ),
   DashboardMenu(
+    title: "Committee",
+    permissionName: "",
+    accountPermissionName: "",
+    pageRoute: AppPages.committeeListPage,
+    subPages: [AppPages.committeeDetailPage],
+  ),
+  DashboardMenu(
     title: "Schedule",
     permissionName: "",
     accountPermissionName: "",
     pageRoute: AppPages.scheduleListPage,
-    subPages: [],
+    subPages: [AppPages.scheduleDetailPage],
   ),
   DashboardMenu(
     title: "Mockup Home UI",
