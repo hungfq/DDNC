@@ -180,29 +180,6 @@ class _MenuItem extends StatelessWidget {
         child: Row(
           children: [
             const SizedBox(width: Dimens.marginPaddingSizeXMini),
-            if (menu?.index != null)
-              Container(
-                height: Dimens.iconSize,
-                width: Dimens.iconSize,
-                decoration: BoxDecoration(
-                  color: isSelected
-                      ? _theme.colorScheme.onPrimary
-                      : _theme.primaryColor,
-                  shape: BoxShape.circle,
-                ),
-                padding: const EdgeInsets.symmetric(
-                    horizontal: Dimens.marginPaddingSizeXXXTiny),
-                alignment: Alignment.center,
-                child: PrimaryTextView(
-                  menu!.index,
-                  style: _theme.textTheme.titleSmall!.copyWith(
-                    color: isSelected
-                        ? _theme.primaryColor
-                        : _theme.colorScheme.onPrimary,
-                    fontSize: 10,
-                  ),
-                ),
-              ),
             const SizedBox(width: Dimens.marginPaddingSizeXMini),
             Expanded(
               child: PrimaryTextView(

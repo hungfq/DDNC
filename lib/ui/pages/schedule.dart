@@ -74,10 +74,6 @@ class ScheduleListPage extends StatelessWidget {
   }
 }
 
-// import 'package:flutter/material.dart';
-// import 'package:intl/intl.dart';
-// import 'package:schedule_app/models/schedule.dart';
-
 class ScheduleDetailsPage extends StatefulWidget {
   final Schedule schedule;
 
@@ -89,7 +85,7 @@ class ScheduleDetailsPage extends StatefulWidget {
 
 class _ScheduleDetailsPageState extends State<ScheduleDetailsPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final DateFormat _dateFormat = DateFormat('dd/MM/yyyy');
+  final DateFormat _dateFormat = DateFormat('dd/MM/yyyy HH:mm:ss');
 
   late DateTime _startProposalDate;
   late DateTime _endProposalDate;

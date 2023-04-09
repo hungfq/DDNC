@@ -90,7 +90,7 @@ class TopicDetailBloc extends Bloc<TopicDetailEvent, TopicDetailState> {
       criticalLecturerGrade,
       committeePresidentGrade,
       committeeSecretaryGrade,
-      students!,
+      students ?? [],
     )));
   }
 

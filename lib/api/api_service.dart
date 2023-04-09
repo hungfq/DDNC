@@ -1,5 +1,6 @@
 import 'package:chopper/chopper.dart';
 import 'package:ddnc_new/api/request/sign_in_request.dart';
+import 'package:ddnc_new/api/request/update_schedule_request.dart';
 import 'package:ddnc_new/api/request/update_topic_request.dart';
 import 'package:ddnc_new/api/request/update_user_request.dart';
 import 'package:ddnc_new/api/response/common_success_response.dart';
@@ -69,7 +70,24 @@ abstract class ApiService extends ChopperService {
 
   @Get(path: 'v2/schedule')
   Future<Response<ListScheduleResponse>> listSchedule({
+    @Query("search") required String search,
     @Query("limit") int limit = Constants.itemPerPage,
     @Query("page") required int page,
+  });
+
+  @Post(path: 'v2/schedule')
+  Future<Response<CommonSuccessResponse>> createSchedule({
+    @Body() required UpdateScheduleRequest request,
+  });
+
+  @Put(path: 'v2/schedule/{scheduleId}')
+  Future<Response<CommonSuccessResponse>> updateSchedule({
+    @Path("scheduleId") required int scheduleId,
+    @Body() required UpdateScheduleRequest request,
+  });
+
+  @Delete(path: 'v2/schedule/{scheduleId}')
+  Future<Response<CommonSuccessResponse>> deleteSchedule({
+    @Path("scheduleId") required int scheduleId,
   });
 }

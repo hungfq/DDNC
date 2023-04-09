@@ -1,9 +1,14 @@
 import 'package:ddnc_new/repositories/account_repository.dart';
+import 'package:ddnc_new/repositories/schedule_repository.dart';
 import 'package:ddnc_new/repositories/topic_repository.dart';
 import 'package:ddnc_new/repositories/user_repository.dart';
 import 'package:ddnc_new/ui/homepage1.dart';
 import 'package:ddnc_new/ui/pages/master/blocs/master_bloc.dart';
 import 'package:ddnc_new/ui/pages/master/master_page.dart';
+import 'package:ddnc_new/ui/pages/schedule/schedule_detail/blocs/schedule_detail_bloc.dart';
+import 'package:ddnc_new/ui/pages/schedule/schedule_detail/schedule_detail_page.dart';
+import 'package:ddnc_new/ui/pages/schedule/schedule_list/blocs/schedule_list_bloc.dart';
+import 'package:ddnc_new/ui/pages/schedule/schedule_list/schedule_list_page.dart';
 import 'package:ddnc_new/ui/pages/sign_in/blocs/sign_in_bloc.dart';
 import 'package:ddnc_new/ui/pages/sign_in/sign_in_page.dart';
 import 'package:ddnc_new/ui/pages/topic/topic_detail/blocs/topic_detail_bloc.dart';
@@ -92,6 +97,26 @@ class AppRouter {
               // userRepository: UserRepository.of(context),
             ),
             child: const TopicDetailPage(),
+          ),
+          settings: settings,
+        );
+      case AppPages.scheduleListPage:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider<ScheduleListBloc>(
+            create: (context) => ScheduleListBloc(
+              scheduleRepository: ScheduleRepository.of(context),
+            ),
+            child: const ScheduleListPage(),
+          ),
+          settings: settings,
+        );
+      case AppPages.scheduleDetailPage:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider<ScheduleDetailBloc>(
+            create: (context) => ScheduleDetailBloc(
+              scheduleRepository: ScheduleRepository.of(context),
+            ),
+            child: const ScheduleDetailPage(),
           ),
           settings: settings,
         );

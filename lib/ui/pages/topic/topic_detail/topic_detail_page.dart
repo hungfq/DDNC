@@ -3,7 +3,6 @@ import 'package:ddnc_new/api/response/list_topic_response.dart';
 import 'package:ddnc_new/api/response/list_user_response.dart';
 import 'package:ddnc_new/ui/base/base_page_state.dart';
 import 'package:ddnc_new/ui/pages/topic/topic_detail/blocs/topic_detail_bloc.dart';
-import 'package:ddnc_new/ui/pages/topic/topic_detail/components/schedule_selection.dart';
 import 'package:ddnc_new/ui/pages/topic/topic_detail/components/schedule_selection_one_with_id_page.dart';
 import 'package:ddnc_new/ui/pages/topic/topic_detail/components/user_selection_multi_with_code_page.dart';
 import 'package:ddnc_new/ui/pages/topic/topic_detail/components/user_selection_one_with_id_page.dart';

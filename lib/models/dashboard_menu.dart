@@ -1,8 +1,5 @@
-import 'package:flutter/material.dart';
-
 class DashboardMenu {
   String title;
-  String? index;
   final String permissionName;
   final String accountPermissionName;
   final String pageRoute;
@@ -10,7 +7,6 @@ class DashboardMenu {
 
   DashboardMenu({
     required this.title,
-    required this.index,
     required this.permissionName,
     required this.accountPermissionName,
     required this.pageRoute,

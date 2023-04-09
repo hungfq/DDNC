@@ -102,7 +102,6 @@ class MasterBloc extends Bloc<MasterEvent, MasterState> {
 
 final DashboardMenu _dashboardMenuItem = DashboardMenu(
   title: "Dashboard",
-  index: null,
   permissionName: "",
   accountPermissionName: "",
   pageRoute: AppPages.userListPage,
@@ -112,25 +111,36 @@ final DashboardMenu _dashboardMenuItem = DashboardMenu(
 final List<DashboardMenu> _originalMenuItems = [
   DashboardMenu(
     title: "User",
-    index: null,
     permissionName: "",
     accountPermissionName: "",
     pageRoute: AppPages.userListPage,
-    subPages: [],
+    subPages: [AppPages.userDetailPage],
   ),
   DashboardMenu(
     title: "Topic",
-    index: null,
     permissionName: "",
     accountPermissionName: "",
     pageRoute: AppPages.topicListPage,
+    subPages: [AppPages.topicDetailPage],
+  ),
+  DashboardMenu(
+    title: "Schedule",
+    permissionName: "",
+    accountPermissionName: "",
+    pageRoute: AppPages.scheduleListPage,
+    subPages: [],
+  ),
+  DashboardMenu(
+    title: "Mockup Home UI",
+    permissionName: "",
+    accountPermissionName: "",
+    pageRoute: AppPages.homePage,
     subPages: [],
   ),
 ];
 
 final DashboardMenu _settingMenuItem = DashboardMenu(
   title: "Settings",
-  index: null,
   permissionName: "",
   accountPermissionName: "",
   pageRoute: AppPages.homePage,
@@ -141,7 +151,6 @@ final DashboardMenu _settingMenuItem = DashboardMenu(
 
 final DashboardMenu _signOutMenuItem = DashboardMenu(
   title: "Sign Out",
-  index: null,
   permissionName: "",
   accountPermissionName: "",
   pageRoute: AppPages.homePage,

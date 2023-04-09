@@ -99,7 +99,7 @@ class TopicRepository {
   Future<Resource<List<ScheduleInfo>>> getSchedules() async {
     try {
       var apiResource = ApiResponse.create<ListScheduleResponse>(
-          await _apiService.listSchedule(page: 1, limit: 9999));
+          await _apiService.listSchedule(search: "", page: 1, limit: 9999));
 
       if (apiResource is ApiSuccessResponse) {
         return Resource.success(apiResource.body!.data);
