@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:ddnc_new/commons/app_page.dart';
 import 'package:ddnc_new/commons/constants.dart';
 import 'package:ddnc_new/models/dashboard_menu.dart';
 import 'package:ddnc_new/models/page_info.dart';
@@ -127,10 +128,10 @@ class _BodyState extends State<_Body> {
     if (menu == null) return;
 
     switch (menu.pageRoute) {
-      // case AppPages.wmsDashboardPage:
-      //   Navigator.of(context).pop();
-      //   NavigationService.instance.popUntilFirst();
-      //   break;
+      case AppPages.homePage:
+        Navigator.of(context).pop();
+        NavigationService.instance.popUntilFirst();
+        break;
       // case AppPages.signOutPage:
       //   _masterBloc.onSignOutClicked();
       //   break;
