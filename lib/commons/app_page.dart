@@ -23,9 +23,16 @@ class AppPages {
   static const String scheduleDetailPage = "schedule_detail_page";
 
 
-  // schedule
+  // committee
   static const String committeeListPage = "committee_list_page";
   static const String committeeDetailPage = "committee_detail_page";
+
+
+  // approve
+  static const String approveListPage = "approve_list_page";
+
+  // approve
+  static const String markListPage = "mark_list_page";
 
   static const String homePage = "home_page";
   static const String dashBoardPage = "dashboard_page";

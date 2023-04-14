@@ -180,7 +180,7 @@ class _ScheduleDetailPageState extends State<ScheduleDetailPage>
                 MyBuildDateInput(
                   context,
                   'Start Date',
-                  DateTime.parse(_startDate ?? "0001-01-01 00:00:00"),
+                  DateTime.parse(_startDate ?? "2022-01-01 00:00:00"),
                   (DateTime date) {
                     setState(() {
                       _startDate = _dateFormat.format(date);
@@ -191,7 +191,7 @@ class _ScheduleDetailPageState extends State<ScheduleDetailPage>
                 MyBuildDateInput(
                   context,
                   'Deadline',
-                  DateTime.parse(_deadline ?? "0001-01-01 00:00:00"),
+                  DateTime.parse(_deadline ?? "2022-01-01 00:00:00"),
                   (DateTime date) {
                     setState(() {
                       _deadline = _dateFormat.format(date);
@@ -202,7 +202,7 @@ class _ScheduleDetailPageState extends State<ScheduleDetailPage>
                 MyBuildDateInput(
                   context,
                   'Start Proposal Date',
-                  DateTime.parse(_startProposalDate ?? "0001-01-01 00:00:00"),
+                  DateTime.parse(_startProposalDate ?? "2022-01-01 00:00:00"),
                   (DateTime date) {
                     setState(() {
                       _startProposalDate = _dateFormat.format(date);
@@ -213,7 +213,7 @@ class _ScheduleDetailPageState extends State<ScheduleDetailPage>
                 MyBuildDateInput(
                   context,
                   'End Proposal Date',
-                  DateTime.parse(_endProposalDate ?? "0001-01-01 00:00:00"),
+                  DateTime.parse(_endProposalDate ?? "2022-01-01 00:00:00"),
                   (DateTime date) {
                     setState(() {
                       _endProposalDate = _dateFormat.format(date);
@@ -224,7 +224,7 @@ class _ScheduleDetailPageState extends State<ScheduleDetailPage>
                 MyBuildDateInput(
                   context,
                   'Start Approve Date',
-                  DateTime.parse(_startApproveDate ?? "0001-01-01 00:00:00"),
+                  DateTime.parse(_startApproveDate ?? "2022-01-01 00:00:00"),
                   (DateTime date) {
                     setState(() {
                       _startApproveDate = _dateFormat.format(date);
@@ -235,7 +235,7 @@ class _ScheduleDetailPageState extends State<ScheduleDetailPage>
                 MyBuildDateInput(
                   context,
                   'End Approve Date',
-                  DateTime.parse(_endApproveDate ?? "0001-01-01 00:00:00"),
+                  DateTime.parse(_endApproveDate ?? "2022-01-01 00:00:00"),
                   (DateTime date) {
                     setState(() {
                       _endApproveDate = _dateFormat.format(date);
@@ -246,7 +246,7 @@ class _ScheduleDetailPageState extends State<ScheduleDetailPage>
                 MyBuildDateInput(
                   context,
                   'Start Register Date',
-                  DateTime.parse(_startRegisterDate ?? "0001-01-01 00:00:00"),
+                  DateTime.parse(_startRegisterDate ?? "2022-01-01 00:00:00"),
                   (DateTime date) {
                     setState(() {
                       _startRegisterDate = _dateFormat.format(date);
@@ -257,7 +257,7 @@ class _ScheduleDetailPageState extends State<ScheduleDetailPage>
                 MyBuildDateInput(
                   context,
                   'End Register Date',
-                  DateTime.parse(_endRegisterDate ?? "0001-01-01 00:00:00"),
+                  DateTime.parse(_endRegisterDate ?? "2022-01-01 00:00:00"),
                   (DateTime date) {
                     setState(() {
                       _endRegisterDate = _dateFormat.format(date);
