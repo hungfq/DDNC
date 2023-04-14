@@ -2,6 +2,7 @@ import 'package:ddnc_new/ui/admin_page/topic_section/topic_list.dart';
 import 'package:ddnc_new/ui/admin_page/topic_section/topic_model.dart';
 import 'package:ddnc_new/ui/pages/committee.dart';
 import 'package:ddnc_new/ui/pages/schedule.dart';
+import 'package:ddnc_new/ui/pages/my_app.dart';
 import 'package:flutter/material.dart';
 import 'admin_page/user_section/user_list.dart';
 import 'package:ddnc_new/ui/admin_page/user_section/user_model.dart';
@@ -246,7 +247,7 @@ class _HomePageState extends State<HomePage> {
     TopicList(topics: topics),
     CommitteeListPage(),
     ScheduleListPage(schedules: schedules),
-    UserList(users: users3),
+    MyApp(),
     UserList(users: users3),
   ];
 
@@ -297,6 +298,11 @@ class _HomePageState extends State<HomePage> {
             icon: Icon(
                 Icons.calendar_today), // or Calendar icon from another library
             label: 'Lịch đăng ký',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+                Icons.calendar_today), // or Calendar icon from another library
+            label: 'Phê duyệt phản biện',
           ),
         ],
         currentIndex: _selectedIndex,
