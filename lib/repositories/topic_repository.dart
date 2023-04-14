@@ -24,13 +24,15 @@ class TopicRepository {
   static TopicRepository of(BuildContext context) =>
       Provider.of<TopicRepository>(context, listen: false);
 
-  Future<Resource<ListTopicResponse>> listTopic([
+  Future<Resource<ListTopicResponse>> listTopic(
+    String search, [
     int page = 1,
     int itemPerPage = Constants.itemPerPage,
   ]) async {
     try {
       var apiResource =
           ApiResponse.create<ListTopicResponse>(await _apiService.listTopic(
+        search: search,
         page: page,
         limit: itemPerPage,
       ));

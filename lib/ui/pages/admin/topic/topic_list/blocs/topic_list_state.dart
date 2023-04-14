@@ -22,3 +22,10 @@ class TopicListRefreshedState extends TopicListState {
 
   final Resource<ListTopicResponse> resource;
 }
+
+class TopicListDataChangedState extends TopicListState {
+  const TopicListDataChangedState(this.event, [this.data]);
+
+  final String event;
+  final dynamic data;
+}

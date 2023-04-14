@@ -22,3 +22,10 @@ class UserListRefreshedState extends UserListState {
 
   final Resource<ListUserResponse> resource;
 }
+
+class UserListDataChangedState extends UserListState {
+  const UserListDataChangedState(this.event, [this.data]);
+
+  final String event;
+  final dynamic data;
+}

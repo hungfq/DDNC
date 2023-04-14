@@ -13,3 +13,16 @@ class TopicListLoadMoreEvent extends TopicListEvent {
 class TopicListRefreshedEvent extends TopicListEvent {
   const TopicListRefreshedEvent();
 }
+
+class TopicListSearchedEvent extends TopicListEvent {
+  const TopicListSearchedEvent();
+}
+
+class TopicListDataChangedEvent extends TopicListEvent {
+  const TopicListDataChangedEvent(this.event, [this.data]);
+
+  final String event;
+  final dynamic data;
+
+  static const keywordChanged = "keyword_changed";
+}

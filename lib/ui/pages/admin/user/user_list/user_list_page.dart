@@ -3,6 +3,7 @@ import 'package:ddnc_new/commons/constants.dart';
 import 'package:ddnc_new/ui/base/base_page_state.dart';
 import 'package:ddnc_new/ui/components/primary_btn_menu.dart';
 import 'package:ddnc_new/ui/components/primary_sliver_app_bar.dart';
+import 'package:ddnc_new/ui/pages/admin/user/user_list/components/user_search_field.dart';
 import 'blocs/user_list_bloc.dart';
 import 'blocs/user_list_state.dart';
 import 'components/user_list_view.dart';
@@ -58,13 +59,14 @@ class _UserListPageState extends State<UserListPage> with BasePageState {
         body: NestedScrollView(
           controller: _scrollController,
           headerSliverBuilder: (_, __) => [
-            PrimarySliverAppBar(
+            const PrimarySliverAppBar(
               title: "User List",
               pinned: true,
               floating: true,
               actions: [
                 PrimaryBtnMenu(),
               ],
+              bottom: UserSearchField(),
             ),
           ],
           body: UserListView(),

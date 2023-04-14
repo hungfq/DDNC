@@ -9,6 +9,8 @@ import 'components/topic_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'components/topic_search_field.dart';
+
 class TopicListPage extends StatefulWidget {
   const TopicListPage({Key? key}) : super(key: key);
 
@@ -65,6 +67,7 @@ class _TopicListPageState extends State<TopicListPage> with BasePageState {
               actions: [
                 PrimaryBtnMenu(),
               ],
+              bottom: TopicSearchField(),
             ),
           ],
           body: TopicListView(),

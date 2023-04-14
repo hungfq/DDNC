@@ -25,13 +25,28 @@ class UserListBloc extends Bloc<UserListEvent, UserListState> {
       _onRefreshed,
       transformer: throttleDroppable(Constants.throttleDuration),
     );
+    on<UserListSearchedEvent>(
+      _onSearched,
+      transformer: debounce(Constants.filterDelayTime),
+    );
+    on<UserListDataChangedEvent>(
+      _onDataChanged,
+    );
   }
 
   final UserRepository _userRepository;
   late int userId;
-  String _search = "";
+  String _keyword = "";
   String _type = "";
   Resource<ListUserResponse> _getListUserResult = Resource.loading();
+
+  //region getters & setters
+  set keyword(String keyword) {
+    keyword = keyword.trim().toUpperCase();
+    _keyword = keyword;
+    add(UserListDataChangedEvent(
+        UserListDataChangedEvent.keywordChanged, keyword));
+  }
 
   Resource<ListUserResponse> get getListUserResult => _getListUserResult;
 
@@ -45,14 +60,14 @@ class UserListBloc extends Bloc<UserListEvent, UserListState> {
   Future<void> _onFetched(
     UserListFetchedEvent event,
     Emitter<UserListState> emit,
-  ) async {
-    emit(UserListFetchedState(Resource.loading()));
+  ) async =>
+      _fetch(emit);
 
-    var result = await _userRepository.listUser(_search, _type);
-    _getListUserResult = result;
-
-    emit(UserListFetchedState(_getListUserResult));
-  }
+  Future<void> _onSearched(
+    UserListSearchedEvent event,
+    Emitter<UserListState> emit,
+  ) async =>
+      _fetch(emit);
 
   Future<void> _onLoadMore(
     UserListLoadMoreEvent event,
@@ -63,7 +78,7 @@ class UserListBloc extends Bloc<UserListEvent, UserListState> {
     } else {
       var nextPage = currentPage + 1;
 
-      var result = await _userRepository.listUser(_search, _type, nextPage);
+      var result = await _userRepository.listUser(_keyword, _type, nextPage);
       if (result.state == Result.success) {
         _getListUserResult = _getListUserResult.copyWith(
           data: ListUserResponse(
@@ -83,7 +98,7 @@ class UserListBloc extends Bloc<UserListEvent, UserListState> {
     UserListRefreshedEvent event,
     Emitter<UserListState> emit,
   ) async {
-    var result = await _userRepository.listUser(_search, _type);
+    var result = await _userRepository.listUser(_keyword, _type);
     if (result.state == Result.success) {
       _getListUserResult = _getListUserResult.copyWith(
         data: ListUserResponse(
@@ -93,6 +108,13 @@ class UserListBloc extends Bloc<UserListEvent, UserListState> {
       );
     }
     emit(UserListRefreshedState(result));
+  }
+
+  Future<void> _onDataChanged(
+    UserListDataChangedEvent event,
+    Emitter<UserListState> emit,
+  ) async {
+    emit(UserListDataChangedState(event.event, event.data));
   }
 
   void refresh() {
@@ -106,5 +128,19 @@ class UserListBloc extends Bloc<UserListEvent, UserListState> {
 
   void loadMore() {
     add(const UserListLoadMoreEvent());
+  }
+
+  void search(String search) {
+    _keyword = search;
+    add(const UserListFetchedEvent());
+  }
+
+  void _fetch(Emitter<UserListState> emit) async {
+    emit(UserListFetchedState(Resource.loading()));
+
+    var result = await _userRepository.listUser(_keyword, _type);
+    _getListUserResult = result;
+
+    emit(UserListFetchedState(_getListUserResult));
   }
 }

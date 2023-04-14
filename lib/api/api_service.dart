@@ -60,6 +60,7 @@ abstract class ApiService extends ChopperService {
 
   @Get(path: 'v2/topic')
   Future<Response<ListTopicResponse>> listTopic({
+    @Query("search") required String search,
     @Query("page") required int page,
     @Query("limit") int limit = Constants.itemPerPage,
   });

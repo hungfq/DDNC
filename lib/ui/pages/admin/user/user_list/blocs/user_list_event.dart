@@ -15,3 +15,16 @@ class UserListLoadMoreEvent extends UserListEvent {
 class UserListRefreshedEvent extends UserListEvent {
   const UserListRefreshedEvent();
 }
+
+class UserListSearchedEvent extends UserListEvent {
+  const UserListSearchedEvent();
+}
+
+class UserListDataChangedEvent extends UserListEvent {
+  const UserListDataChangedEvent(this.event, [this.data]);
+
+  final String event;
+  final dynamic data;
+
+  static const keywordChanged = "keyword_changed";
+}

@@ -87,7 +87,7 @@ class _BodyState extends State<_Body> {
             return ImplicitlyAnimatedList<DashboardMenu>(
               key: _masterBloc.pageStorageKey,
               padding: const EdgeInsets.symmetric(
-                vertical: Dimens.marginPaddingSizeMini,
+                vertical: Dimens.marginPaddingSizeSmall,
                 horizontal: Dimens.marginPaddingSizeXMini,
               ),
               removeDuration:
