@@ -25,6 +25,13 @@ class ScheduleListBloc extends Bloc<ScheduleListEvent, ScheduleListState> {
       _onRefreshed,
       transformer: throttleDroppable(Constants.throttleDuration),
     );
+    on<ScheduleListSearchedEvent>(
+      _onSearched,
+      transformer: debounce(Constants.filterDelayTime),
+    );
+    on<ScheduleListDataChangedEvent>(
+      _onDataChanged,
+    );
   }
 
   final ScheduleRepository _scheduleRepository;
@@ -44,14 +51,14 @@ class ScheduleListBloc extends Bloc<ScheduleListEvent, ScheduleListState> {
   Future<void> _onFetched(
     ScheduleListFetchedEvent event,
     Emitter<ScheduleListState> emit,
-  ) async {
-    emit(ScheduleListFetchedState(Resource.loading()));
+  ) async =>
+      _fetch(emit);
 
-    var result = await _scheduleRepository.listSchedule(_search);
-    _getListUserResult = result;
-
-    emit(ScheduleListFetchedState(_getListUserResult));
-  }
+  Future<void> _onSearched(
+      ScheduleListSearchedEvent event,
+      Emitter<ScheduleListState> emit,
+      ) async =>
+      _fetch(emit);
 
   Future<void> _onLoadMore(
     ScheduleListLoadMoreEvent event,
@@ -94,6 +101,13 @@ class ScheduleListBloc extends Bloc<ScheduleListEvent, ScheduleListState> {
     emit(ScheduleListRefreshedState(result));
   }
 
+  Future<void> _onDataChanged(
+      ScheduleListDataChangedEvent event,
+      Emitter<ScheduleListState> emit,
+      ) async {
+    emit(ScheduleListDataChangedState(event.event, event.data));
+  }
+
   void refresh() {
     add(const ScheduleListRefreshedEvent());
   }
@@ -105,5 +119,19 @@ class ScheduleListBloc extends Bloc<ScheduleListEvent, ScheduleListState> {
 
   void loadMore() {
     add(const ScheduleListLoadMoreEvent());
+  }
+
+  void search(String search) {
+    _search = search;
+    add(const ScheduleListFetchedEvent());
+  }
+
+  void _fetch(Emitter<ScheduleListState> emit) async {
+    emit(ScheduleListFetchedState(Resource.loading()));
+
+    var result = await _scheduleRepository.listSchedule(_search);
+    _getListUserResult = result;
+
+    emit(ScheduleListFetchedState(_getListUserResult));
   }
 }

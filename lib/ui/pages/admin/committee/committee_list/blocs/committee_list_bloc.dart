@@ -25,6 +25,13 @@ class CommitteeListBloc extends Bloc<CommitteeListEvent, CommitteeListState> {
       _onRefreshed,
       transformer: throttleDroppable(Constants.throttleDuration),
     );
+    on<CommitteeListSearchedEvent>(
+      _onSearched,
+      transformer: debounce(Constants.filterDelayTime),
+    );
+    on<CommitteeListDataChangedEvent>(
+      _onDataChanged,
+    );
   }
 
   final CommitteeRepository _committeeRepository;
@@ -44,14 +51,14 @@ class CommitteeListBloc extends Bloc<CommitteeListEvent, CommitteeListState> {
   Future<void> _onFetched(
     CommitteeListFetchedEvent event,
     Emitter<CommitteeListState> emit,
-  ) async {
-    emit(CommitteeListFetchedState(Resource.loading()));
+  ) async =>
+      _fetch(emit);
 
-    var result = await _committeeRepository.listCommittee(_search);
-    _getListUserResult = result;
-
-    emit(CommitteeListFetchedState(_getListUserResult));
-  }
+  Future<void> _onSearched(
+    CommitteeListSearchedEvent event,
+    Emitter<CommitteeListState> emit,
+  ) async =>
+      _fetch(emit);
 
   Future<void> _onLoadMore(
     CommitteeListLoadMoreEvent event,
@@ -94,6 +101,13 @@ class CommitteeListBloc extends Bloc<CommitteeListEvent, CommitteeListState> {
     emit(CommitteeListRefreshedState(result));
   }
 
+  Future<void> _onDataChanged(
+    CommitteeListDataChangedEvent event,
+    Emitter<CommitteeListState> emit,
+  ) async {
+    emit(CommitteeListDataChangedState(event.event, event.data));
+  }
+
   void refresh() {
     add(const CommitteeListRefreshedEvent());
   }
@@ -105,5 +119,19 @@ class CommitteeListBloc extends Bloc<CommitteeListEvent, CommitteeListState> {
 
   void loadMore() {
     add(const CommitteeListLoadMoreEvent());
+  }
+
+  void search(String search) {
+    _search = search;
+    add(const CommitteeListFetchedEvent());
+  }
+
+  void _fetch(Emitter<CommitteeListState> emit) async {
+    emit(CommitteeListFetchedState(Resource.loading()));
+
+    var result = await _committeeRepository.listCommittee(_search);
+    _getListUserResult = result;
+
+    emit(CommitteeListFetchedState(_getListUserResult));
   }
 }

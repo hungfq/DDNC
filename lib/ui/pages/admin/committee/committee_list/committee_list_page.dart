@@ -5,6 +5,7 @@ import 'package:ddnc_new/modules/navigation/navigation_service.dart';
 import 'package:ddnc_new/ui/base/base_page_state.dart';
 import 'package:ddnc_new/ui/components/primary_btn_menu.dart';
 import 'package:ddnc_new/ui/components/primary_sliver_app_bar.dart';
+import 'package:ddnc_new/ui/pages/admin/committee/committee_list/components/committee_search_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -62,13 +63,14 @@ class _CommitteeListPageState extends State<CommitteeListPage>
         body: NestedScrollView(
           controller: _scrollController,
           headerSliverBuilder: (_, __) => [
-            PrimarySliverAppBar(
+            const PrimarySliverAppBar(
               title: "Committee List",
               pinned: true,
               floating: true,
               actions: [
                 PrimaryBtnMenu(),
               ],
+              bottom: CommitteeSearchField(),
             ),
           ],
           body: CommitteeListView(),

@@ -22,3 +22,10 @@ class ScheduleListRefreshedState extends ScheduleListState {
 
   final Resource<ListScheduleResponse> resource;
 }
+
+class ScheduleListDataChangedState extends ScheduleListState {
+  const ScheduleListDataChangedState(this.event, [this.data]);
+
+  final String event;
+  final dynamic data;
+}

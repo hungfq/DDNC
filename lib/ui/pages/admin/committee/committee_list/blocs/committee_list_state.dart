@@ -22,3 +22,10 @@ class CommitteeListRefreshedState extends CommitteeListState {
 
   final Resource<ListCommitteeResponse> resource;
 }
+
+class CommitteeListDataChangedState extends CommitteeListState {
+  const CommitteeListDataChangedState(this.event, [this.data]);
+
+  final String event;
+  final dynamic data;
+}
