@@ -63,13 +63,15 @@ class _CommitteeListPageState extends State<CommitteeListPage>
         body: NestedScrollView(
           controller: _scrollController,
           headerSliverBuilder: (_, __) => [
-            const PrimarySliverAppBar(
+            PrimarySliverAppBar(
               title: "Committee List",
               pinned: true,
               floating: true,
-              actions: [
+              actions: const [
                 PrimaryBtnMenu(),
               ],
+              backgroundColor: theme.primaryColor,
+              onBackgroundColor: theme.colorScheme.onPrimary,
               bottom: CommitteeSearchField(),
             ),
           ],

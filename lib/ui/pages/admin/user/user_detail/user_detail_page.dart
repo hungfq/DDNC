@@ -54,6 +54,9 @@ class _UserDetailPageState extends State<UserDetailPage> with BasePageState {
     return Scaffold(
       appBar: AppBar(
         title: Text('Edit User'),
+        iconTheme: IconThemeData(
+          color: theme.colorScheme.onPrimary,
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

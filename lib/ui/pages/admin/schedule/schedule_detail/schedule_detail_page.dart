@@ -116,6 +116,9 @@ class _ScheduleDetailPageState extends State<ScheduleDetailPage>
     return Scaffold(
       appBar: AppBar(
         title: Text('Schedule'),
+        iconTheme: IconThemeData(
+          color: theme.colorScheme.onPrimary,
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

@@ -6,6 +6,7 @@ import 'package:ddnc_new/commons/constants.dart';
 import 'package:ddnc_new/commons/stream_helpers.dart';
 import 'package:ddnc_new/models/dashboard_menu.dart';
 import 'package:ddnc_new/repositories/account_repository.dart';
+import 'package:ddnc_new/ui/resources/hungpq_icon_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -34,7 +35,11 @@ class MasterBloc extends Bloc<MasterEvent, MasterState> {
   final PageStorageKey _pageStorageKey =
       const PageStorageKey("drawer_item_list");
   List<DashboardMenu> _menus = [];
-  List<DashboardMenu> _sideMenus = _originalMenuItems;
+  List<DashboardMenu> _dashboardMenus = _originalMenuItems;
+  List<DashboardMenu> _sideMenus = [
+    ..._originalMenuItems,
+    _signOutMenuItem
+  ];
 
   String dateFormat = Constants.defaultDateFormat;
   String timeFormat = Constants.defaultTimeFormat;
@@ -42,6 +47,8 @@ class MasterBloc extends Bloc<MasterEvent, MasterState> {
   List<DashboardMenu> get menus => _menus;
 
   List<DashboardMenu> get sideMenus => _sideMenus;
+
+  List<DashboardMenu> get dashboardMenus => _dashboardMenus;
 
   PageStorageKey get pageStorageKey => _pageStorageKey;
 
@@ -60,8 +67,8 @@ class MasterBloc extends Bloc<MasterEvent, MasterState> {
   ) async {
     emit(MasterSignOutState(Resource.loading()));
 
-    // var result = await _accountRepository.signOut();
-    // emit(MasterSignOutState(result));
+    var result = await _accountRepository.signOut();
+    emit(MasterSignOutState(result));
   }
 
   Future<void> _onDashboardMenuCreated(
@@ -106,6 +113,8 @@ final DashboardMenu _dashboardMenuItem = DashboardMenu(
   accountPermissionName: "",
   pageRoute: AppPages.userListPage,
   subPages: [],
+  imageUrl: "",
+  icon: null,
 );
 
 final List<DashboardMenu> _originalMenuItems = [
@@ -115,6 +124,8 @@ final List<DashboardMenu> _originalMenuItems = [
     accountPermissionName: "",
     pageRoute: AppPages.userListPage,
     subPages: [AppPages.userDetailPage],
+    imageUrl: "images/pic/h_db_user.png",
+    icon: null,
   ),
   DashboardMenu(
     title: "Topic",
@@ -122,6 +133,8 @@ final List<DashboardMenu> _originalMenuItems = [
     accountPermissionName: "",
     pageRoute: AppPages.topicListPage,
     subPages: [AppPages.topicDetailPage],
+    imageUrl: "images/pic/h_db_topic.png",
+    icon: null,
   ),
   DashboardMenu(
     title: "Committee",
@@ -129,6 +142,8 @@ final List<DashboardMenu> _originalMenuItems = [
     accountPermissionName: "",
     pageRoute: AppPages.committeeListPage,
     subPages: [AppPages.committeeDetailPage],
+    imageUrl: "images/pic/h_db_committee.png",
+    icon: null,
   ),
   DashboardMenu(
     title: "Schedule",
@@ -136,6 +151,8 @@ final List<DashboardMenu> _originalMenuItems = [
     accountPermissionName: "",
     pageRoute: AppPages.scheduleListPage,
     subPages: [AppPages.scheduleDetailPage],
+    imageUrl: "images/pic/h_db_schedule.png",
+    icon: null,
   ),
   DashboardMenu(
     title: "Approve",
@@ -143,6 +160,8 @@ final List<DashboardMenu> _originalMenuItems = [
     accountPermissionName: "",
     pageRoute: AppPages.approveListPage,
     subPages: [],
+    imageUrl: "images/pic/h_db_approve.png",
+    icon: null,
   ),
   DashboardMenu(
     title: "Mark",
@@ -150,6 +169,8 @@ final List<DashboardMenu> _originalMenuItems = [
     accountPermissionName: "",
     pageRoute: AppPages.markListPage,
     subPages: [],
+    imageUrl: "images/pic/h_db_mark.png",
+    icon: null,
   ),
   DashboardMenu(
     title: "Mockup Home UI",
@@ -157,6 +178,8 @@ final List<DashboardMenu> _originalMenuItems = [
     accountPermissionName: "",
     pageRoute: AppPages.homePage,
     subPages: [],
+    imageUrl: "images/pic/h_db_draw.png",
+    icon: null,
   ),
 ];
 
@@ -168,12 +191,16 @@ final DashboardMenu _settingMenuItem = DashboardMenu(
   subPages: [
     AppPages.profilePage,
   ],
+  imageUrl: "",
+  icon: null,
 );
 
 final DashboardMenu _signOutMenuItem = DashboardMenu(
   title: "Sign Out",
   permissionName: "",
   accountPermissionName: "",
-  pageRoute: AppPages.homePage,
+  pageRoute: AppPages.signOutPage,
   subPages: [],
+  imageUrl: "",
+  icon: HungpqIcon.logout,
 );

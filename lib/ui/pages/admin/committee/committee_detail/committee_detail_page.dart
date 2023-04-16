@@ -115,6 +115,9 @@ class _CommitteeDetailPageState extends State<CommitteeDetailPage>
     return Scaffold(
       appBar: AppBar(
         title: Text('Committee'),
+        iconTheme: IconThemeData(
+          color: theme.colorScheme.onPrimary,
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

@@ -110,6 +110,9 @@ class _TopicDetailPageState extends State<TopicDetailPage> with BasePageState {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Edit Topic'),
+        iconTheme: IconThemeData(
+          color: theme.colorScheme.onPrimary,
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

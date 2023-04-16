@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:ddnc_new/api/response/sign_in_response.dart';
 import 'package:ddnc_new/ui/data/account.dart';
+import 'package:ddnc_new/ui/data/app_configs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -17,13 +18,16 @@ import '../models/user_model.dart';
 
 class AccountRepository {
   final ApiService _apiService;
+  final AppConfigs _appConfigs;
   final AccountInfo _account;
   late SharedPreferencesHelpers _preferencesHelpers;
 
   AccountRepository({
     required ApiService apiService,
     required AccountInfo account,
+    required AppConfigs appConfigs,
   })  : _apiService = apiService,
+        _appConfigs = appConfigs,
         _account = account {
     SharedPreferencesHelpers.getInstance()
         .then((instance) => _preferencesHelpers = instance);
@@ -41,8 +45,8 @@ class AccountRepository {
 
       if (apiResource is ApiSuccessResponse) {
         await Future.wait([
-          _preferencesHelpers.saveToDisk(
-              SharedPreferencesHelpers.tokenKey, apiResource.body?.accessToken ?? ""),
+          _preferencesHelpers.saveToDisk(SharedPreferencesHelpers.tokenKey,
+              apiResource.body?.accessToken ?? ""),
         ]);
 
         SignInResponse info = await apiResource.body;
@@ -66,6 +70,18 @@ class AccountRepository {
       }
     } catch (e, s) {
       _preferencesHelpers.clearSignInInfo();
+      var apiErrorResource = ApiResponse.error(e);
+      return Resource.error(
+          apiErrorResource.errorMessage, apiErrorResource.statusCode);
+    }
+  }
+
+  Future<Resource<String>> signOut() async {
+    try {
+      _preferencesHelpers.clearSignInInfo();
+
+      return Resource.success("Sign out successfully");
+    } catch (e, s) {
       var apiErrorResource = ApiResponse.error(e);
       return Resource.error(
           apiErrorResource.errorMessage, apiErrorResource.statusCode);

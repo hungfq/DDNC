@@ -3,6 +3,7 @@ class AppPages {
 
   // accounts
   static const String signInPage = "sign_in_page";
+  static const String signOutPage = "sign_out_page";
   static const String splashPage = "splash_page";
   static const String profilePage = "profile_page";
 

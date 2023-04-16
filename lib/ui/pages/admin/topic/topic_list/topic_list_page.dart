@@ -60,13 +60,15 @@ class _TopicListPageState extends State<TopicListPage> with BasePageState {
         body: NestedScrollView(
           controller: _scrollController,
           headerSliverBuilder: (_, __) => [
-            const PrimarySliverAppBar(
+            PrimarySliverAppBar(
               title: "Topic List",
               pinned: true,
               floating: true,
-              actions: [
+              actions: const [
                 PrimaryBtnMenu(),
               ],
+              backgroundColor: theme.primaryColor,
+              onBackgroundColor: theme.colorScheme.onPrimary,
               bottom: TopicSearchField(),
             ),
           ],

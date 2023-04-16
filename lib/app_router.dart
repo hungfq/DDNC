@@ -10,6 +10,7 @@ import 'package:ddnc_new/ui/pages/admin/committee/committee_detail/committee_det
 import 'package:ddnc_new/ui/pages/admin/committee/committee_list/blocs/committee_list_bloc.dart';
 import 'package:ddnc_new/ui/pages/admin/committee/committee_list/committee_list_page.dart';
 import 'package:ddnc_new/ui/pages/admin/mark/mark_page.dart';
+import 'package:ddnc_new/ui/pages/dashboard/blocs/dashboard_bloc.dart';
 import 'package:ddnc_new/ui/pages/dashboard/dashboard_page.dart';
 import 'package:ddnc_new/ui/pages/master/blocs/master_bloc.dart';
 import 'package:ddnc_new/ui/pages/master/master_page.dart';
@@ -170,10 +171,8 @@ class AppRouter {
         );
       case AppPages.dashBoardPage:
         return MaterialPageRoute(
-          builder: (_) => BlocProvider<UserListBloc>(
-            create: (context) => UserListBloc(
-              userRepository: UserRepository.of(context),
-            ),
+          builder: (_) => BlocProvider<DashboardBloc>(
+            create: (context) => DashboardBloc(),
             child: const DashboardPage(),
           ),
           settings: settings,

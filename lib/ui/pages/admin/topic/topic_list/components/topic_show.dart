@@ -12,6 +12,9 @@ class TopicShowPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('View Topic'),
+        iconTheme: IconThemeData(
+          color: Colors.white,
+        ),
       ),
       body: Container(
         decoration: BoxDecoration(

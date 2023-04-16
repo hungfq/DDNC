@@ -1,4 +1,9 @@
+import 'package:ddnc_new/ui/data/app_configs.dart';
+import 'package:ddnc_new/ui/data/themes.dart';
+import 'package:ddnc_new/ui/resources/dimens.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PrimarySliverAppBar extends StatelessWidget with PreferredSizeWidget {
   const PrimarySliverAppBar({
@@ -41,12 +46,25 @@ class PrimarySliverAppBar extends StatelessWidget with PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    var _theme = Theme.of(context);
     return SliverAppBar(
+      iconTheme: IconThemeData(
+        color: onBackgroundColor ?? _theme.colorScheme.onSurface,
+      ),
+      backgroundColor: backgroundColor ?? _theme.backgroundColor,
       expandedHeight: expandedHeight,
       floating: floating ?? false,
       pinned: pinned ?? true,
+      systemOverlayStyle: context.watch<AppConfigs>().theme == ThemeMode.light
+          ? SystemUiOverlayStyle.dark
+          : SystemUiOverlayStyle.light,
+      elevation: elevation ?? Dimens.primaryAppbarElevation,
       leading: leading,
       automaticallyImplyLeading: leading == null,
+      titleTextStyle: titleStyle ??
+          Themes.headerTextStyle.apply(
+            color: onBackgroundColor ?? _theme.colorScheme.onSurface,
+          ),
       titleSpacing: titleSpacing,
       leadingWidth: leadingWidth,
       toolbarHeight: toolbarHeight ?? kToolbarHeight,

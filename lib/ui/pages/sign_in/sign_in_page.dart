@@ -115,7 +115,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       SizedBox(height: 50),
                       const Text(
-                        'Welcome to MyApp',
+                        'FIT Topic Management System',
                         style: TextStyle(
                           fontSize: 24,
                           color: Colors.white,

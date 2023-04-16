@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SharedPreferencesHelpers {
   static const languageKey = "com.hungpq.language";
   static const tokenKey = "com.hungpq.token";
+  static const themeModeKey = "com.hungpq.theme_mode";
 
   static SharedPreferencesHelpers? _instance;
   static SharedPreferences? _preferences;

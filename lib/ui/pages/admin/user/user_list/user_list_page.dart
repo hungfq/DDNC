@@ -59,13 +59,15 @@ class _UserListPageState extends State<UserListPage> with BasePageState {
         body: NestedScrollView(
           controller: _scrollController,
           headerSliverBuilder: (_, __) => [
-            const PrimarySliverAppBar(
+            PrimarySliverAppBar(
               title: "User List",
               pinned: true,
               floating: true,
-              actions: [
+              actions: const [
                 PrimaryBtnMenu(),
               ],
+              backgroundColor: theme.primaryColor,
+              onBackgroundColor: theme.colorScheme.onPrimary,
               bottom: UserSearchField(),
             ),
           ],

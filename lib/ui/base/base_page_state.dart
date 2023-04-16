@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 mixin BasePageState<T extends StatefulWidget> on State<T> {
   bool _isInit = false;
+  late ThemeData _theme;
 
   MasterBloc? _masterBloc;
   StreamSubscription<String>? _scannerResultSub;
@@ -24,10 +25,13 @@ mixin BasePageState<T extends StatefulWidget> on State<T> {
     return _masterBloc!;
   }
 
+  ThemeData get theme => _theme;
+
   @override
   void didChangeDependencies() async {
     if (!_isInit) {
       _isInit = true;
+      _theme = Theme.of(context);
       pageInitState();
     }
     super.didChangeDependencies();

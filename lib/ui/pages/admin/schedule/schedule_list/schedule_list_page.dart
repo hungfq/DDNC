@@ -62,13 +62,15 @@ class _ScheduleListPageState extends State<ScheduleListPage>
         body: NestedScrollView(
           controller: _scrollController,
           headerSliverBuilder: (_, __) => [
-            const PrimarySliverAppBar(
+            PrimarySliverAppBar(
               title: "Schedule List",
               pinned: true,
               floating: true,
-              actions: [
+              actions: const [
                 PrimaryBtnMenu(),
               ],
+              backgroundColor: theme.primaryColor,
+              onBackgroundColor: theme.colorScheme.onPrimary,
               bottom: ScheduleSearchField(),
             ),
           ],

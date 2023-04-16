@@ -3,6 +3,7 @@ import 'package:ddnc_new/repositories/schedule_repository.dart';
 import 'package:ddnc_new/repositories/topic_repository.dart';
 import 'package:ddnc_new/repositories/user_repository.dart';
 import 'package:ddnc_new/ui/data/account.dart';
+import 'package:ddnc_new/ui/data/app_configs.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
@@ -17,6 +18,7 @@ List<SingleChildWidget> globalProviders = [
 
 List<SingleChildWidget> independentServices = [
   Provider.value(value: ApiClient()),
+  ChangeNotifierProvider(create: (_) => AppConfigs()),
   ChangeNotifierProvider(create: (_) => AccountInfo()),
 ];
 
@@ -29,16 +31,18 @@ List<SingleChildWidget> dependentServices = [
     dispose: (context, apiService) => apiService.client.dispose(),
   ),
   // Repositories
-  ProxyProvider2<ApiService, AccountInfo, AccountRepository>(
+  ProxyProvider3<ApiService, AccountInfo, AppConfigs, AccountRepository>(
     create: (context) => AccountRepository(
       apiService: ApiService.of(context),
       account: AccountInfo.of(context),
+      appConfigs: AppConfigs.of(context),
     ),
-    update: (_, apiService, account, accountRepository) =>
+    update: (_, apiService, account, appConfigs, accountRepository) =>
         accountRepository ??
         AccountRepository(
           apiService: apiService,
           account: account,
+          appConfigs: appConfigs,
         ),
   ),
   ProxyProvider2<ApiService, AccountInfo, UserRepository>(
