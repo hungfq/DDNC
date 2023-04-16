@@ -19,6 +19,7 @@ class ApiClient extends ChopperClient {
   ApiClient()
       : super(
     baseUrl: Uri.parse("http://10.0.2.2:8001"),
+    // baseUrl: Uri.parse("http://192.168.1.254:8001"),
     interceptors: [HeaderInterceptor(), HttpLoggingInterceptor()],
     converter: const JsonToTypeConverter({
       SignInResponse: SignInResponse.fromJson,

@@ -117,7 +117,7 @@ class _LoginPageState extends State<LoginPage> {
                       const Text(
                         'FIT Topic Management System',
                         style: TextStyle(
-                          fontSize: 24,
+                          fontSize: 22,
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                         ),
@@ -175,7 +175,7 @@ class _LoginPageState extends State<LoginPage> {
                           foregroundColor: Colors.blue.shade900,
                           backgroundColor: Colors.white,
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 40, vertical: 20),
+                              horizontal: 20, vertical: 20),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),
@@ -191,7 +191,7 @@ class _LoginPageState extends State<LoginPage> {
                             const Text(
                               'Sign in with Google',
                               style: TextStyle(
-                                fontSize: 20,
+                                fontSize: 18,
                               ),
                             ),
                           ],

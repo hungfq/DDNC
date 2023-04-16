@@ -295,7 +295,7 @@ class _TopicItem extends StatelessWidget {
                             ),
                             SizedBox(width: 8.0),
                             Text(
-                              '${topic.critical?.name} (Critical Lecturer)',
+                              '${topic.critical?.name} (Critical)',
                               style: const TextStyle(
                                 fontSize: 14.0,
                               ),
