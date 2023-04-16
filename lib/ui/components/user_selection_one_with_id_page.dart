@@ -67,6 +67,9 @@ class _UserSelectionOneWithIdPageState
     return Scaffold(
       appBar: AppBar(
         title: Text('Select ${widget.pageTitle}'),
+        iconTheme: const IconThemeData(
+          color: Colors.white,
+        ),
         actions: [
           TextButton(
             onPressed: _saveSelection,

@@ -173,6 +173,15 @@ final List<DashboardMenu> _originalMenuItems = [
     icon: null,
   ),
   DashboardMenu(
+    title: "Proposal (ST)",
+    permissionName: "",
+    accountPermissionName: "",
+    pageRoute: AppPages.topicProposalListPage,
+    subPages: [AppPages.topicProposalDetailPage],
+    imageUrl: "images/pic/h_db_st_proposal.png",
+    icon: null,
+  ),
+  DashboardMenu(
     title: "Mockup Home UI",
     permissionName: "",
     accountPermissionName: "",

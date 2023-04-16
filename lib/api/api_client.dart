@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:chopper/chopper.dart';
 import 'package:ddnc_new/api/response/list_committee_response.dart';
 import 'package:ddnc_new/api/response/list_schedule_response.dart';
+import 'package:ddnc_new/api/response/list_topic_proposal_response.dart';
 import 'package:ddnc_new/api/response/list_topic_response.dart';
 import 'package:ddnc_new/api/response/list_user_response.dart';
 import 'package:flutter/cupertino.dart';
@@ -25,6 +26,7 @@ class ApiClient extends ChopperClient {
       SignInResponse: SignInResponse.fromJson,
       ListUserResponse: ListUserResponse.fromJson,
       ListTopicResponse: ListTopicResponse.fromJson,
+      ListTopicProposalResponse: ListTopicProposalResponse.fromJson,
       ListScheduleResponse: ListScheduleResponse.fromJson,
       ListCommitteeResponse: ListCommitteeResponse.fromJson,
     }),

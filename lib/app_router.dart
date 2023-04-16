@@ -1,6 +1,7 @@
 import 'package:ddnc_new/repositories/account_repository.dart';
 import 'package:ddnc_new/repositories/committee_repository.dart';
 import 'package:ddnc_new/repositories/schedule_repository.dart';
+import 'package:ddnc_new/repositories/topic_proposal_repository.dart';
 import 'package:ddnc_new/repositories/topic_repository.dart';
 import 'package:ddnc_new/repositories/user_repository.dart';
 import 'package:ddnc_new/ui/homepage1.dart';
@@ -28,6 +29,10 @@ import 'package:ddnc_new/ui/pages/admin/user/user_detail/blocs/user_detail_bloc.
 import 'package:ddnc_new/ui/pages/admin/user/user_detail/user_detail_page.dart';
 import 'package:ddnc_new/ui/pages/admin/user/user_list/blocs/user_list_bloc.dart';
 import 'package:ddnc_new/ui/pages/admin/user/user_list/user_list_page.dart';
+import 'package:ddnc_new/ui/pages/student/proposal/proposal_detail/blocs/proposal_detail_bloc.dart';
+import 'package:ddnc_new/ui/pages/student/proposal/proposal_detail/proposal_detail_page.dart';
+import 'package:ddnc_new/ui/pages/student/proposal/proposal_list/blocs/proposal_list_bloc.dart';
+import 'package:ddnc_new/ui/pages/student/proposal/proposal_list/proposal_list_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -106,6 +111,26 @@ class AppRouter {
               // userRepository: UserRepository.of(context),
             ),
             child: const TopicDetailPage(),
+          ),
+          settings: settings,
+        );
+      case AppPages.topicProposalListPage:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider<TopicProposalListBloc>(
+            create: (context) => TopicProposalListBloc(
+              topicRepository: TopicProposalRepository.of(context),
+            ),
+            child: const TopicProposalListPage(),
+          ),
+          settings: settings,
+        );
+        case AppPages.topicProposalDetailPage:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider<TopicProposalDetailBloc>(
+            create: (context) => TopicProposalDetailBloc(
+              topicRepository: TopicProposalRepository.of(context),
+            ),
+            child: const TopicProposalDetailPage(),
           ),
           settings: settings,
         );

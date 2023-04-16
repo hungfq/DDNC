@@ -1,5 +1,6 @@
 import 'package:ddnc_new/repositories/committee_repository.dart';
 import 'package:ddnc_new/repositories/schedule_repository.dart';
+import 'package:ddnc_new/repositories/topic_proposal_repository.dart';
 import 'package:ddnc_new/repositories/topic_repository.dart';
 import 'package:ddnc_new/repositories/user_repository.dart';
 import 'package:ddnc_new/ui/data/account.dart';
@@ -65,6 +66,18 @@ List<SingleChildWidget> dependentServices = [
     update: (_, apiService, accountInfo, topicRepository) =>
         topicRepository ??
         TopicRepository(
+          apiService: apiService,
+          accountInfo: accountInfo,
+        ),
+  ),
+  ProxyProvider2<ApiService, AccountInfo, TopicProposalRepository>(
+    create: (context) => TopicProposalRepository(
+      apiService: ApiService.of(context),
+      accountInfo: AccountInfo.of(context),
+    ),
+    update: (_, apiService, accountInfo, topicRepository) =>
+        topicRepository ??
+        TopicProposalRepository(
           apiService: apiService,
           accountInfo: accountInfo,
         ),

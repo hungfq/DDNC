@@ -2,11 +2,13 @@ import 'package:chopper/chopper.dart';
 import 'package:ddnc_new/api/request/sign_in_request.dart';
 import 'package:ddnc_new/api/request/update_committee_request.dart';
 import 'package:ddnc_new/api/request/update_schedule_request.dart';
+import 'package:ddnc_new/api/request/update_topic_proposal_request.dart';
 import 'package:ddnc_new/api/request/update_topic_request.dart';
 import 'package:ddnc_new/api/request/update_user_request.dart';
 import 'package:ddnc_new/api/response/common_success_response.dart';
 import 'package:ddnc_new/api/response/list_committee_response.dart';
 import 'package:ddnc_new/api/response/list_schedule_response.dart';
+import 'package:ddnc_new/api/response/list_topic_proposal_response.dart';
 import 'package:ddnc_new/api/response/list_topic_response.dart';
 import 'package:ddnc_new/api/response/list_user_response.dart';
 import 'package:flutter/cupertino.dart';
@@ -69,6 +71,32 @@ abstract class ApiService extends ChopperService {
   Future<Response<CommonSuccessResponse>> updateTopic({
     @Path("topicId") required int topicId,
     @Body() required UpdateTopicRequest request,
+  });
+
+  @Get(path: 'v2/topic-proposal')
+  Future<Response<ListTopicProposalResponse>> listTopicProposal({
+    @Query("search") required String search,
+    @Query("scheduleId") int? scheduleId,
+    @Query("is_created") String? is_created,
+    @Query("is_lecturer") String? is_lecturer,
+    @Query("page") required int page,
+    @Query("limit") int limit = Constants.itemPerPage,
+  });
+
+  @Post(path: 'v2/topic-proposal')
+  Future<Response<CommonSuccessResponse>> createTopicProposal({
+    @Body() required UpdateTopicProposalRequest request,
+  });
+
+  @Put(path: 'v2/topic-proposal/{topicId}')
+  Future<Response<CommonSuccessResponse>> updateTopicProposal({
+    @Path("topicId") required int topicId,
+    @Body() required UpdateTopicProposalRequest request,
+  });
+
+  @Delete(path: 'v2/topic-proposal/{topicId}')
+  Future<Response<CommonSuccessResponse>> deleteTopicProposal({
+    @Path("topicId") required int topicId,
   });
 
   @Get(path: 'v2/schedule')
