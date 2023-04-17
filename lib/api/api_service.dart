@@ -8,6 +8,7 @@ import 'package:ddnc_new/api/request/update_user_request.dart';
 import 'package:ddnc_new/api/response/common_success_response.dart';
 import 'package:ddnc_new/api/response/list_committee_response.dart';
 import 'package:ddnc_new/api/response/list_schedule_response.dart';
+import 'package:ddnc_new/api/response/list_schedule_today_response.dart';
 import 'package:ddnc_new/api/response/list_topic_proposal_response.dart';
 import 'package:ddnc_new/api/response/list_topic_response.dart';
 import 'package:ddnc_new/api/response/list_user_response.dart';
@@ -121,6 +122,9 @@ abstract class ApiService extends ChopperService {
   Future<Response<CommonSuccessResponse>> deleteSchedule({
     @Path("scheduleId") required int scheduleId,
   });
+
+  @Get(path: 'v2/schedule/student/today')
+  Future<Response<ListScheduleTodayResponse>> listScheduleToday();
 
   @Get(path: 'v2/committee')
   Future<Response<ListCommitteeResponse>> listCommittee({

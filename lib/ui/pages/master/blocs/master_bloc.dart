@@ -36,10 +36,7 @@ class MasterBloc extends Bloc<MasterEvent, MasterState> {
       const PageStorageKey("drawer_item_list");
   List<DashboardMenu> _menus = [];
   List<DashboardMenu> _dashboardMenus = _originalMenuItems;
-  List<DashboardMenu> _sideMenus = [
-    ..._originalMenuItems,
-    _signOutMenuItem
-  ];
+  List<DashboardMenu> _sideMenus = [..._originalMenuItems, _signOutMenuItem];
 
   String dateFormat = Constants.defaultDateFormat;
   String timeFormat = Constants.defaultTimeFormat;
@@ -179,6 +176,15 @@ final List<DashboardMenu> _originalMenuItems = [
     pageRoute: AppPages.topicProposalListPage,
     subPages: [AppPages.topicProposalDetailPage],
     imageUrl: "images/pic/h_db_st_proposal.png",
+    icon: null,
+  ),
+  DashboardMenu(
+    title: "Register (ST)",
+    permissionName: "",
+    accountPermissionName: "",
+    pageRoute: AppPages.registerListPage,
+    subPages: [AppPages.registerDetailPage],
+    imageUrl: "images/pic/h_db_register.png",
     icon: null,
   ),
   DashboardMenu(

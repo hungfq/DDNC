@@ -22,6 +22,10 @@ class AppPages {
   static const String topicProposalListPage = "topic_proposal_list_page";
   static const String topicProposalDetailPage = "topic_proposal_detail_page";
 
+  // register
+  static const String registerListPage = "register_list_page";
+  static const String registerDetailPage = "register_detail_page";
+
 
   // schedule
   static const String scheduleListPage = "schedule_list_page";
