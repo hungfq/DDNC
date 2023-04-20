@@ -74,6 +74,7 @@ class TopicListBloc extends Bloc<TopicListEvent, TopicListState> {
   ) async {
     var result = await _topicRepository.listTopic(
       _keyword,
+      null,
       1,
       currentPage * Constants.itemPerPage,
     );
@@ -97,7 +98,7 @@ class TopicListBloc extends Bloc<TopicListEvent, TopicListState> {
     } else {
       var nextPage = currentPage + 1;
 
-      var result = await _topicRepository.listTopic(_keyword, nextPage);
+      var result = await _topicRepository.listTopic(_keyword, null, nextPage);
       if (result.state == Result.success) {
         _getListTopicResult = _getListTopicResult.copyWith(
           data: ListTopicResponse(
@@ -137,7 +138,7 @@ class TopicListBloc extends Bloc<TopicListEvent, TopicListState> {
   void _fetch(Emitter<TopicListState> emit) async {
     emit(TopicListFetchedState(Resource.loading()));
 
-    var result = await _topicRepository.listTopic(_keyword);
+    var result = await _topicRepository.listTopic(_keyword, null);
     _getListTopicResult = result;
 
     emit(TopicListFetchedState(_getListTopicResult));

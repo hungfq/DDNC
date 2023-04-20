@@ -23,21 +23,21 @@ class RegisterListBloc extends Bloc<RegisterListEvent, RegisterListState> {
       _onScheduleFetched,
       transformer: throttleDroppable(Constants.throttleDuration),
     );
-    // on<RegisterTopicListFetchedEvent>(
-    //   _onTopicFetched,
-    //   transformer: throttleDroppable(Constants.throttleDuration),
-    // );
-    // on<RegisterTopicListLoadMoreEvent>(
-    //   _onLoadMore,
-    //   transformer: throttleDroppable(Constants.throttleDuration),
-    // );
+    on<RegisterTopicListFetchedEvent>(
+      _onTopicFetched,
+      transformer: throttleDroppable(Constants.throttleDuration),
+    );
+    on<RegisterTopicListLoadMoreEvent>(
+      _onLoadMore,
+      transformer: throttleDroppable(Constants.throttleDuration),
+    );
+    on<RegisterTopicListRefreshedEvent>(
+      _onRefreshed,
+      transformer: throttleDroppable(Constants.throttleDuration),
+    );
     // on<RegisterTopicListSearchedEvent>(
     //   _onSearched,
     //   transformer: debounce(Constants.filterDelayTime),
-    // );
-    // on<RegisterTopicListRefreshedEvent>(
-    //   _onRefreshed,
-    //   transformer: throttleDroppable(Constants.throttleDuration),
     // );
     // on<RegisterTopicListDataChangedEvent>(
     //   _onDataChanged,
@@ -79,67 +79,64 @@ class RegisterListBloc extends Bloc<RegisterListEvent, RegisterListState> {
   ) async =>
       _scheduleFetch(emit);
 
-// Future<void> _onTopicFetched(
-//   RegisterTopicListFetchedEvent event,
-//   Emitter<RegisterListState> emit,
-// ) async =>
-//     _fetch(emit);
-//
+  Future<void> _onTopicFetched(
+    RegisterTopicListFetchedEvent event,
+    Emitter<RegisterListState> emit,
+  ) async =>
+      _fetch(emit);
+
 // Future<void> _onSearched(
 //   RegisterTopicListSearchedEvent event,
 //   Emitter<RegisterListState> emit,
 // ) async =>
 //     _fetch(emit);
-//
-// Future<void> _onRefreshed(
-//   RegisterTopicListRefreshedEvent event,
-//   Emitter<RegisterListState> emit,
-// ) async {
-//   var result = await _topicRepository.listTopic(
-//     _keyword,
-//     null,
-//     '1',
-//     null,
-//     1,
-//     currentPage * Constants.itemPerPage,
-//   );
-//   if (result.state == Result.success) {
-//     _getListRegisterTopicResult = _getListRegisterTopicResult.copyWith(
-//       data: ListTopicResponse(
-//         result.data?.data ?? [],
-//         _getListRegisterTopicResult.data!.meta,
-//       ),
-//     );
-//   }
-//   emit(RegisterTopicListRefreshedState(result));
-// }
-//
-// Future<void> _onLoadMore(
-//   RegisterTopicListLoadMoreEvent event,
-//   Emitter<RegisterListState> emit,
-// ) async {
-//   if (currentPage == totalPage) {
-//     emit(RegisterTopicListLoadMoreState(_getListRegisterTopicResult));
-//   } else {
-//     var nextPage = currentPage + 1;
-//
-//     var result = await _topicRepository.listTopic(
-//         _keyword, null, '1', null, nextPage);
-//     if (result.state == Result.success) {
-//       _getListRegisterTopicResult = _getListRegisterTopicResult.copyWith(
-//         data: ListRegisterTopicResponse(
-//           [
-//             ...topicList,
-//             ...result.data?.data ?? [],
-//           ],
-//           result.data!.meta,
-//         ),
-//       );
-//     }
-//     emit(RegisterTopicListLoadMoreState(result));
-//   }
-// }
-//
+
+  Future<void> _onRefreshed(
+    RegisterTopicListRefreshedEvent event,
+    Emitter<RegisterListState> emit,
+  ) async {
+    var result = await _topicRepository.listTopic(
+      _keyword,
+      null,
+      1,
+      currentPage * Constants.itemPerPage,
+    );
+    if (result.state == Result.success) {
+      _getListRegisterTopicResult = _getListRegisterTopicResult.copyWith(
+        data: ListTopicResponse(
+          result.data?.data ?? [],
+          _getListRegisterTopicResult.data!.meta,
+        ),
+      );
+    }
+    emit(RegisterTopicListRefreshedState(result));
+  }
+
+  Future<void> _onLoadMore(
+    RegisterTopicListLoadMoreEvent event,
+    Emitter<RegisterListState> emit,
+  ) async {
+    if (currentPage == totalPage) {
+      emit(RegisterTopicListLoadMoreState(_getListRegisterTopicResult));
+    } else {
+      var nextPage = currentPage + 1;
+
+      var result = await _topicRepository.listTopic(_keyword, null, nextPage);
+      if (result.state == Result.success) {
+        _getListRegisterTopicResult = _getListRegisterTopicResult.copyWith(
+          data: ListTopicResponse(
+            [
+              ...topicList,
+              ...result.data?.data ?? [],
+            ],
+            result.data!.meta,
+          ),
+        );
+      }
+      emit(RegisterTopicListLoadMoreState(result));
+    }
+  }
+
 // Future<void> _onDataChanged(
 //   RegisterTopicListDataChangedEvent event,
 //   Emitter<RegisterListState> emit,
@@ -158,32 +155,30 @@ class RegisterListBloc extends Bloc<RegisterListEvent, RegisterListState> {
     return result.data?.register ?? [];
   }
 
-// void fetch() {
-//   add(const RegisterTopicListFetchedEvent());
-// }
-//
-// void loadMore() {
-//   add(const RegisterTopicListLoadMoreEvent());
-// }
-//
+  void fetch() {
+    add(const RegisterTopicListFetchedEvent());
+  }
+
+  void loadMore() {
+    add(const RegisterTopicListLoadMoreEvent());
+  }
+
 // void search(String search) {
 //   _keyword = search;
 //   add(const RegisterTopicListFetchedEvent());
 // }
-//
-// void _fetch(Emitter<RegisterListState> emit) async {
-//   emit(RegisterTopicListFetchedState(Resource.loading()));
-//
-//   var result = await _topicRepository.listTopic(
-//     _keyword,
-//     null,
-//     '1',
-//     null,
-//   );
-//   _getListRegisterTopicResult = result;
-//
-//   emit(RegisterTopicListFetchedState(_getListRegisterTopicResult));
-// }
+
+  void _fetch(Emitter<RegisterListState> emit) async {
+    emit(RegisterTopicListFetchedState(Resource.loading()));
+
+    var result = await _topicRepository.listTopic(
+      _keyword,
+      null,
+    );
+    _getListRegisterTopicResult = result;
+
+    emit(RegisterTopicListFetchedState(_getListRegisterTopicResult));
+  }
 
   void _scheduleFetch(Emitter<RegisterListState> emit) async {
     emit(RegisterScheduleFetchedState(Resource.loading()));

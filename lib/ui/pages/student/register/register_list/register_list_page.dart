@@ -29,6 +29,7 @@ class _RegisterListPageState extends State<RegisterListPage>
     Future.delayed(const Duration(milliseconds: Constants.delayTime), () {
       if (!mounted) return;
 
+      _registerListBloc.fetch();
     });
     super.initState();
   }

@@ -1,4 +1,3 @@
-import 'package:ddnc_new/api/response/list_topic_proposal_response.dart';
 import 'package:ddnc_new/api/response/list_topic_response.dart';
 import 'package:ddnc_new/api/response/result.dart';
 import 'package:ddnc_new/commons/app_page.dart';
@@ -91,92 +90,92 @@ class _RegisterListViewState extends State<RegisterListView> {
   }
 
   void _handleListeners(BuildContext context, RegisterListState state) {
-    // if (state is RegisterListFetchedState) {
-    //   var resource = state.resource;
-    //
-    //   switch (resource.state) {
-    //     case Result.loading:
-    //       _refreshController.requestRefresh(needMove: false);
-    //       break;
-    //     case Result.error:
-    //       _refreshController.refreshFailed();
-    //       // int statusCode = resource.statusCode!;
-    //       // if (statusCode == Constants.invalidTokenStatusCode) {
-    //       //   Helpers.reSignIn(context);
-    //       // }
-    //       break;
-    //     case Result.success:
-    //       _refreshController.refreshCompleted(resetFooterState: true);
-    //       var userList = _registerListBloc.getListRegisterResult.data?.data ?? [];
-    //       if (userList.isEmpty) {
-    //         _refreshController.loadNoData();
-    //       }
-    //       break;
-    //     default:
-    //       break;
-    //   }
-    //   return;
-    // }
-    //
-    // if (state is RegisterListRefreshedState) {
-    //   var resource = state.resource;
-    //
-    //   switch (resource.state) {
-    //     case Result.loading:
-    //       break;
-    //     case Result.error:
-    //       // int statusCode = resource.statusCode!;
-    //       // if (statusCode == Constants.invalidTokenStatusCode) {
-    //       //   Helpers.reSignIn(context);
-    //       // }
-    //       break;
-    //     case Result.success:
-    //       var userList = _registerListBloc.getListRegisterResult.data?.data ?? [];
-    //       if (userList.isEmpty) {
-    //         _refreshController.loadNoData();
-    //       }
-    //       break;
-    //     default:
-    //       break;
-    //   }
-    //
-    //   return;
-    // }
-    //
-    // if (state is RegisterListLoadMoreState) {
-    //   var resource = state.resource;
-    //   switch (resource.state) {
-    //     case Result.loading:
-    //       // _refreshController.requestLoading(needMove: false);
-    //       break;
-    //     case Result.error:
-    //       _refreshController.loadFailed();
-    //       // int statusCode = resource.statusCode!;
-    //       // if (statusCode == Constants.invalidTokenStatusCode) {
-    //       //   Helpers.reSignIn(context);
-    //       // }
-    //       break;
-    //     case Result.success:
-    //       var userList = resource.data?.data ?? [];
-    //       if (userList.isEmpty) {
-    //         _refreshController.loadNoData();
-    //       } else {
-    //         _refreshController.loadComplete();
-    //       }
-    //       break;
-    //     default:
-    //       break;
-    //   }
-    //   return;
-    // }
+    if (state is RegisterTopicListFetchedState) {
+      var resource = state.resource;
+
+      switch (resource.state) {
+        case Result.loading:
+          _refreshController.requestRefresh(needMove: false);
+          break;
+        case Result.error:
+          _refreshController.refreshFailed();
+          // int statusCode = resource.statusCode!;
+          // if (statusCode == Constants.invalidTokenStatusCode) {
+          //   Helpers.reSignIn(context);
+          // }
+          break;
+        case Result.success:
+          _refreshController.refreshCompleted(resetFooterState: true);
+          var userList = _registerListBloc.getListRegisterTopicResult.data?.data ?? [];
+          if (userList.isEmpty) {
+            _refreshController.loadNoData();
+          }
+          break;
+        default:
+          break;
+      }
+      return;
+    }
+
+    if (state is RegisterTopicListRefreshedState) {
+      var resource = state.resource;
+
+      switch (resource.state) {
+        case Result.loading:
+          break;
+        case Result.error:
+          // int statusCode = resource.statusCode!;
+          // if (statusCode == Constants.invalidTokenStatusCode) {
+          //   Helpers.reSignIn(context);
+          // }
+          break;
+        case Result.success:
+          var userList = _registerListBloc.getListRegisterTopicResult.data?.data ?? [];
+          if (userList.isEmpty) {
+            _refreshController.loadNoData();
+          }
+          break;
+        default:
+          break;
+      }
+
+      return;
+    }
+
+    if (state is RegisterTopicListLoadMoreState) {
+      var resource = state.resource;
+      switch (resource.state) {
+        case Result.loading:
+          // _refreshController.requestLoading(needMove: false);
+          break;
+        case Result.error:
+          _refreshController.loadFailed();
+          // int statusCode = resource.statusCode!;
+          // if (statusCode == Constants.invalidTokenStatusCode) {
+          //   Helpers.reSignIn(context);
+          // }
+          break;
+        case Result.success:
+          var userList = resource.data?.data ?? [];
+          if (userList.isEmpty) {
+            _refreshController.loadNoData();
+          } else {
+            _refreshController.loadComplete();
+          }
+          break;
+        default:
+          break;
+      }
+      return;
+    }
   }
 
   void _onRefresh() async {
-    // _registerListBloc.fetch();
+    _registerListBloc.fetch();
   }
 
   void _onLoading() async {
-    // _registerListBloc.loadMore();
+    _registerListBloc.loadMore();
   }
 }
 

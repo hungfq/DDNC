@@ -38,7 +38,7 @@ class _DropdownScheduleState extends State<DropdownSchedule> {
 
   @override
   Widget build(BuildContext context) {
-    ScheduleInfo? dropdownValue = _schedules.length > 0 ? _schedules.first : null;
+    ScheduleInfo? dropdownValue = _schedules.isNotEmpty ? _schedules.first : null;
     return Container(
         margin: const EdgeInsets.fromLTRB(
           Dimens.marginPaddingSizeXMini,
