@@ -1,9 +1,9 @@
 import 'package:ddnc_new/commons/app_page.dart';
 import 'package:ddnc_new/commons/constants.dart';
-import 'package:ddnc_new/modules/navigation/navigation_service.dart';
 import 'package:ddnc_new/ui/base/base_page_state.dart';
 import 'package:ddnc_new/ui/components/primary_btn_menu.dart';
 import 'package:ddnc_new/ui/components/primary_sliver_app_bar.dart';
+import 'package:ddnc_new/ui/pages/student/register/register_list/components/dropdown_schedule.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -29,7 +29,6 @@ class _RegisterListPageState extends State<RegisterListPage>
     Future.delayed(const Duration(milliseconds: Constants.delayTime), () {
       if (!mounted) return;
 
-      _registerListBloc.fetchSchedule();
     });
     super.initState();
   }
@@ -71,6 +70,7 @@ class _RegisterListPageState extends State<RegisterListPage>
               backgroundColor: theme.primaryColor,
               onBackgroundColor: theme.colorScheme.onPrimary,
               // bottom: RegisterSearchField(),
+              bottom: DropdownSchedule(),
             ),
           ],
           body: RegisterListView(),

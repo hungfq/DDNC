@@ -1,3 +1,4 @@
+import 'package:ddnc_new/api/response/list_schedule_response.dart';
 import 'package:ddnc_new/api/response/list_schedule_today_response.dart';
 import 'package:ddnc_new/api/response/list_topic_response.dart';
 import 'package:ddnc_new/api/response/resource.dart';
@@ -150,6 +151,11 @@ class RegisterListBloc extends Bloc<RegisterListEvent, RegisterListState> {
 
   void fetchSchedule() {
     add(const RegisterScheduleListFetchedEvent());
+  }
+
+  Future<List<ScheduleInfo>> forceFetchRegisterSchedule() async {
+    var result = await _scheduleRepository.listScheduleToday();
+    return result.data?.register ?? [];
   }
 
 // void fetch() {
