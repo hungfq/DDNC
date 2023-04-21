@@ -14,6 +14,7 @@ class RegisterDetailPage extends StatefulWidget {
 
 class _RegisterDetailPageState extends State<RegisterDetailPage>
     with BasePageState {
+  late String ACTION = "REGISTER";
   late RegisterDetailBloc _registerDetailBloc;
   late int _id;
   late String _code;
@@ -28,22 +29,54 @@ class _RegisterDetailPageState extends State<RegisterDetailPage>
   Future<void> pageInitState() async {
     var arguments = ModalRoute.of(context)!.settings.arguments as Map;
     _registerDetailBloc = context.read<RegisterDetailBloc>();
+    ACTION = arguments[RegisterListView.topicAction];
+
     _id = arguments[RegisterListView.topic].id;
     _code = arguments[RegisterListView.topic].code ?? "";
     _title = arguments[RegisterListView.topic].title ?? "";
     _description = arguments[RegisterListView.topic].description ?? "";
     _limit = arguments[RegisterListView.topic].limit;
-        _schedule = arguments[RegisterListView.topic].schedule;
+    _schedule = arguments[RegisterListView.topic].schedule;
     _lecturer = arguments[RegisterListView.topic].lecturer;
     _students = arguments[RegisterListView.topic].studentCode ?? [];
 
     super.pageInitState();
   }
 
-  void _saveChanges() {
-      _registerDetailBloc.topicId = _id;
-      _registerDetailBloc.registerTopic();
-      Navigator.pop(context);
+  void _saveRegistration() {
+    _registerDetailBloc.topicId = _id;
+    _registerDetailBloc.registerTopic();
+    Navigator.pop(context);
+  }
+
+  void _cancelRegistration() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Confirm"),
+          content: const Text(
+              "Are you sure you want unregister this topic?"),
+          actions: [
+            TextButton(
+              child: Text("No"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text("Yes"),
+              onPressed: () {
+                _registerDetailBloc.topicId = _id;
+                _registerDetailBloc.cancelRegister();
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
+
   }
 
   @override
@@ -100,7 +133,8 @@ class _RegisterDetailPageState extends State<RegisterDetailPage>
               const SizedBox(height: 16.0),
               TextFormField(
                 readOnly: true,
-                initialValue: " ${_lecturer?.code.toString()} -  ${_lecturer?.name}",
+                initialValue:
+                    " ${_lecturer?.code.toString()} -  ${_lecturer?.name}",
                 decoration: const InputDecoration(
                   labelText: 'Lecturer',
                   border: OutlineInputBorder(),
@@ -118,29 +152,48 @@ class _RegisterDetailPageState extends State<RegisterDetailPage>
               const SizedBox(height: 16.0),
               TextFormField(
                 readOnly: true,
-                initialValue: "${_schedule?.code.toString()} - ${_schedule?.name.toString()}",
+                initialValue:
+                    "${_schedule?.code.toString()} - ${_schedule?.name.toString()}",
                 decoration: const InputDecoration(
                   labelText: 'Schedule',
                   border: OutlineInputBorder(),
                 ),
               ),
               const SizedBox(height: 16.0),
-              ElevatedButton(
-                onPressed: () {
-                  _saveChanges();
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16.0,
-                    vertical: 12.0,
+              if (ACTION == 'REGISTER')
+                ElevatedButton(
+                  onPressed: () {
+                    _saveRegistration();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0,
+                      vertical: 12.0,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16.0),
+                    ),
                   ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16.0),
+                  child: const Text('Registration'),
+                )
+              else
+                ElevatedButton(
+                  onPressed: () {
+                    _cancelRegistration();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0,
+                      vertical: 12.0,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16.0),
+                    ),
                   ),
+                  child: const Text('Cancel Registration'),
                 ),
-                child: const Text('Registration'),
-              ),
             ],
           ),
         ),

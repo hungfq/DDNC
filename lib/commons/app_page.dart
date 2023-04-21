@@ -25,6 +25,7 @@ class AppPages {
   // register
   static const String registerListPage = "register_list_page";
   static const String registerDetailPage = "register_detail_page";
+  static const String registerResultPage = "register_result_page";
 
 
   // schedule

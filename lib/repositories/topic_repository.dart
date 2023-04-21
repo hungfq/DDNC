@@ -53,6 +53,31 @@ class TopicRepository {
     }
   }
 
+  Future<Resource<ListTopicResponse>> listRegisterResult([
+    int page = 1,
+    int itemPerPage = Constants.itemPerPage,
+  ]) async {
+    try {
+      var apiResource = ApiResponse.create<ListTopicResponse>(
+          await _apiService.listRegisterResult(
+        page: page,
+        limit: itemPerPage,
+      ));
+
+      if (apiResource is ApiSuccessResponse) {
+        return Resource.success(apiResource.body!);
+      } else if (apiResource is ApiEmptyResponse) {
+        return Resource.error("", apiResource.statusCode);
+      } else {
+        return Resource.error(apiResource.errorMessage, apiResource.statusCode);
+      }
+    } catch (e, s) {
+      var apiErrorResource = ApiResponse.error(e);
+      return Resource.error(
+          apiErrorResource.errorMessage, apiErrorResource.statusCode);
+    }
+  }
+
   Future<Resource<String>> updateTopic({
     required int topicId,
     required UpdateTopicRequest request,
@@ -84,8 +109,31 @@ class TopicRepository {
     try {
       var apiResource = ApiResponse.create<CommonSuccessResponse>(
           await _apiService.registerTopic(
-            topicId: topicId,
-          ));
+        topicId: topicId,
+      ));
+
+      if (apiResource is ApiSuccessResponse) {
+        return Resource.success(apiResource.body!.message);
+      } else if (apiResource is ApiEmptyResponse) {
+        return Resource.error("", apiResource.statusCode);
+      } else {
+        return Resource.error(apiResource.errorMessage, apiResource.statusCode);
+      }
+    } catch (e, s) {
+      var apiErrorResource = ApiResponse.error(e);
+      return Resource.error(
+          apiErrorResource.errorMessage, apiErrorResource.statusCode);
+    }
+  }
+
+  Future<Resource<String>> cancelRegister({
+    required int topicId,
+  }) async {
+    try {
+      var apiResource = ApiResponse.create<CommonSuccessResponse>(
+          await _apiService.cancelRegister(
+        topicId: topicId,
+      ));
 
       if (apiResource is ApiSuccessResponse) {
         return Resource.success(apiResource.body!.message);

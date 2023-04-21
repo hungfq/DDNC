@@ -17,6 +17,10 @@ class RegisterDetailBloc
       _onRegisterStored,
       transformer: throttleDroppable(Constants.throttleDuration),
     );
+    on<RegisterCanceledEvent>(
+      _onRegisterCanceled,
+      transformer: throttleDroppable(Constants.throttleDuration),
+    );
   }
 
   final TopicRepository _topicRepository;
@@ -36,7 +40,24 @@ class RegisterDetailBloc
     emit(RegisterDetailStoredState(result));
   }
 
+  Future<void> _onRegisterCanceled(
+    RegisterCanceledEvent event,
+    Emitter<RegisterDetailState> emit,
+  ) async {
+    emit(RegisterDetailCanceledState(Resource.loading()));
+
+    var result = await _topicRepository.cancelRegister(
+      topicId: topicId,
+    );
+
+    emit(RegisterDetailCanceledState(result));
+  }
+
   void registerTopic() {
     add(RegisterStoredEvent());
+  }
+
+  void cancelRegister() {
+    add(RegisterCanceledEvent());
   }
 }

@@ -80,6 +80,17 @@ abstract class ApiService extends ChopperService {
     @Path("topicId") required int topicId,
   });
 
+  @Delete(path: 'v2/topic/{topicId}/register')
+  Future<Response<CommonSuccessResponse>> cancelRegister({
+    @Path("topicId") required int topicId,
+  });
+
+  @Get(path: 'v2/topic/student/result')
+  Future<Response<ListTopicResponse>> listRegisterResult({
+    @Query("page") required int page,
+    @Query("limit") int limit = Constants.itemPerPage,
+  });
+
   @Get(path: 'v2/topic-proposal')
   Future<Response<ListTopicProposalResponse>> listTopicProposal({
     @Query("search") required String search,

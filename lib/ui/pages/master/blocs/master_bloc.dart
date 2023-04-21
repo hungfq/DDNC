@@ -188,6 +188,15 @@ final List<DashboardMenu> _originalMenuItems = [
     icon: null,
   ),
   DashboardMenu(
+    title: "Result (ST)",
+    permissionName: "",
+    accountPermissionName: "",
+    pageRoute: AppPages.registerResultPage,
+    subPages: [AppPages.registerDetailPage],
+    imageUrl: "images/pic/h_db_result.png",
+    icon: null,
+  ),
+  DashboardMenu(
     title: "Mockup Home UI",
     permissionName: "",
     accountPermissionName: "",
