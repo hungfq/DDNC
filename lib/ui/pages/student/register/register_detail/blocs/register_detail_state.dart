@@ -16,3 +16,9 @@ class RegisterDetailStoredState extends RegisterDetailState {
 
   final Resource<String> resource;
 }
+
+class RegisterDetailCanceledState extends RegisterDetailState {
+  const RegisterDetailCanceledState(this.resource);
+
+  final Resource<String> resource;
+}

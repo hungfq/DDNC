@@ -4,31 +4,33 @@ import 'package:ddnc_new/commons/app_page.dart';
 import 'package:ddnc_new/commons/helpers.dart';
 import 'package:ddnc_new/modules/navigation/navigation_service.dart';
 import 'package:ddnc_new/ui/components/smart_refresher_listview.dart';
+import 'package:ddnc_new/ui/pages/student/register/register_list/components/register_list_view.dart';
+import 'package:ddnc_new/ui/pages/student/register/register_result/blocs/register_result_state.dart';
 import 'package:ddnc_new/ui/resources/dimens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import '../blocs/register_list_bloc.dart';
-import '../blocs/register_list_state.dart';
+import '../blocs/register_result_bloc.dart';
 
-class RegisterListView extends StatefulWidget {
-  const RegisterListView({Key? key}) : super(key: key);
+
+class RegisterResultView extends StatefulWidget {
+  const RegisterResultView({Key? key}) : super(key: key);
 
   static const String topic = "topic_key";
-  static const String topicAction = "REGISTER";
+  static const String topicAction = "EDIT";
 
   @override
-  State<RegisterListView> createState() => _RegisterListViewState();
+  State<RegisterResultView> createState() => _RegisterResultViewState();
 }
 
-class _RegisterListViewState extends State<RegisterListView> {
-  late RegisterListBloc _registerListBloc;
+class _RegisterResultViewState extends State<RegisterResultView> {
+  late RegisterResultBloc _registerResultBloc;
   final RefreshController _refreshController = RefreshController();
 
   @override
   void initState() {
-    _registerListBloc = context.read<RegisterListBloc>();
+    _registerResultBloc = context.read<RegisterResultBloc>();
     super.initState();
   }
 
@@ -45,16 +47,15 @@ class _RegisterListViewState extends State<RegisterListView> {
       removeTop: true,
       child: Scrollbar(
         thumbVisibility: true,
-        child: BlocConsumer<RegisterListBloc, RegisterListState>(
+        child: BlocConsumer<RegisterResultBloc, RegisterResultState>(
           listener: _handleListeners,
           buildWhen: (_, state) => [
-            RegisterScheduleFetchedState,
             RegisterTopicListFetchedState,
             RegisterTopicListLoadMoreState,
             RegisterTopicListRefreshedState
           ].contains(state.runtimeType),
           builder: (context, state) {
-            var resource = _registerListBloc.getListRegisterTopicResult;
+            var resource = _registerResultBloc.getListRegisterTopicResult;
             List<TopicInfo> topicList = resource.data?.data ?? [];
 
             return SmartRefresherListView(
@@ -89,7 +90,7 @@ class _RegisterListViewState extends State<RegisterListView> {
     );
   }
 
-  void _handleListeners(BuildContext context, RegisterListState state) {
+  void _handleListeners(BuildContext context, RegisterResultState state) {
     if (state is RegisterTopicListFetchedState) {
       var resource = state.resource;
 
@@ -106,7 +107,7 @@ class _RegisterListViewState extends State<RegisterListView> {
           break;
         case Result.success:
           _refreshController.refreshCompleted(resetFooterState: true);
-          var userList = _registerListBloc.getListRegisterTopicResult.data?.data ?? [];
+          var userList = _registerResultBloc.getListRegisterTopicResult.data?.data ?? [];
           if (userList.isEmpty) {
             _refreshController.loadNoData();
           }
@@ -130,7 +131,7 @@ class _RegisterListViewState extends State<RegisterListView> {
           // }
           break;
         case Result.success:
-          var userList = _registerListBloc.getListRegisterTopicResult.data?.data ?? [];
+          var userList = _registerResultBloc.getListRegisterTopicResult.data?.data ?? [];
           if (userList.isEmpty) {
             _refreshController.loadNoData();
           }
@@ -171,11 +172,11 @@ class _RegisterListViewState extends State<RegisterListView> {
   }
 
   void _onRefresh() async {
-    _registerListBloc.fetch();
+    _registerResultBloc.fetch();
   }
 
   void _onLoading() async {
-    _registerListBloc.loadMore();
+    _registerResultBloc.loadMore();
   }
 }
 
@@ -288,7 +289,7 @@ class _RegisterItem extends StatelessWidget {
               NavigationService.instance
                   .pushNamed(AppPages.registerDetailPage, args: {
                 RegisterListView.topic: topic,
-                RegisterListView.topicAction: "REGISTER",
+                RegisterListView.topicAction: "RESULT",
               });
             },
           ),

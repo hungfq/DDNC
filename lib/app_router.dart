@@ -37,6 +37,8 @@ import 'package:ddnc_new/ui/pages/student/register/register_detail/blocs/registe
 import 'package:ddnc_new/ui/pages/student/register/register_detail/register_detail_page.dart';
 import 'package:ddnc_new/ui/pages/student/register/register_list/blocs/register_list_bloc.dart';
 import 'package:ddnc_new/ui/pages/student/register/register_list/register_list_page.dart';
+import 'package:ddnc_new/ui/pages/student/register/register_result/blocs/register_result_bloc.dart';
+import 'package:ddnc_new/ui/pages/student/register/register_result/register_list_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -156,6 +158,16 @@ class AppRouter {
               topicRepository: TopicRepository.of(context),
             ),
             child: const RegisterDetailPage(),
+          ),
+          settings: settings,
+        );
+      case AppPages.registerResultPage:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider<RegisterResultBloc>(
+            create: (context) => RegisterResultBloc(
+              topicRepository: TopicRepository.of(context),
+            ),
+            child: const RegisterResultPage(),
           ),
           settings: settings,
         );
