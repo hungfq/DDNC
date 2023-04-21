@@ -285,11 +285,11 @@ class _RegisterItem extends StatelessWidget {
               ],
             ),
             onTap: () {
-              // NavigationService.instance
-              //     .pushNamed(AppPages.topicProposalDetailPage, args: {
-              //   RegisterListView.topic: topic,
-              //   RegisterListView.topicAction: "EDIT",
-              // });
+              NavigationService.instance
+                  .pushNamed(AppPages.registerDetailPage, args: {
+                RegisterListView.topic: topic,
+                RegisterListView.topicAction: "EDIT",
+              });
             },
           ),
         ));

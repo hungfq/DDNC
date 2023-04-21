@@ -75,6 +75,11 @@ abstract class ApiService extends ChopperService {
     @Body() required UpdateTopicRequest request,
   });
 
+  @Post(path: 'v2/topic/{topicId}/register')
+  Future<Response<CommonSuccessResponse>> registerTopic({
+    @Path("topicId") required int topicId,
+  });
+
   @Get(path: 'v2/topic-proposal')
   Future<Response<ListTopicProposalResponse>> listTopicProposal({
     @Query("search") required String search,

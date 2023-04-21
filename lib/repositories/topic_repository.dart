@@ -78,6 +78,29 @@ class TopicRepository {
     }
   }
 
+  Future<Resource<String>> registerTopic({
+    required int topicId,
+  }) async {
+    try {
+      var apiResource = ApiResponse.create<CommonSuccessResponse>(
+          await _apiService.registerTopic(
+            topicId: topicId,
+          ));
+
+      if (apiResource is ApiSuccessResponse) {
+        return Resource.success(apiResource.body!.message);
+      } else if (apiResource is ApiEmptyResponse) {
+        return Resource.error("", apiResource.statusCode);
+      } else {
+        return Resource.error(apiResource.errorMessage, apiResource.statusCode);
+      }
+    } catch (e, s) {
+      var apiErrorResource = ApiResponse.error(e);
+      return Resource.error(
+          apiErrorResource.errorMessage, apiErrorResource.statusCode);
+    }
+  }
+
   Future<Resource<List<UserInfo>>> getUsers(
     String search,
     String type,
