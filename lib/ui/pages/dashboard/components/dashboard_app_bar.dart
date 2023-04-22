@@ -90,6 +90,7 @@ class DashboardCollapsedAppBar extends StatelessWidget {
       actions: const [
         PrimaryBtnMenu(),
       ],
+      onBackgroundColor: _theme.colorScheme.onPrimary,
       titleWidget: AppChangeNotifierProvider<AccountInfo>(
         value: _account,
         builder: (context, account, child) {
