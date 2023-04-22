@@ -6,6 +6,7 @@ import 'package:ddnc_new/ui/pages/my_app.dart';
 import 'package:flutter/material.dart';
 import 'admin_page/user_section/user_list.dart';
 import 'package:ddnc_new/ui/admin_page/user_section/user_model.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 final List<User> users1 = [
   User(
@@ -227,6 +228,14 @@ List<Map<String, dynamic>> scheduleData = [
     'deadline': DateTime.now().add(Duration(days: 30)),
   },
 ];
+List<Teacher> teachers = [
+  Teacher('Teacher A', 'Topic 1'),
+  Teacher('Teacher B', 'Topic 1'),
+  Teacher('Teacher C', 'Topic 2'),
+  Teacher('Teacher D', 'Topic 3'),
+  Teacher('Teacher E', 'Topic 3'),
+  Teacher('Teacher F', 'Topic 3'),
+];
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key, required this.title}) : super(key: key);
@@ -246,6 +255,8 @@ class _HomePageState extends State<HomePage> {
     UserList(users: users3),
     TopicList(topics: topics),
     CommitteeListPage(),
+    AdvisorChart(teachers),
+    GenderChart([]),
     ScheduleListPage(schedules: schedules),
     MyApp(),
     UserList(users: users3),
@@ -309,5 +320,144 @@ class _HomePageState extends State<HomePage> {
         onTap: _onItemTapped,
       ),
     );
+  }
+}
+
+class Teacher {
+  final String name;
+  final String topic;
+
+  Teacher(this.name, this.topic);
+}
+
+class TopicData {
+  final String topic;
+  final int count;
+
+  TopicData(this.topic, this.count);
+}
+
+class AdvisorChart extends StatelessWidget {
+  final List<Teacher> teachers;
+
+  AdvisorChart(this.teachers);
+
+  @override
+  Widget build(BuildContext context) {
+    List<TopicData> data = _getTopicData(teachers);
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Advisor Chart'),
+      ),
+      body: SfCartesianChart(
+        title: ChartTitle(text: 'Advisor Topic Count'),
+        legend: Legend(isVisible: true),
+        tooltipBehavior: TooltipBehavior(enable: true),
+        primaryXAxis: CategoryAxis(),
+        series: <ChartSeries<TopicData, String>>[
+          BarSeries<TopicData, String>(
+            dataSource: data,
+            xValueMapper: (TopicData data, _) => data.topic,
+            yValueMapper: (TopicData data, _) => data.count,
+            name: 'Advisor Count',
+          )
+        ],
+      ),
+    );
+  }
+
+  List<TopicData> _getTopicData(List<Teacher> teachers) {
+    Map<String, int> data = {};
+    teachers.forEach((teacher) {
+      if (data.containsKey(teacher.topic)) {
+        if (data[teacher.topic] != null) {
+          data[teacher.topic] = data[teacher.topic]! + 1;
+        }
+      } else {
+        data[teacher.topic] = 1;
+      }
+    });
+
+    List<TopicData> topicData = [
+      TopicData('Giao vien 1', 7),
+      TopicData('Giao vien 2', 3),
+      TopicData('Giao vien 3', 5),
+      TopicData('Giao vien 4', 7),
+      TopicData('Giao vien 5', 30),
+      TopicData('Giao vien 6', 7),
+    ];
+    // data.forEach((key, value) {
+    //   topicData.add(TopicData(key, value));
+    // });
+
+    return topicData;
+  }
+}
+
+// import 'package:flutter/material.dart';
+
+class Student {
+  final String name;
+  final String gender;
+
+  Student(this.name, this.gender);
+}
+
+class GenderData {
+  final String gender;
+  final int count;
+
+  GenderData(this.gender, this.count);
+}
+
+class GenderChart extends StatelessWidget {
+  final List<Student> students;
+
+  GenderChart(this.students);
+
+  @override
+  Widget build(BuildContext context) {
+    List<GenderData> data = _getGenderData(students);
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Gender Chart'),
+      ),
+      body: SfCircularChart(
+        legend: Legend(isVisible: true),
+        series: <CircularSeries>[
+          PieSeries<GenderData, String>(
+            dataSource: data,
+            xValueMapper: (GenderData data, _) => data.gender,
+            yValueMapper: (GenderData data, _) => data.count,
+            name: 'Gender',
+            dataLabelSettings: DataLabelSettings(
+                isVisible: true,
+                labelPosition: ChartDataLabelPosition.outside,
+                labelIntersectAction: LabelIntersectAction.none,
+                // format: '{point.y}%'),
+                textStyle: TextStyle(fontSize: 12)),
+          )
+        ],
+      ),
+    );
+  }
+
+  List<GenderData> _getGenderData(List<Student> students) {
+    int maleCount = 0;
+    int femaleCount = 0;
+    // students.forEach((student) {
+    //   if (student.gender == 'Male') {
+    //     maleCount++;
+    //   } else {
+    //     femaleCount++;
+    //   }
+    // });
+    int totalCount = 90 + 60;
+    return [
+      GenderData('Male', (90 * 100) ~/ totalCount),
+      GenderData('Female', (60 * 100) ~/ totalCount)
+    ];
   }
 }
