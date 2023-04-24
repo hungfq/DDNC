@@ -18,15 +18,18 @@ class AppPages {
   static const String topicListPage = "topic_list_page";
   static const String topicDetailPage = "topic_detail_page";
 
-  // topic proposal
+  // (ST) topic proposal
   static const String topicProposalListPage = "topic_proposal_list_page";
   static const String topicProposalDetailPage = "topic_proposal_detail_page";
 
-  // register
+  // (ST) register
   static const String registerListPage = "register_list_page";
   static const String registerDetailPage = "register_detail_page";
   static const String registerResultPage = "register_result_page";
 
+  // (LT) register
+  static const String proposalApproveListPage = "proposal_approve_list_page";
+  static const String proposalApproveDetailPage = "proposal_approve_detail_page";
 
   // schedule
   static const String scheduleListPage = "schedule_list_page";
@@ -41,8 +44,11 @@ class AppPages {
   // approve
   static const String approveListPage = "approve_list_page";
 
-  // approve
+  // mark
   static const String markListPage = "mark_list_page";
+
+  // statistics
+  static const String statsPage = "stats_page";
 
   static const String homePage = "home_page";
   static const String dashBoardPage = "dashboard_page";

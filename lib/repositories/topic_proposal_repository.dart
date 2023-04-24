@@ -111,8 +111,54 @@ class TopicProposalRepository {
     try {
       var apiResource = ApiResponse.create<CommonSuccessResponse>(
           await _apiService.deleteTopicProposal(
-            topicId: topicId,
-          ));
+        topicId: topicId,
+      ));
+
+      if (apiResource is ApiSuccessResponse) {
+        return Resource.success(apiResource.body!.message);
+      } else if (apiResource is ApiEmptyResponse) {
+        return Resource.error("", apiResource.statusCode);
+      } else {
+        return Resource.error(apiResource.errorMessage, apiResource.statusCode);
+      }
+    } catch (e, s) {
+      var apiErrorResource = ApiResponse.error(e);
+      return Resource.error(
+          apiErrorResource.errorMessage, apiErrorResource.statusCode);
+    }
+  }
+
+  Future<Resource<String>> lecturerApproveProposal({
+    required int topicId,
+  }) async {
+    try {
+      var apiResource = ApiResponse.create<CommonSuccessResponse>(
+          await _apiService.lecturerApproveProposal(
+        topicId: topicId,
+      ));
+
+      if (apiResource is ApiSuccessResponse) {
+        return Resource.success(apiResource.body!.message);
+      } else if (apiResource is ApiEmptyResponse) {
+        return Resource.error("", apiResource.statusCode);
+      } else {
+        return Resource.error(apiResource.errorMessage, apiResource.statusCode);
+      }
+    } catch (e, s) {
+      var apiErrorResource = ApiResponse.error(e);
+      return Resource.error(
+          apiErrorResource.errorMessage, apiErrorResource.statusCode);
+    }
+  }
+
+  Future<Resource<String>> lecturerDeclineProposal({
+    required int topicId,
+  }) async {
+    try {
+      var apiResource = ApiResponse.create<CommonSuccessResponse>(
+          await _apiService.lecturerDeclineProposal(
+        topicId: topicId,
+      ));
 
       if (apiResource is ApiSuccessResponse) {
         return Resource.success(apiResource.body!.message);

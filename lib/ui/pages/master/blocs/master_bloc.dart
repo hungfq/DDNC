@@ -170,6 +170,15 @@ final List<DashboardMenu> _originalMenuItems = [
     icon: null,
   ),
   DashboardMenu(
+    title: "Statistics",
+    permissionName: "",
+    accountPermissionName: "",
+    pageRoute: AppPages.statsPage,
+    subPages: [],
+    imageUrl: "images/pic/h_db_stats.png",
+    icon: null,
+  ),
+  DashboardMenu(
     title: "Proposal (ST)",
     permissionName: "",
     accountPermissionName: "",
@@ -197,7 +206,16 @@ final List<DashboardMenu> _originalMenuItems = [
     icon: null,
   ),
   DashboardMenu(
-    title: "Mockup Home UI",
+    title: "Approve (LT)",
+    permissionName: "",
+    accountPermissionName: "",
+    pageRoute: AppPages.proposalApproveListPage,
+    subPages: [AppPages.proposalApproveDetailPage],
+    imageUrl: "images/pic/h_db_approve.png",
+    icon: null,
+  ),
+  DashboardMenu(
+    title: "Mockup UI",
     permissionName: "",
     accountPermissionName: "",
     pageRoute: AppPages.homePage,

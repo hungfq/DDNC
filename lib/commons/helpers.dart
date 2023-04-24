@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:ddnc_new/api/api_response.dart';
+import 'package:ddnc_new/api/response/resource.dart';
+import 'package:ddnc_new/ui/dialogs/error_dialog.dart';
 import 'package:flutter/material.dart';
 import 'constants.dart';
 
@@ -39,6 +41,17 @@ class Helpers {
       BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
     currentFocus.unfocus();
     FocusScope.of(context).requestFocus(nextFocus);
+  }
+
+  static void showErrorDialog({
+    required BuildContext context,
+    required Resource resource,
+  }) {
+    ErrorDialog.show(
+      context: context,
+      statusCode: resource.statusCode,
+      msg: resource.message,
+    );
   }
 
   static void showSnackBar(

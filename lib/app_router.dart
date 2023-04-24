@@ -11,8 +11,13 @@ import 'package:ddnc_new/ui/pages/admin/committee/committee_detail/committee_det
 import 'package:ddnc_new/ui/pages/admin/committee/committee_list/blocs/committee_list_bloc.dart';
 import 'package:ddnc_new/ui/pages/admin/committee/committee_list/committee_list_page.dart';
 import 'package:ddnc_new/ui/pages/admin/mark/mark_page.dart';
+import 'package:ddnc_new/ui/pages/admin/stats/stats_page.dart';
 import 'package:ddnc_new/ui/pages/dashboard/blocs/dashboard_bloc.dart';
 import 'package:ddnc_new/ui/pages/dashboard/dashboard_page.dart';
+import 'package:ddnc_new/ui/pages/lecturer/proposal/proposal_detail/blocs/proposal_detail_bloc.dart';
+import 'package:ddnc_new/ui/pages/lecturer/proposal/proposal_detail/proposal_detail_page.dart';
+import 'package:ddnc_new/ui/pages/lecturer/proposal/proposal_list/blocs/proposal_list_bloc.dart';
+import 'package:ddnc_new/ui/pages/lecturer/proposal/proposal_list/proposal_list_page.dart';
 import 'package:ddnc_new/ui/pages/master/blocs/master_bloc.dart';
 import 'package:ddnc_new/ui/pages/master/master_page.dart';
 import 'package:ddnc_new/ui/pages/admin/schedule/schedule_detail/blocs/schedule_detail_bloc.dart';
@@ -140,6 +145,26 @@ class AppRouter {
           ),
           settings: settings,
         );
+      case AppPages.proposalApproveListPage:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider<ApproveProposalListBloc>(
+            create: (context) => ApproveProposalListBloc(
+              topicRepository: TopicProposalRepository.of(context),
+            ),
+            child: const ApproveProposalListPage(),
+          ),
+          settings: settings,
+        );
+      case AppPages.proposalApproveDetailPage:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider<ApproveProposalDetailBloc>(
+            create: (context) => ApproveProposalDetailBloc(
+              topicRepository: TopicProposalRepository.of(context),
+            ),
+            child: const ApproveProposalDetailPage(),
+          ),
+          settings: settings,
+        );
       case AppPages.registerListPage:
         return MaterialPageRoute(
           builder: (_) => BlocProvider<RegisterListBloc>(
@@ -228,6 +253,16 @@ class AppRouter {
               topicRepository: TopicRepository.of(context),
             ),
             child: MarkPage(),
+          ),
+          settings: settings,
+        );
+      case AppPages.statsPage:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider<TopicListBloc>(
+            create: (context) => TopicListBloc(
+              topicRepository: TopicRepository.of(context),
+            ),
+            child: StatsPage(),
           ),
           settings: settings,
         );

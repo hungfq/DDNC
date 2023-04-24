@@ -78,6 +78,7 @@ abstract class ApiService extends ChopperService {
   @Post(path: 'v2/topic/{topicId}/register')
   Future<Response<CommonSuccessResponse>> registerTopic({
     @Path("topicId") required int topicId,
+    @Body() temp = null,
   });
 
   @Delete(path: 'v2/topic/{topicId}/register')
@@ -115,6 +116,18 @@ abstract class ApiService extends ChopperService {
   @Delete(path: 'v2/topic-proposal/{topicId}')
   Future<Response<CommonSuccessResponse>> deleteTopicProposal({
     @Path("topicId") required int topicId,
+  });
+
+  @Post(path: 'v2/topic-proposal/{topicId}/lecturer/approve')
+  Future<Response<CommonSuccessResponse>> lecturerApproveProposal({
+    @Path("topicId") required int topicId,
+    @Body() temp = null,
+  });
+
+  @Post(path: 'v2/topic-proposal/{topicId}/lecturer/decline')
+  Future<Response<CommonSuccessResponse>> lecturerDeclineProposal({
+    @Path("topicId") required int topicId,
+    @Body() temp = null,
   });
 
   @Get(path: 'v2/schedule')
