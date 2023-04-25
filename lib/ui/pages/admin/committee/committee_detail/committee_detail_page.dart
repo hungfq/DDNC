@@ -1,13 +1,18 @@
 import 'package:ddnc_new/api/response/list_topic_response.dart';
 import 'package:ddnc_new/api/response/list_user_response.dart';
+import 'package:ddnc_new/api/response/result.dart';
+import 'package:ddnc_new/commons/helpers.dart';
 import 'package:ddnc_new/ui/base/base_page_state.dart';
 import 'package:ddnc_new/ui/components/user_selection_one_with_id_page.dart';
+import 'package:ddnc_new/ui/dialogs/loading_dialog.dart';
+import 'package:ddnc_new/ui/dialogs/success_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 import '../committee_list/components/committee_list_view.dart';
 import 'blocs/committee_detail_bloc.dart';
+import 'blocs/committee_detail_state.dart';
 
 class CommitteeDetailPage extends StatefulWidget {
   const CommitteeDetailPage({Key? key}) : super(key: key);
@@ -110,237 +115,316 @@ class _CommitteeDetailPageState extends State<CommitteeDetailPage>
     super.dispose();
   }
 
+  void _handleListeners(BuildContext context, CommitteeDetailState state) {
+    if (state is CommitteeCreatedState) {
+      var resource = state.resource;
+
+      switch (resource.state) {
+        case Result.loading:
+          LoadingDialog.show(context);
+          break;
+        case Result.error:
+          LoadingDialog.hide(context);
+
+          Helpers.showErrorDialog(context: context, resource: resource);
+          break;
+        case Result.success:
+          LoadingDialog.hide(context);
+
+          SuccessDialog.show(
+            context: context,
+            msg: resource.data ?? "",
+          );
+          break;
+      }
+
+      return;
+    }
+    if (state is CommitteeUpdatedState) {
+      var resource = state.resource;
+
+      switch (resource.state) {
+        case Result.loading:
+          LoadingDialog.show(context);
+          break;
+        case Result.error:
+          LoadingDialog.hide(context);
+
+          Helpers.showErrorDialog(context: context, resource: resource);
+          break;
+        case Result.success:
+          LoadingDialog.hide(context);
+
+          SuccessDialog.show(
+            context: context,
+            msg: resource.data ?? "",
+          );
+          break;
+      }
+
+      return;
+    }
+
+    if (state is CommitteeDeletedState) {
+      var resource = state.resource;
+
+      switch (resource.state) {
+        case Result.loading:
+          LoadingDialog.show(context);
+          break;
+        case Result.error:
+          LoadingDialog.hide(context);
+
+          Helpers.showErrorDialog(context: context, resource: resource);
+          break;
+        case Result.success:
+          LoadingDialog.hide(context);
+
+          SuccessDialog.show(
+            context: context,
+            msg: resource.data ?? "",
+          );
+          break;
+      }
+
+      return;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Committee'),
-        iconTheme: IconThemeData(
-          color: theme.colorScheme.onPrimary,
+    return BlocListener<CommitteeDetailBloc, CommitteeDetailState>(
+      listener: _handleListeners,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Committee'),
+          iconTheme: IconThemeData(
+            color: theme.colorScheme.onPrimary,
+          ),
         ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 16.0),
-                TextFormField(
-                  initialValue: _code,
-                  decoration: const InputDecoration(
-                    labelText: 'Code',
-                    border: OutlineInputBorder(),
-                  ),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter a code';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) {
-                    _code = value!;
-                  },
-                  onChanged: (value) {
-                    setState(() {
-                      _code = value;
-                    });
-                  },
-                ),
-                SizedBox(height: 16.0),
-                TextFormField(
-                  initialValue: _name,
-                  decoration: const InputDecoration(
-                    labelText: 'Name',
-                    border: OutlineInputBorder(),
-                  ),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter a name';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) {
-                    _name = value!;
-                  },
-                  onChanged: (value) {
-                    setState(() {
-                      _name = value;
-                    });
-                  },
-                ),
-                SizedBox(height: 16.0),
-                TextFormField(
-                  controller: _presidentController,
-                  readOnly: true,
-                  decoration: const InputDecoration(
-                    labelText: 'President',
-                    border: OutlineInputBorder(),
-                  ),
-                  onTap: () async {
-                    List<UserInfo> allPresident = await _committeeDetailBloc
-                        .forceFetchUser("", "LECTURER");
-
-                    final newSelectedLecturer = await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => UserSelectionOneWithIdPage(
-                          selectedUserId: _committeePresidentId,
-                          selectedUser: _committeePresident,
-                          allUsers: allPresident,
-                          pageTitle: 'President',
-                        ),
-                      ),
-                    );
-
-                    if (newSelectedLecturer != null) {
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Form(
+            key: _formKey,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 16.0),
+                  TextFormField(
+                    initialValue: _code,
+                    decoration: const InputDecoration(
+                      labelText: 'Code',
+                      border: OutlineInputBorder(),
+                    ),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter a code';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      _code = value!;
+                    },
+                    onChanged: (value) {
                       setState(() {
-                        _presidentController.text =
-                            "${newSelectedLecturer.code} - ${newSelectedLecturer.name}";
+                        _code = value;
                       });
-                      _committeePresident = newSelectedLecturer;
-                      _committeePresidentId = newSelectedLecturer.id;
-                    }
-                  },
-                  validator: (value) {
-                    if (_committeePresidentId == null) {
-                      return 'Please select lecturer';
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(height: 16.0),
-                TextFormField(
-                  controller: _secretaryController,
-                  readOnly: true,
-                  decoration: const InputDecoration(
-                    labelText: 'Secretary',
-                    border: OutlineInputBorder(),
+                    },
                   ),
-                  onTap: () async {
-                    List<UserInfo> all = await _committeeDetailBloc
-                        .forceFetchUser("", "LECTURER");
-
-                    final newSelectedLecturer = await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => UserSelectionOneWithIdPage(
-                          selectedUserId: _committeeSecretaryId,
-                          selectedUser: _committeeSecretary,
-                          allUsers: all,
-                          pageTitle: 'Secretary',
-                        ),
-                      ),
-                    );
-
-                    if (newSelectedLecturer != null) {
+                  SizedBox(height: 16.0),
+                  TextFormField(
+                    initialValue: _name,
+                    decoration: const InputDecoration(
+                      labelText: 'Name',
+                      border: OutlineInputBorder(),
+                    ),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter a name';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      _name = value!;
+                    },
+                    onChanged: (value) {
                       setState(() {
-                        _secretaryController.text =
-                            "${newSelectedLecturer.code} - ${newSelectedLecturer.name}";
+                        _name = value;
                       });
-                      _committeeSecretary = newSelectedLecturer;
-                      _committeeSecretaryId = newSelectedLecturer.id;
-                    }
-                  },
-                  validator: (value) {
-                    if (_committeePresidentId == null) {
-                      return 'Please select lecturer';
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(height: 16.0),
-                TextFormField(
-                  controller: _criticalController,
-                  readOnly: true,
-                  decoration: const InputDecoration(
-                    labelText: 'Critical',
-                    border: OutlineInputBorder(),
+                    },
                   ),
-                  onTap: () async {
-                    List<UserInfo> all = await _committeeDetailBloc
-                        .forceFetchUser("", "LECTURER");
+                  SizedBox(height: 16.0),
+                  TextFormField(
+                    controller: _presidentController,
+                    readOnly: true,
+                    decoration: const InputDecoration(
+                      labelText: 'President',
+                      border: OutlineInputBorder(),
+                    ),
+                    onTap: () async {
+                      List<UserInfo> allPresident = await _committeeDetailBloc
+                          .forceFetchUser("", "LECTURER");
 
-                    final newSelectedLecturer = await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => UserSelectionOneWithIdPage(
-                          selectedUserId: _criticalLecturerId,
-                          selectedUser: _criticalLecturer,
-                          allUsers: all,
-                          pageTitle: 'Critical',
+                      final newSelectedLecturer = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => UserSelectionOneWithIdPage(
+                            selectedUserId: _committeePresidentId,
+                            selectedUser: _committeePresident,
+                            allUsers: allPresident,
+                            pageTitle: 'President',
+                          ),
                         ),
-                      ),
-                    );
+                      );
 
-                    if (newSelectedLecturer != null) {
-                      setState(() {
-                        _criticalController.text =
-                            "${newSelectedLecturer.code} - ${newSelectedLecturer.name}";
-                      });
-                      _criticalLecturer = newSelectedLecturer;
-                      _criticalLecturerId = newSelectedLecturer.id;
-                    }
-                  },
-                  validator: (value) {
-                    if (_criticalLecturerId == null) {
-                      return 'Please select Critical';
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(height: 16.0),
-                Row(
-                  children: [
-                    if (ACTION == 'EDIT') ...[
-                      ElevatedButton(
-                        onPressed: _updateCommittee,
-                        child: Text('Update Committee'),
-                      ),
-                      Spacer(),
-                      ElevatedButton(
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: const Text("Confirm Delete"),
-                                content: const Text(
-                                    "Are you sure you want to delete this committee?"),
-                                actions: [
-                                  TextButton(
-                                    child: Text("Cancel"),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                  TextButton(
-                                    child: Text("Delete"),
-                                    onPressed: () {
-                                      _deleteCommittee();
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        },
-                        child: Text('Delete Committee'),
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.red),
-                      )
-                    ] else ...[
-                      ElevatedButton(
-                        onPressed: _createCommittee,
-                        child: Text('Create Committee'),
-                      )
+                      if (newSelectedLecturer != null) {
+                        setState(() {
+                          _presidentController.text =
+                              "${newSelectedLecturer.code} - ${newSelectedLecturer.name}";
+                        });
+                        _committeePresident = newSelectedLecturer;
+                        _committeePresidentId = newSelectedLecturer.id;
+                      }
+                    },
+                    validator: (value) {
+                      if (_committeePresidentId == null) {
+                        return 'Please select lecturer';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 16.0),
+                  TextFormField(
+                    controller: _secretaryController,
+                    readOnly: true,
+                    decoration: const InputDecoration(
+                      labelText: 'Secretary',
+                      border: OutlineInputBorder(),
+                    ),
+                    onTap: () async {
+                      List<UserInfo> all = await _committeeDetailBloc
+                          .forceFetchUser("", "LECTURER");
+
+                      final newSelectedLecturer = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => UserSelectionOneWithIdPage(
+                            selectedUserId: _committeeSecretaryId,
+                            selectedUser: _committeeSecretary,
+                            allUsers: all,
+                            pageTitle: 'Secretary',
+                          ),
+                        ),
+                      );
+
+                      if (newSelectedLecturer != null) {
+                        setState(() {
+                          _secretaryController.text =
+                              "${newSelectedLecturer.code} - ${newSelectedLecturer.name}";
+                        });
+                        _committeeSecretary = newSelectedLecturer;
+                        _committeeSecretaryId = newSelectedLecturer.id;
+                      }
+                    },
+                    validator: (value) {
+                      if (_committeePresidentId == null) {
+                        return 'Please select lecturer';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 16.0),
+                  TextFormField(
+                    controller: _criticalController,
+                    readOnly: true,
+                    decoration: const InputDecoration(
+                      labelText: 'Critical',
+                      border: OutlineInputBorder(),
+                    ),
+                    onTap: () async {
+                      List<UserInfo> all = await _committeeDetailBloc
+                          .forceFetchUser("", "LECTURER");
+
+                      final newSelectedLecturer = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => UserSelectionOneWithIdPage(
+                            selectedUserId: _criticalLecturerId,
+                            selectedUser: _criticalLecturer,
+                            allUsers: all,
+                            pageTitle: 'Critical',
+                          ),
+                        ),
+                      );
+
+                      if (newSelectedLecturer != null) {
+                        setState(() {
+                          _criticalController.text =
+                              "${newSelectedLecturer.code} - ${newSelectedLecturer.name}";
+                        });
+                        _criticalLecturer = newSelectedLecturer;
+                        _criticalLecturerId = newSelectedLecturer.id;
+                      }
+                    },
+                    validator: (value) {
+                      if (_criticalLecturerId == null) {
+                        return 'Please select Critical';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 16.0),
+                  Row(
+                    children: [
+                      if (ACTION == 'EDIT') ...[
+                        ElevatedButton(
+                          onPressed: _updateCommittee,
+                          child: Text('Update Committee'),
+                        ),
+                        Spacer(),
+                        ElevatedButton(
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: const Text("Confirm Delete"),
+                                  content: const Text(
+                                      "Are you sure you want to delete this committee?"),
+                                  actions: [
+                                    TextButton(
+                                      child: Text("Cancel"),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                    TextButton(
+                                      child: Text("Delete"),
+                                      onPressed: () {
+                                        _deleteCommittee();
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                          child: Text('Delete Committee'),
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.red),
+                        )
+                      ] else ...[
+                        ElevatedButton(
+                          onPressed: _createCommittee,
+                          child: Text('Create Committee'),
+                        )
+                      ],
                     ],
-                  ],
-                ),
-              ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
