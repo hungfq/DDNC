@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:chopper/chopper.dart';
+import 'package:ddnc_new/api/response/common_success_response.dart';
 import 'package:ddnc_new/api/response/list_committee_response.dart';
 import 'package:ddnc_new/api/response/list_schedule_response.dart';
 import 'package:ddnc_new/api/response/list_schedule_today_response.dart';
@@ -25,6 +26,8 @@ class ApiClient extends ChopperClient {
     // baseUrl: Uri.parse("http://144.126.242.142:8001"),
     interceptors: [HeaderInterceptor(), HttpLoggingInterceptor()],
     converter: const JsonToTypeConverter({
+      CommonSuccessResponse: CommonSuccessResponse.fromJson,
+
       SignInResponse: SignInResponse.fromJson,
       ListUserResponse: ListUserResponse.fromJson,
       ListTopicResponse: ListTopicResponse.fromJson,
