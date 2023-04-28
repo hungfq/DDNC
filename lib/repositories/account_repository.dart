@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:ddnc_new/api/response/sign_in_response.dart';
+import 'package:ddnc_new/di/socket_manager.dart';
 import 'package:ddnc_new/ui/data/account.dart';
 import 'package:ddnc_new/ui/data/app_configs.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +48,11 @@ class AccountRepository {
         await Future.wait([
           _preferencesHelpers.saveToDisk(SharedPreferencesHelpers.tokenKey,
               apiResource.body?.accessToken ?? ""),
+          _preferencesHelpers.saveToDisk(SharedPreferencesHelpers.userIdKey,
+              apiResource.body?.userInfo.id ?? ""),
         ]);
+
+        SocketManager().socket.emit('login', apiResource.body?.userInfo.id);
 
         SignInResponse info = await apiResource.body;
         var userModel = await UserModel(

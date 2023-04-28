@@ -55,6 +55,7 @@ dependencies:
   dropdown_search: 3.0.1
   dropdown_button2: 1.4.0
   syncfusion_flutter_charts: ^21.1.41
+  socket_io_client:
 
 dev_dependencies:
   flutter_test:

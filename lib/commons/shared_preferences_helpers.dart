@@ -4,6 +4,7 @@ class SharedPreferencesHelpers {
   static const languageKey = "com.hungpq.language";
   static const tokenKey = "com.hungpq.token";
   static const themeModeKey = "com.hungpq.theme_mode";
+  static const userIdKey = "com.hungpq.user_id";
 
   static SharedPreferencesHelpers? _instance;
   static SharedPreferences? _preferences;
