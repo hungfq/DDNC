@@ -24,7 +24,8 @@ import 'di/global_providers.dart';
 Future<void> main() async {
   // WidgetsFlutterBinding.ensureInitialized();
   // await Firebase.initializeApp();
-  SocketManager().connect('http://127.0.0.1:8002');
+  // SocketManager().connect('http://http://144.126.242.142:8002');
+  SocketManager().connect('http://10.0.2.2:8002');
 
   runApp(MultiProvider(providers: globalProviders, child: const App()));
 }
