@@ -1,5 +1,6 @@
 import 'package:ddnc_new/repositories/account_repository.dart';
 import 'package:ddnc_new/repositories/committee_repository.dart';
+import 'package:ddnc_new/repositories/notification_repository.dart';
 import 'package:ddnc_new/repositories/schedule_repository.dart';
 import 'package:ddnc_new/repositories/topic_proposal_repository.dart';
 import 'package:ddnc_new/repositories/topic_repository.dart';
@@ -24,6 +25,8 @@ import 'package:ddnc_new/ui/pages/admin/schedule/schedule_detail/blocs/schedule_
 import 'package:ddnc_new/ui/pages/admin/schedule/schedule_detail/schedule_detail_page.dart';
 import 'package:ddnc_new/ui/pages/admin/schedule/schedule_list/blocs/schedule_list_bloc.dart';
 import 'package:ddnc_new/ui/pages/admin/schedule/schedule_list/schedule_list_page.dart';
+import 'package:ddnc_new/ui/pages/notification/blocs/notification_bloc.dart';
+import 'package:ddnc_new/ui/pages/notification/notification_page.dart';
 import 'package:ddnc_new/ui/pages/sign_in/blocs/sign_in_bloc.dart';
 import 'package:ddnc_new/ui/pages/sign_in/sign_in_page.dart';
 import 'package:ddnc_new/ui/pages/admin/topic/topic_detail/blocs/topic_detail_bloc.dart';
@@ -81,6 +84,16 @@ class AppRouter {
               userRepository: UserRepository.of(context),
             ),
             child: const HomePage(title: 'Admin Page'),
+          ),
+          settings: settings,
+        );
+      case AppPages.notificationPage:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider<NotificationBloc>(
+            create: (context) => NotificationBloc(
+              notificationRepository: NotificationRepository.of(context),
+            ),
+            child: const NotificationPage(),
           ),
           settings: settings,
         );

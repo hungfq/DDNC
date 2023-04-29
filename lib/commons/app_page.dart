@@ -6,6 +6,7 @@ class AppPages {
   static const String signOutPage = "sign_out_page";
   static const String splashPage = "splash_page";
   static const String profilePage = "profile_page";
+  static const String notificationPage = "notification_page";
 
   // master
   static const String masterPage = "master_page";

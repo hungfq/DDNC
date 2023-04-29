@@ -21,7 +21,7 @@
 ///         License:   Apache 2.0 (https://www.apache.org/licenses/LICENSE-2.0)
 ///         Homepage:  https://design.google.com/icons/
 ///
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 
 class HungpqIcon {
   HungpqIcon._();

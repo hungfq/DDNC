@@ -23,8 +23,8 @@ class _LoginPageState extends State<LoginPage> {
   String dropdownKey = 'STUDENT';
   Map<String, String> dropdownValues = {
     'ADMIN': 'Admin',
-    'LECTURER': 'Giảng viên',
-    'STUDENT': 'Sinh Viên',
+    'LECTURER': 'Lecturer',
+    'STUDENT': 'Student',
   };
 
   @override

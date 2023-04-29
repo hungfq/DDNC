@@ -7,6 +7,7 @@ import 'package:ddnc_new/api/request/update_topic_request.dart';
 import 'package:ddnc_new/api/request/update_user_request.dart';
 import 'package:ddnc_new/api/response/common_success_response.dart';
 import 'package:ddnc_new/api/response/list_committee_response.dart';
+import 'package:ddnc_new/api/response/list_notification_response.dart';
 import 'package:ddnc_new/api/response/list_schedule_response.dart';
 import 'package:ddnc_new/api/response/list_schedule_today_response.dart';
 import 'package:ddnc_new/api/response/list_topic_proposal_response.dart';
@@ -174,5 +175,21 @@ abstract class ApiService extends ChopperService {
   @Delete(path: 'v2/committee/{committeeId}')
   Future<Response<CommonSuccessResponse>> deleteCommittee({
     @Path("committeeId") required int committeeId,
+  });
+
+  @Get(path: 'v2/notification')
+  Future<Response<ListNotificationResponse>> listNotification({
+    @Query("limit") int limit = Constants.itemPerPage,
+    @Query("page") required int page,
+  });
+
+  @Put(path: 'v2/notification/{notificationId}')
+  Future<Response<CommonSuccessResponse>> readNotification({
+    @Path("notificationId") required int notificationId,
+  });
+
+  @Delete(path: 'v2/notification/{notificationId}')
+  Future<Response<CommonSuccessResponse>> deleteNotification({
+    @Path("notificationId") required int notificationId,
   });
 }
