@@ -1,13 +1,8 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:ddnc_new/api/response/sign_in_response.dart';
 import 'package:ddnc_new/di/socket_manager.dart';
 import 'package:ddnc_new/ui/data/account.dart';
 import 'package:ddnc_new/ui/data/app_configs.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 import '../api/api_response.dart';
