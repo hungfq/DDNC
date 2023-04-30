@@ -145,6 +145,8 @@ class _Footer extends StatelessWidget {
             child: DefaultTextStyle(
               style: theme.textTheme.titleMedium!.apply(
                 color: theme.colorScheme.onBackground,
+                fontSizeFactor: 0.8,
+                fontWeightDelta: 2
               ),
               textAlign: TextAlign.center,
               maxLines: 1,

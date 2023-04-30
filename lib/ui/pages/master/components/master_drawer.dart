@@ -144,6 +144,7 @@ class _Footer extends StatelessWidget {
         style: _theme.textTheme.caption!.apply(
           color: _theme.colorScheme.onBackground,
         ),
+        isBold: true,
       ),
     );
   }
@@ -302,6 +303,7 @@ class _MenuItem extends StatelessWidget {
                 style: _theme.textTheme.titleSmall!.apply(
                   color: isSelected ? _onPrimaryColor : _onSurfaceColor,
                 ),
+                isBold: true,
               ),
             ),
             const SizedBox(width: Dimens.marginPaddingSizeXMini),
