@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:ddnc_new/app.dart';
+import 'package:ddnc_new/commons/shared_preferences_helpers.dart';
 import 'package:ddnc_new/di/socket_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -26,9 +27,21 @@ Future<void> main() async {
   // SocketManager().connect('http://http://144.126.242.142:8002');
   SocketManager().connect('http://10.0.2.2:8002');
 
+  pushInfoWhenConnected();
   listenForNotifications();
 
   runApp(MultiProvider(providers: globalProviders, child: const App()));
+}
+
+void pushInfoWhenConnected() {
+  SocketManager().socket.on('connect', (data) async {
+    SharedPreferencesHelpers sharedPreferences =
+        await SharedPreferencesHelpers.getInstance();
+    int? id = sharedPreferences.getFromDisk(SharedPreferencesHelpers.userIdKey);
+    if (id != null) {
+      SocketManager().socket.emit('login', id);
+    }
+  });
 }
 
 void listenForNotifications() {
