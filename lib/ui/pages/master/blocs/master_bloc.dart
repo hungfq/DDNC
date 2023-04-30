@@ -37,7 +37,7 @@ class MasterBloc extends Bloc<MasterEvent, MasterState> {
   List<DashboardMenu> _menus = [];
   List<DashboardMenu> _dashboardMenus = _originalMenuItems;
   List<DashboardMenu> _sideMenus = [
-    _notificationMenuItem,
+    // _notificationMenuItem,
     ..._originalMenuItems,
     _signOutMenuItem
   ];
@@ -227,6 +227,15 @@ final List<DashboardMenu> _originalMenuItems = [
     imageUrl: "images/pic/h_db_draw.png",
     icon: null,
   ),
+  DashboardMenu(
+    title: "Notification",
+    permissionName: "",
+    accountPermissionName: "",
+    pageRoute: AppPages.notificationPage,
+    subPages: [],
+    imageUrl: "images/pic/h_db_notification.png",
+    icon: IconData(Icons.notifications_outlined.codePoint, fontFamily: 'Material'),
+  )
 ];
 
 final DashboardMenu _settingMenuItem = DashboardMenu(
@@ -251,12 +260,12 @@ final DashboardMenu _signOutMenuItem = DashboardMenu(
   icon: HungpqIcon.logout,
 );
 
-final DashboardMenu _notificationMenuItem = DashboardMenu(
-  title: "Notification",
-  permissionName: "",
-  accountPermissionName: "",
-  pageRoute: AppPages.notificationPage,
-  subPages: [],
-  imageUrl: "",
-  icon: IconData(Icons.notifications_outlined.codePoint),
-);
+// final DashboardMenu _notificationMenuItem = DashboardMenu(
+//   title: "Notification",
+//   permissionName: "",
+//   accountPermissionName: "",
+//   pageRoute: AppPages.notificationPage,
+//   subPages: [],
+//   imageUrl: "",
+//   icon: IconData(Icons.notifications_outlined.codePoint),
+// );
