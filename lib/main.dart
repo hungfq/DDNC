@@ -24,8 +24,8 @@ Future<void> main() async {
 
   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
 
-  // SocketManager().connect('http://http://144.126.242.142:8002');
-  SocketManager().connect('http://10.0.2.2:8002');
+  SocketManager().connect('http://hungpq.click:8002');
+  // SocketManager().connect('http://10.0.2.2:8002');
 
   pushInfoWhenConnected();
   listenForNotifications();

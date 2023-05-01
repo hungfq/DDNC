@@ -4,6 +4,7 @@ import 'package:ddnc_new/ui/data/account.dart';
 import 'package:ddnc_new/ui/data/app_configs.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import '../api/api_response.dart';
 import '../api/api_service.dart';
@@ -79,6 +80,8 @@ class AccountRepository {
   Future<Resource<String>> signOut() async {
     try {
       _preferencesHelpers.clearSignInInfo();
+      await GoogleSignIn().signOut();
+      await GoogleSignIn().disconnect();
 
       return Resource.success("Sign out successfully");
     } catch (e, s) {

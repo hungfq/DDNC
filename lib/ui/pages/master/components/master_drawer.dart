@@ -242,9 +242,9 @@ class _BodyState extends State<_Body> {
         Navigator.of(context).pop();
         NavigationService.instance.popUntilFirst();
         break;
-      // case AppPages.signOutPage:
-      //   _masterBloc.onSignOutClicked();
-      //   break;
+      case AppPages.signOutPage:
+        _masterBloc.onSignOutClicked();
+        break;
       default:
         Navigator.of(context).pop();
         NavigationService.instance.pushNamedAndRemoveUntil(

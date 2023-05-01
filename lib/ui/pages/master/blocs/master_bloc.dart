@@ -97,6 +97,7 @@ class MasterBloc extends Bloc<MasterEvent, MasterState> {
   void signOut() {
     add(const MasterSignOutEvent());
   }
+  //endregion
 
   //region actions
   void onSignOutClicked() {
@@ -106,6 +107,7 @@ class MasterBloc extends Bloc<MasterEvent, MasterState> {
   void onDrawerMenuClicked() {
     add(const MasterActionEvent(MasterActionEvent.openDrawer));
   }
+//endregion
 }
 
 final DashboardMenu _dashboardMenuItem = DashboardMenu(

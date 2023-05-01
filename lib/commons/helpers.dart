@@ -4,6 +4,7 @@ import 'package:ddnc_new/api/api_response.dart';
 import 'package:ddnc_new/api/response/resource.dart';
 import 'package:ddnc_new/ui/dialogs/error_dialog.dart';
 import 'package:flutter/material.dart';
+import 'app_page.dart';
 import 'constants.dart';
 
 class Helpers {
@@ -60,5 +61,18 @@ class Helpers {
       content: Text(message ?? ""),
       duration: const Duration(milliseconds: Constants.snackBarDuration),
     ));
+  }
+
+  static void reSignIn(BuildContext context) {
+    Navigator.of(context, rootNavigator: true).pushNamed(
+      AppPages.signInPage,
+    ).then((result) async {
+      if (result != null) {
+        // accountInfo.accountInfo = accountInfo as AccountInfo;
+        // String? deviceToken = await FirebaseMessaging.instance.getToken();
+        // configurationBloc.updateDeviceId(deviceToken ?? "");
+        // callingBloc.updatePushKitToken(null);
+      }
+    });
   }
 }

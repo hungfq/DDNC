@@ -39,6 +39,10 @@ class _LoginPageState extends State<LoginPage> {
     });
 
     try {
+      if (GoogleSignIn().currentUser != null) {
+        Navigator.of(context).pushNamedAndRemoveUntil(AppPages.masterPage, (route) => false);
+      }
+
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       final GoogleSignInAuthentication? googleAuth =
           await googleUser?.authentication;
