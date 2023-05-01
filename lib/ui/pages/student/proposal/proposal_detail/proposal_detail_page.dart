@@ -403,7 +403,7 @@ class _TopicProposalDetailPageState extends State<TopicProposalDetailPage>
                       if (ACTION == 'EDIT') ...[
                         ElevatedButton(
                           onPressed: _updateTopic,
-                          child: Text('Update Proposal'),
+                          child: Text('Update'),
                         ),
                         Spacer(),
                         ElevatedButton(
@@ -434,7 +434,7 @@ class _TopicProposalDetailPageState extends State<TopicProposalDetailPage>
                               },
                             );
                           },
-                          child: Text('Delete Proposal'),
+                          child: Text('Delete'),
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.red),
                         )
