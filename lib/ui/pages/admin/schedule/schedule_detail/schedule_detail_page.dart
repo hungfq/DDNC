@@ -395,7 +395,7 @@ class _ScheduleDetailPageState extends State<ScheduleDetailPage>
                       if (ACTION == 'EDIT') ...[
                         ElevatedButton(
                           onPressed: _updateSchedule,
-                          child: Text('Update Schedule'),
+                          child: Text('Update'),
                         ),
                         Spacer(),
                         ElevatedButton(
@@ -426,14 +426,14 @@ class _ScheduleDetailPageState extends State<ScheduleDetailPage>
                               },
                             );
                           },
-                          child: Text('Delete Schedule'),
+                          child: Text('Delete'),
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.red),
                         )
                       ] else ...[
                         ElevatedButton(
                           onPressed: _createSchedule,
-                          child: Text('Create Schedule'),
+                          child: Text('Create'),
                         )
                       ],
                     ],

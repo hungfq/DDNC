@@ -3,8 +3,6 @@ import 'package:ddnc_new/commons/constants.dart';
 import 'package:ddnc_new/models/dashboard_menu.dart';
 import 'package:ddnc_new/modules/navigation/navigation_service.dart';
 import 'package:ddnc_new/ui/base/base_page_state.dart';
-import 'package:ddnc_new/ui/components/primary_btn_menu.dart';
-import 'package:ddnc_new/ui/components/primary_sliver_app_bar.dart';
 import 'package:ddnc_new/ui/components/primary_text_view.dart';
 import 'package:ddnc_new/ui/pages/master/blocs/master_bloc.dart';
 import 'package:ddnc_new/ui/pages/master/blocs/master_state.dart';
@@ -29,11 +27,12 @@ class _DashboardPageState extends State<DashboardPage> with BasePageState {
   late DashboardBloc _dashboardBloc;
   late ScrollController _scrollController = ScrollController();
 
-  List<DashboardMenu> get _menuItems => _masterBloc.dashboardMenus;
+  // List<DashboardMenu> get _menuItems => _masterBloc.dashboardMenus;
 
   @override
   void initState() {
     _masterBloc = context.read<MasterBloc>();
+    _masterBloc.getMenu();
     _dashboardBloc = context.read<DashboardBloc>();
 
     _scrollController = ScrollController()
@@ -75,7 +74,10 @@ class _DashboardPageState extends State<DashboardPage> with BasePageState {
           const DashboardAppBar(),
         ],
         body: BlocBuilder<MasterBloc, MasterState>(
+          buildWhen: (_, state) => state is MasterMenuFetchedState,
           builder: (_, state) {
+            List<DashboardMenu> _menuItems = _masterBloc.dashboardMenus;
+
             return GridView.builder(
               padding: const EdgeInsets.symmetric(
                 horizontal: Dimens.marginPaddingSizeXXMini,
@@ -225,7 +227,7 @@ class _DashboardItem extends StatelessWidget {
                 children: [
                   Expanded(
                     child: ExtendedImage.asset(
-                      menuItem.imageUrl ?? "",
+                      menuItem.imageUrl,
                       width: imageWidth,
                       height: imageWidth,
                       fit: BoxFit.contain,

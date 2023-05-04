@@ -441,7 +441,7 @@ class _TopicProposalDetailPageState extends State<TopicProposalDetailPage>
                       ] else ...[
                         ElevatedButton(
                           onPressed: _createTopic,
-                          child: Text('Create Proposal'),
+                          child: Text('Create'),
                         )
                       ],
                     ],

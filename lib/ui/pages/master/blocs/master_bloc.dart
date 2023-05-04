@@ -35,12 +35,17 @@ class MasterBloc extends Bloc<MasterEvent, MasterState> {
   final PageStorageKey _pageStorageKey =
       const PageStorageKey("drawer_item_list");
   List<DashboardMenu> _menus = [];
-  List<DashboardMenu> _dashboardMenus = _originalMenuItems;
-  List<DashboardMenu> _sideMenus = [
-    // _notificationMenuItem,
-    ..._originalMenuItems,
-    _signOutMenuItem
-  ];
+
+  // List<DashboardMenu> _dashboardMenus = _originalMenuItems;
+  List<DashboardMenu> _dashboardMenus = [];
+
+  // List<DashboardMenu> _sideMenus = [
+  //   // _notificationMenuItem,
+  //   ..._originalMenuItems,
+  //   _signOutMenuItem
+  // ];
+
+  List<DashboardMenu> _sideMenus = [];
 
   String dateFormat = Constants.defaultDateFormat;
   String timeFormat = Constants.defaultTimeFormat;
@@ -76,11 +81,11 @@ class MasterBloc extends Bloc<MasterEvent, MasterState> {
     MasterMenuFetchedEvent event,
     Emitter<MasterState> emit,
   ) async {
-    _menus = List.from(_originalMenuItems);
-
-    _sideMenus = [];
-    _sideMenus.add(_dashboardMenuItem);
-    _sideMenus.addAll(_menus);
+    // _menus = List.from(_originalMenuItems);
+    //
+    // _sideMenus = [];
+    // _sideMenus.add(_dashboardMenuItem);
+    // _sideMenus.addAll(_menus);
     _sideMenus.addAll([
       _settingMenuItem,
       _signOutMenuItem,
@@ -89,7 +94,34 @@ class MasterBloc extends Bloc<MasterEvent, MasterState> {
     emit(const MasterMenuFetchedState());
   }
 
-  //endregion
+  Future<void> getMenu() async {
+    String role = await _accountRepository.getRole();
+    print("======================= ROLE =================");
+    print(role);
+    if (role == "ADMIN") {
+      _dashboardMenus = _adminMenuItems;
+      _sideMenus = [
+        ..._adminMenuItems,
+        _notificationMenuItem,
+        _signOutMenuItem
+      ];
+    } else if (role == "LECTURER") {
+      _dashboardMenus = _lecturerMenuItems;
+      _sideMenus = [
+        ..._lecturerMenuItems,
+        _notificationMenuItem,
+        _signOutMenuItem
+      ];
+    } else if (role == "STUDENT") {
+      _dashboardMenus = _studentMenuItems;
+      _sideMenus = [
+        ..._studentMenuItems,
+        _notificationMenuItem,
+        _signOutMenuItem
+      ];
+    }
+    emit(const MasterMenuFetchedState());
+  }
 
   //region process
   void dispose() {}
@@ -97,6 +129,7 @@ class MasterBloc extends Bloc<MasterEvent, MasterState> {
   void signOut() {
     add(const MasterSignOutEvent());
   }
+
   //endregion
 
   //region actions
@@ -236,8 +269,117 @@ final List<DashboardMenu> _originalMenuItems = [
     pageRoute: AppPages.notificationPage,
     subPages: [],
     imageUrl: "images/pic/h_db_notification.png",
-    icon: IconData(Icons.notifications_outlined.codePoint, fontFamily: 'Material'),
+    icon: IconData(Icons.notifications_outlined.codePoint,
+        fontFamily: 'Material'),
   )
+];
+
+final List<DashboardMenu> _adminMenuItems = [
+  DashboardMenu(
+    title: "User",
+    permissionName: "",
+    accountPermissionName: "",
+    pageRoute: AppPages.userListPage,
+    subPages: [AppPages.userDetailPage],
+    imageUrl: "images/pic/h_db_user.png",
+    icon: null,
+  ),
+  DashboardMenu(
+    title: "Topic",
+    permissionName: "",
+    accountPermissionName: "",
+    pageRoute: AppPages.topicListPage,
+    subPages: [AppPages.topicDetailPage],
+    imageUrl: "images/pic/h_db_topic.png",
+    icon: null,
+  ),
+  DashboardMenu(
+    title: "Committee",
+    permissionName: "",
+    accountPermissionName: "",
+    pageRoute: AppPages.committeeListPage,
+    subPages: [AppPages.committeeDetailPage],
+    imageUrl: "images/pic/h_db_committee.png",
+    icon: null,
+  ),
+  DashboardMenu(
+    title: "Schedule",
+    permissionName: "",
+    accountPermissionName: "",
+    pageRoute: AppPages.scheduleListPage,
+    subPages: [AppPages.scheduleDetailPage],
+    imageUrl: "images/pic/h_db_schedule.png",
+    icon: null,
+  ),
+  DashboardMenu(
+    title: "Approve",
+    permissionName: "",
+    accountPermissionName: "",
+    pageRoute: AppPages.approveListPage,
+    subPages: [],
+    imageUrl: "images/pic/h_db_approve.png",
+    icon: null,
+  ),
+  DashboardMenu(
+    title: "Mockup UI",
+    permissionName: "",
+    accountPermissionName: "",
+    pageRoute: AppPages.homePage,
+    subPages: [],
+    imageUrl: "images/pic/h_db_draw.png",
+    icon: null,
+  ),
+];
+
+final List<DashboardMenu> _lecturerMenuItems = [
+  DashboardMenu(
+    title: "Mark",
+    permissionName: "",
+    accountPermissionName: "",
+    pageRoute: AppPages.markListPage,
+    subPages: [],
+    imageUrl: "images/pic/h_db_mark.png",
+    icon: null,
+  ),
+  DashboardMenu(
+    title: "Approve (LT)",
+    permissionName: "",
+    accountPermissionName: "",
+    pageRoute: AppPages.proposalApproveListPage,
+    subPages: [AppPages.proposalApproveDetailPage],
+    imageUrl: "images/pic/h_db_approve.png",
+    icon: null,
+  ),
+];
+
+final List<DashboardMenu> _studentMenuItems = [
+  DashboardMenu(
+    title: "Proposal (ST)",
+    permissionName: "",
+    accountPermissionName: "",
+    pageRoute: AppPages.topicProposalListPage,
+    subPages: [AppPages.topicProposalDetailPage],
+    imageUrl: "images/pic/h_db_st_proposal.png",
+    icon: null,
+  ),
+  DashboardMenu(
+    title: "Register (ST)",
+    permissionName: "",
+    accountPermissionName: "",
+    pageRoute: AppPages.registerListPage,
+    subPages: [AppPages.registerDetailPage],
+    imageUrl: "images/pic/h_db_register.png",
+    icon: null,
+  ),
+  DashboardMenu(
+    title: "Result (ST)",
+    permissionName: "",
+    accountPermissionName: "",
+    pageRoute: AppPages.registerResultPage,
+    subPages: [AppPages.registerDetailPage],
+    imageUrl: "images/pic/h_db_result.png",
+    icon: null,
+  ),
 ];
 
 final DashboardMenu _settingMenuItem = DashboardMenu(
@@ -262,12 +404,13 @@ final DashboardMenu _signOutMenuItem = DashboardMenu(
   icon: HungpqIcon.logout,
 );
 
-// final DashboardMenu _notificationMenuItem = DashboardMenu(
-//   title: "Notification",
-//   permissionName: "",
-//   accountPermissionName: "",
-//   pageRoute: AppPages.notificationPage,
-//   subPages: [],
-//   imageUrl: "",
-//   icon: IconData(Icons.notifications_outlined.codePoint),
-// );
+final DashboardMenu _notificationMenuItem = DashboardMenu(
+  title: "Notification",
+  permissionName: "",
+  accountPermissionName: "",
+  pageRoute: AppPages.notificationPage,
+  subPages: [],
+  imageUrl: "images/pic/h_db_notification.png",
+  icon:
+      IconData(Icons.notifications_outlined.codePoint, fontFamily: 'Material'),
+);

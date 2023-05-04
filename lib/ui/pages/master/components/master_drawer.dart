@@ -167,6 +167,7 @@ class _BodyState extends State<_Body> {
   @override
   void initState() {
     _masterBloc = context.read<MasterBloc>();
+    _masterBloc.getMenu();
     var routeObs = NavigationService.instance.routeObserver;
     _pageInfoSub.sink.add(routeObs.currentRoute);
     _pageInfoStream = routeObs.pageInfoStream.listen((event) => event);

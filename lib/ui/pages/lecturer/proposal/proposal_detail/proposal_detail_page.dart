@@ -207,14 +207,14 @@ class _ApproveProposalDetailPageState extends State<ApproveProposalDetailPage>
                       children: [
                         ElevatedButton(
                           onPressed: _approveTopic,
-                          child: Text('Approve Proposal'),
+                          child: Text('Approve'),
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.green),
                         ),
                         Spacer(),
                         ElevatedButton(
                           onPressed: _declineTopic,
-                          child: Text('Decline Proposal'),
+                          child: Text('Decline'),
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.red),
                         ),

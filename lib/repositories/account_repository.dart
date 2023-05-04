@@ -46,6 +46,8 @@ class AccountRepository {
               apiResource.body?.accessToken ?? ""),
           _preferencesHelpers.saveToDisk(SharedPreferencesHelpers.userIdKey,
               apiResource.body?.userInfo.id ?? ""),
+          _preferencesHelpers.saveToDisk(
+              SharedPreferencesHelpers.roleKey, apiResource.body?.role ?? ""),
         ]);
 
         SocketManager().socket.emit('login', apiResource.body?.userInfo.id);
@@ -88,6 +90,17 @@ class AccountRepository {
       var apiErrorResource = ApiResponse.error(e);
       return Resource.error(
           apiErrorResource.errorMessage, apiErrorResource.statusCode);
+    }
+  }
+
+  Future<String> getRole() async {
+    try {
+      String role = await _preferencesHelpers
+          .getFromDisk(SharedPreferencesHelpers.roleKey);
+
+      return role;
+    } catch (e, s) {
+      return "";
     }
   }
 }

@@ -2,6 +2,7 @@ import 'package:ddnc_new/app_router.dart';
 import 'package:ddnc_new/commons/app_page.dart';
 import 'package:ddnc_new/commons/constants.dart';
 import 'package:ddnc_new/modules/navigation/navigation_service.dart';
+import 'package:ddnc_new/ui/dialogs/confirm_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -85,11 +86,11 @@ class _MasterViewState extends State<MasterView> {
       NavigationService.instance.pop();
       return false;
     } else {
-      // bool result = await ConfirmDialog.show(
-      //   context: context,
-      //   question: "Are you sure you want to exit ?".tr(),
-      // );
-      // return result;
+      bool result = await ConfirmDialog.show(
+        context: context,
+        question: "Are you sure you want to exit ?",
+      );
+      return result;
       return true;
     }
   }

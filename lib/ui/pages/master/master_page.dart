@@ -22,6 +22,8 @@ class _MasterPageState extends State<MasterPage> with WidgetsBindingObserver {
   void initState() {
     _masterBloc = context.read<MasterBloc>();
 
+    _masterBloc.getMenu();
+
     super.initState();
     WidgetsBinding.instance.addObserver(this);
   }
@@ -76,5 +78,4 @@ class _MasterPageState extends State<MasterPage> with WidgetsBindingObserver {
         break;
     }
   }
-//endregion
 }

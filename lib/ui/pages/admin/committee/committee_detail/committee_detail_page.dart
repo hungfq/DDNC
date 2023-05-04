@@ -380,7 +380,7 @@ class _CommitteeDetailPageState extends State<CommitteeDetailPage>
                       if (ACTION == 'EDIT') ...[
                         ElevatedButton(
                           onPressed: _updateCommittee,
-                          child: Text('Update Committee'),
+                          child: Text('Update'),
                         ),
                         Spacer(),
                         ElevatedButton(
@@ -411,14 +411,14 @@ class _CommitteeDetailPageState extends State<CommitteeDetailPage>
                               },
                             );
                           },
-                          child: Text('Delete Committee'),
+                          child: Text('Delete'),
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.red),
                         )
                       ] else ...[
                         ElevatedButton(
                           onPressed: _createCommittee,
-                          child: Text('Create Committee'),
+                          child: Text('Create'),
                         )
                       ],
                     ],

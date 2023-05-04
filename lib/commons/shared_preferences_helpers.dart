@@ -5,6 +5,7 @@ class SharedPreferencesHelpers {
   static const tokenKey = "com.hungpq.token";
   static const themeModeKey = "com.hungpq.theme_mode";
   static const userIdKey = "com.hungpq.user_id";
+  static const roleKey = "com.hungpq.role";
 
   static SharedPreferencesHelpers? _instance;
   static SharedPreferences? _preferences;
@@ -51,5 +52,7 @@ class SharedPreferencesHelpers {
 
   void clearSignInInfo() {
     saveToDisk(tokenKey, "");
+    saveToDisk(userIdKey, "");
+    saveToDisk(roleKey, "");
   }
 }
