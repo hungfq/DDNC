@@ -1,3 +1,4 @@
+import 'package:ddnc_new/commons/helpers.dart';
 import 'package:ddnc_new/ui/dialogs/confirm_dialog.dart';
 import 'package:ddnc_new/ui/pages/master/blocs/master_bloc.dart';
 import 'package:ddnc_new/ui/pages/master/blocs/master_event.dart';
@@ -57,7 +58,7 @@ class _MasterPageState extends State<MasterPage> with WidgetsBindingObserver {
     switch (state.runtimeType) {
       case MasterActionState:
         if (state is! MasterActionState) return;
-        _handleActionExecuted(state);
+        _handleActionExecuted(state, context);
         break;
 
       default:
@@ -65,14 +66,16 @@ class _MasterPageState extends State<MasterPage> with WidgetsBindingObserver {
     }
   }
 
-  void _handleActionExecuted(MasterActionState state) async {
+  void _handleActionExecuted(MasterActionState state, context) async {
     switch (state.action) {
       case MasterActionEvent.signOut:
         ConfirmDialog.show(
-          context: context,
-          question: "Are you sure you want to sign out?",
-          positiveCallback: _masterBloc.signOut,
-        );
+            context: context,
+            question: "Are you sure you want to sign out?",
+            positiveCallback: () {
+              _masterBloc.signOut();
+              Helpers.reSignIn(context);
+            });
         break;
       default:
         break;

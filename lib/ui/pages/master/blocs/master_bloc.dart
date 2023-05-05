@@ -99,21 +99,30 @@ class MasterBloc extends Bloc<MasterEvent, MasterState> {
     print("======================= ROLE =================");
     print(role);
     if (role == "ADMIN") {
-      _dashboardMenus = _adminMenuItems;
+      _dashboardMenus = [
+        ..._adminMenuItems,
+        _notificationMenuItem,
+      ];
       _sideMenus = [
         ..._adminMenuItems,
         _notificationMenuItem,
         _signOutMenuItem
       ];
     } else if (role == "LECTURER") {
-      _dashboardMenus = _lecturerMenuItems;
+      _dashboardMenus = [
+        ..._lecturerMenuItems,
+        _notificationMenuItem,
+      ];
       _sideMenus = [
         ..._lecturerMenuItems,
         _notificationMenuItem,
         _signOutMenuItem
       ];
     } else if (role == "STUDENT") {
-      _dashboardMenus = _studentMenuItems;
+      _dashboardMenus = [
+        ..._studentMenuItems,
+        _notificationMenuItem,
+      ];
       _sideMenus = [
         ..._studentMenuItems,
         _notificationMenuItem,
@@ -318,6 +327,15 @@ final List<DashboardMenu> _adminMenuItems = [
     pageRoute: AppPages.approveListPage,
     subPages: [],
     imageUrl: "images/pic/h_db_approve.png",
+    icon: null,
+  ),
+  DashboardMenu(
+    title: "Statistics",
+    permissionName: "",
+    accountPermissionName: "",
+    pageRoute: AppPages.statsPage,
+    subPages: [],
+    imageUrl: "images/pic/h_db_stats.png",
     icon: null,
   ),
   DashboardMenu(

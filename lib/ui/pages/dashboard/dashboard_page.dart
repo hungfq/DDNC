@@ -32,7 +32,7 @@ class _DashboardPageState extends State<DashboardPage> with BasePageState {
   @override
   void initState() {
     _masterBloc = context.read<MasterBloc>();
-    _masterBloc.getMenu();
+    // _masterBloc.getMenu();
     _dashboardBloc = context.read<DashboardBloc>();
 
     _scrollController = ScrollController()

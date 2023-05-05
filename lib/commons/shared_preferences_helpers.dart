@@ -52,7 +52,7 @@ class SharedPreferencesHelpers {
 
   void clearSignInInfo() {
     saveToDisk(tokenKey, "");
-    saveToDisk(userIdKey, "");
+    saveToDisk(userIdKey, null);
     saveToDisk(roleKey, "");
   }
 }

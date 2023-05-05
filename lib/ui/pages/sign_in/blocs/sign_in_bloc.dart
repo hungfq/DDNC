@@ -32,6 +32,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       event.type,
     );
 
+    emit(SignInExecutedState(result));
     return result;
   }
 

@@ -39,9 +39,9 @@ class _LoginPageState extends State<LoginPage> {
     });
 
     try {
-      if (GoogleSignIn().currentUser != null) {
-        Navigator.of(context).pushNamedAndRemoveUntil(AppPages.masterPage, (route) => false);
-      }
+      // if (GoogleSignIn().currentUser != null) {
+      //   Navigator.of(context).pushNamedAndRemoveUntil(AppPages.masterPage, (route) => false);
+      // }
 
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       final GoogleSignInAuthentication? googleAuth =
@@ -71,7 +71,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<SignInBloc, SignInState>(
-      listener: (_, state) {
+      listener: (_, state) async {
         if (state is SignInExecutedState) {
           var resource = state.resource;
 
@@ -79,9 +79,14 @@ class _LoginPageState extends State<LoginPage> {
             case Result.loading:
               break;
             case Result.error:
+              try {
+                 await _googleSignIn.signOut();
+                 await _googleSignIn.disconnect();
+              } catch (e) {}
               break;
             case Result.success:
-              Navigator.of(context).pushNamedAndRemoveUntil(AppPages.userListPage, (route) => false);
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                  AppPages.masterPage, (route) => false);
               break;
           }
 
@@ -170,7 +175,7 @@ class _LoginPageState extends State<LoginPage> {
                         onPressed: () async {
                           try {
                             await _signInWithGoogle();
-                            Navigator.of(context).pushNamedAndRemoveUntil(AppPages.masterPage, (route) => false);
+                            // Navigator.of(context).pushNamedAndRemoveUntil(AppPages.masterPage, (route) => false);
                           } catch (e) {
                             print(e);
                           }

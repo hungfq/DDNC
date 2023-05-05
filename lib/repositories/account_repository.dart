@@ -33,7 +33,7 @@ class AccountRepository {
   static AccountRepository of(BuildContext context) =>
       Provider.of(context, listen: false);
 
-  Future<Object> signIn(String accessToken, String type) async {
+  Future<Resource<String>> signIn(String accessToken, String type) async {
     try {
       var request = SignInRequest(accessToken, type);
       var apiResource = ApiResponse.create<dynamic>(
