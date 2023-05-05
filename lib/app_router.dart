@@ -19,6 +19,8 @@ import 'package:ddnc_new/ui/pages/lecturer/proposal/proposal_detail/blocs/propos
 import 'package:ddnc_new/ui/pages/lecturer/proposal/proposal_detail/proposal_detail_page.dart';
 import 'package:ddnc_new/ui/pages/lecturer/proposal/proposal_list/blocs/proposal_list_bloc.dart';
 import 'package:ddnc_new/ui/pages/lecturer/proposal/proposal_list/proposal_list_page.dart';
+import 'package:ddnc_new/ui/pages/lecturer/topic/topic_list/blocs/topic_list_bloc.dart';
+import 'package:ddnc_new/ui/pages/lecturer/topic/topic_list/topic_list_page.dart';
 import 'package:ddnc_new/ui/pages/master/blocs/master_bloc.dart';
 import 'package:ddnc_new/ui/pages/master/master_page.dart';
 import 'package:ddnc_new/ui/pages/admin/schedule/schedule_detail/blocs/schedule_detail_bloc.dart';
@@ -175,6 +177,16 @@ class AppRouter {
               topicRepository: TopicProposalRepository.of(context),
             ),
             child: const ApproveProposalDetailPage(),
+          ),
+          settings: settings,
+        );
+      case AppPages.lecturerTopicListPage:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider<LecturerTopicListBloc>(
+            create: (context) => LecturerTopicListBloc(
+              topicRepository: TopicRepository.of(context),
+            ),
+            child: const LecturerTopicListPage(),
           ),
           settings: settings,
         );

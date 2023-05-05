@@ -9,6 +9,7 @@ import 'package:ddnc_new/repositories/account_repository.dart';
 import 'package:ddnc_new/ui/resources/hungpq_icon_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'master_event.dart';
 import 'master_state.dart';
@@ -351,6 +352,24 @@ final List<DashboardMenu> _adminMenuItems = [
 
 final List<DashboardMenu> _lecturerMenuItems = [
   DashboardMenu(
+    title: "Topic",
+    permissionName: "",
+    accountPermissionName: "",
+    pageRoute: AppPages.lecturerTopicListPage,
+    subPages: [],
+    imageUrl: "images/pic/h_db_topic.png",
+    icon: null,
+  ),
+  DashboardMenu(
+    title: "Approve Proposal",
+    permissionName: "",
+    accountPermissionName: "",
+    pageRoute: AppPages.proposalApproveListPage,
+    subPages: [AppPages.proposalApproveDetailPage],
+    imageUrl: "images/pic/h_db_approve.png",
+    icon: null,
+  ),
+  DashboardMenu(
     title: "Mark",
     permissionName: "",
     accountPermissionName: "",
@@ -360,11 +379,11 @@ final List<DashboardMenu> _lecturerMenuItems = [
     icon: null,
   ),
   DashboardMenu(
-    title: "Approve (LT)",
+    title: "Approve Topic",
     permissionName: "",
     accountPermissionName: "",
-    pageRoute: AppPages.proposalApproveListPage,
-    subPages: [AppPages.proposalApproveDetailPage],
+    pageRoute: AppPages.approveListPage,
+    subPages: [],
     imageUrl: "images/pic/h_db_approve.png",
     icon: null,
   ),
@@ -419,7 +438,7 @@ final DashboardMenu _signOutMenuItem = DashboardMenu(
   pageRoute: AppPages.signOutPage,
   subPages: [],
   imageUrl: "",
-  icon: HungpqIcon.logout,
+  icon: IconData(0xe3b3, fontFamily: 'MaterialIcons'),
 );
 
 final DashboardMenu _notificationMenuItem = DashboardMenu(
@@ -429,6 +448,5 @@ final DashboardMenu _notificationMenuItem = DashboardMenu(
   pageRoute: AppPages.notificationPage,
   subPages: [],
   imageUrl: "images/pic/h_db_notification.png",
-  icon:
-      IconData(Icons.notifications_outlined.codePoint, fontFamily: 'Material'),
+  icon: IconData(0xe450, fontFamily: 'MaterialIcons'),
 );

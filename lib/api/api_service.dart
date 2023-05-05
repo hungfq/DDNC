@@ -66,6 +66,7 @@ abstract class ApiService extends ChopperService {
   Future<Response<ListTopicResponse>> listTopic({
     @Query("search") required String search,
     @Query("scheduleId") int? scheduleId,
+    @Query("lecturerId") int? lecturerId,
     @Query("page") required int page,
     @Query("limit") int limit = Constants.itemPerPage,
   });
