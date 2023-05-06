@@ -72,7 +72,7 @@ class LecturerTopicListBloc extends Bloc<LecturerTopicListEvent, LecturerTopicLi
     LecturerTopicListRefreshedEvent event,
     Emitter<LecturerTopicListState> emit,
   ) async {
-    var result = await _topicRepository.listTopic(
+    var result = await _topicRepository.listTopicLecturer(
       _keyword,
       null,
       1,
@@ -98,7 +98,7 @@ class LecturerTopicListBloc extends Bloc<LecturerTopicListEvent, LecturerTopicLi
     } else {
       var nextPage = currentPage + 1;
 
-      var result = await _topicRepository.listTopic(_keyword, null, nextPage);
+      var result = await _topicRepository.listTopicLecturer(_keyword, null, nextPage);
       if (result.state == Result.success) {
         _getListTopicResult = _getListTopicResult.copyWith(
           data: ListTopicResponse(
@@ -138,7 +138,7 @@ class LecturerTopicListBloc extends Bloc<LecturerTopicListEvent, LecturerTopicLi
   void _fetch(Emitter<LecturerTopicListState> emit) async {
     emit(LecturerTopicListFetchedState(Resource.loading()));
 
-    var result = await _topicRepository.listTopic(_keyword, null);
+    var result = await _topicRepository.listTopicLecturer(_keyword, null);
     _getListTopicResult = result;
 
     emit(LecturerTopicListFetchedState(_getListTopicResult));

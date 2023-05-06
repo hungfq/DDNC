@@ -53,6 +53,36 @@ class TopicRepository {
     }
   }
 
+  Future<Resource<ListTopicResponse>> listTopicLecturer(
+    String search,
+    int? scheduleId, [
+    int page = 1,
+    int itemPerPage = Constants.itemPerPage,
+  ]) async {
+    try {
+      var apiResource =
+          ApiResponse.create<ListTopicResponse>(await _apiService.listTopic(
+        search: search,
+        scheduleId: scheduleId,
+        isLecturer: 1,
+        page: page,
+        limit: itemPerPage,
+      ));
+
+      if (apiResource is ApiSuccessResponse) {
+        return Resource.success(apiResource.body!);
+      } else if (apiResource is ApiEmptyResponse) {
+        return Resource.error("", apiResource.statusCode);
+      } else {
+        return Resource.error(apiResource.errorMessage, apiResource.statusCode);
+      }
+    } catch (e, s) {
+      var apiErrorResource = ApiResponse.error(e);
+      return Resource.error(
+          apiErrorResource.errorMessage, apiErrorResource.statusCode);
+    }
+  }
+
   Future<Resource<ListTopicResponse>> listRegisterResult([
     int page = 1,
     int itemPerPage = Constants.itemPerPage,
