@@ -35,6 +35,9 @@ class AppPages {
   // (LT) topic list
   static const String lecturerTopicListPage = "lecturer_topic_list_page";
 
+  // (LT) approve to committee
+  static const String lecturerTopicApprovePage = "lecturer_topic_approve_page";
+
   // schedule
   static const String scheduleListPage = "schedule_list_page";
   static const String scheduleDetailPage = "schedule_detail_page";

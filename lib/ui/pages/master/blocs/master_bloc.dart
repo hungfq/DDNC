@@ -6,10 +6,8 @@ import 'package:ddnc_new/commons/constants.dart';
 import 'package:ddnc_new/commons/stream_helpers.dart';
 import 'package:ddnc_new/models/dashboard_menu.dart';
 import 'package:ddnc_new/repositories/account_repository.dart';
-import 'package:ddnc_new/ui/resources/hungpq_icon_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'master_event.dart';
 import 'master_state.dart';
@@ -382,7 +380,7 @@ final List<DashboardMenu> _lecturerMenuItems = [
     title: "Approve Topic",
     permissionName: "",
     accountPermissionName: "",
-    pageRoute: AppPages.approveListPage,
+    pageRoute: AppPages.lecturerTopicApprovePage,
     subPages: [],
     imageUrl: "images/pic/h_db_approve.png",
     icon: null,
