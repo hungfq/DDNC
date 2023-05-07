@@ -371,7 +371,7 @@ final List<DashboardMenu> _lecturerMenuItems = [
     title: "Mark",
     permissionName: "",
     accountPermissionName: "",
-    pageRoute: AppPages.markListPage,
+    pageRoute: AppPages.lecturerMarkPage,
     subPages: [],
     imageUrl: "images/pic/h_db_mark.png",
     icon: null,

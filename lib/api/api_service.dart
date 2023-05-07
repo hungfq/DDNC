@@ -69,8 +69,12 @@ abstract class ApiService extends ChopperService {
     @Query("lecturerId") int? lecturerId,
     @Query("is_lecturer") int? isLecturer,
     @Query("is_lecturer_approve") int? isLecturerApprove,
+    @Query("is_lecturer_mark") int? isLecturerMark,
     @Query("is_critical") int? isCritical,
     @Query("is_critical_approve") int? isCriticalApprove,
+    @Query("is_critical_mark") int? isCriticalMark,
+    @Query("is_president_mark") int? isPresidentMark,
+    @Query("is_secretary_mark") int? isSecretaryMark,
     @Query("page") required int page,
     @Query("limit") int limit = Constants.itemPerPage,
   });

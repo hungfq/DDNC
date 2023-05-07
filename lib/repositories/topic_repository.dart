@@ -113,6 +113,75 @@ class TopicRepository {
     }
   }
 
+  Future<Resource<ListTopicResponse>> listTopicToMark(
+    int type, [
+    int page = 1,
+    int itemPerPage = Constants.itemPerPage,
+  ]) async {
+    try {
+      var apiResource = null;
+      switch (type) {
+        case 1:
+          apiResource =
+              ApiResponse.create<ListTopicResponse>(await _apiService.listTopic(
+            isLecturerMark: 1,
+            page: page,
+            limit: itemPerPage,
+            search: '',
+          ));
+          break;
+        case 2:
+          apiResource =
+              ApiResponse.create<ListTopicResponse>(await _apiService.listTopic(
+            isCriticalMark: 1,
+            page: page,
+            limit: itemPerPage,
+            search: '',
+          ));
+
+          break;
+        case 3:
+          apiResource =
+              ApiResponse.create<ListTopicResponse>(await _apiService.listTopic(
+            isPresidentMark: 1,
+            page: page,
+            limit: itemPerPage,
+            search: '',
+          ));
+          break;
+        case 4:
+          apiResource =
+              ApiResponse.create<ListTopicResponse>(await _apiService.listTopic(
+            isSecretaryMark: 1,
+            page: page,
+            limit: itemPerPage,
+            search: '',
+          ));
+          break;
+        default:
+          apiResource =
+              ApiResponse.create<ListTopicResponse>(await _apiService.listTopic(
+            page: page,
+            limit: itemPerPage,
+            search: '',
+          ));
+          break;
+      }
+
+      if (apiResource is ApiSuccessResponse) {
+        return Resource.success(apiResource.body!);
+      } else if (apiResource is ApiEmptyResponse) {
+        return Resource.error("", apiResource.statusCode);
+      } else {
+        return Resource.error(apiResource.errorMessage, apiResource.statusCode);
+      }
+    } catch (e, s) {
+      var apiErrorResource = ApiResponse.error(e);
+      return Resource.error(
+          apiErrorResource.errorMessage, apiErrorResource.statusCode);
+    }
+  }
+
   Future<Resource<ListTopicResponse>> listTopicCriticalApprove(
     String search,
     int? scheduleId, [
