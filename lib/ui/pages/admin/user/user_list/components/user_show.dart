@@ -26,7 +26,7 @@ class UserShowPage extends StatelessWidget {
                 child: CircleAvatar(
                   radius: 64.0,
                   backgroundImage: NetworkImage(user.picture ??
-                      'https://cdn.pixabay.com/photo/2015/09/19/20/54/chains-947713_960_720.jpg'),
+                      'https://res.cloudinary.com/dfkpopvkp/image/upload/v1681039836/user-3814118-3187499_xvjv7p.webp'),
                 ),
               ),
               SizedBox(height: 16.0),

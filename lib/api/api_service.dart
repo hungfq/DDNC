@@ -96,7 +96,7 @@ abstract class ApiService extends ChopperService {
     @Path("topicId") required int topicId,
   });
 
-  @Delete(path: 'v2/topic/{topicId}/lecturer/approve')
+  @Delete(path: 'v2/topic/{topicId}/lecturer/decline')
   Future<Response<CommonSuccessResponse>> advisorDeclineToCommittee({
     @Path("topicId") required int topicId,
   });
@@ -106,7 +106,7 @@ abstract class ApiService extends ChopperService {
     @Path("topicId") required int topicId,
   });
 
-  @Delete(path: 'v2/topic/{topicId}/critical/approve')
+  @Delete(path: 'v2/topic/{topicId}/critical/decline')
   Future<Response<CommonSuccessResponse>> criticalDeclineToCommittee({
     @Path("topicId") required int topicId,
   });

@@ -2,6 +2,8 @@ import 'package:ddnc_new/api/response/list_topic_response.dart';
 import 'package:ddnc_new/api/response/result.dart';
 import 'package:ddnc_new/commons/helpers.dart';
 import 'package:ddnc_new/ui/components/smart_refresher_listview.dart';
+import 'package:ddnc_new/ui/dialogs/loading_dialog.dart';
+import 'package:ddnc_new/ui/dialogs/success_dialog.dart';
 import 'package:ddnc_new/ui/resources/dimens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -44,47 +46,45 @@ class _AdvisorTopicListViewState extends State<AdvisorTopicListView> {
       removeTop: true,
       // child: Scrollbar(
       //   thumbVisibility: true,
-        child: BlocConsumer<LecturerApproveBloc, LecturerApproveState>(
-          listener: _handleListeners,
-          buildWhen: (_, state) => [
-            LecturerAdvisorTopicFetchedState,
-            LecturerAdvisorTopicLoadMoreState,
-            LecturerAdvisorTopicRefreshedState,
-            LecturerAdvisorApprovedState,
-            LecturerAdvisorDeclinedState,
-          ].contains(state.runtimeType),
-          builder: (context, state) {
-            var resource = _approveBloc.getAdvisorTopicResult;
-            List<TopicInfo> topicList = resource.data?.data ?? [];
+      child: BlocConsumer<LecturerApproveBloc, LecturerApproveState>(
+        listener: _handleListeners,
+        buildWhen: (_, state) => [
+          LecturerAdvisorTopicFetchedState,
+          LecturerAdvisorTopicLoadMoreState,
+          LecturerAdvisorTopicRefreshedState,
+          LecturerAdvisorApprovedState,
+          LecturerAdvisorDeclinedState,
+        ].contains(state.runtimeType),
+        builder: (context, state) {
+          var resource = _approveBloc.getAdvisorTopicResult;
+          List<TopicInfo> topicList = resource.data?.data ?? [];
 
-            return SmartRefresherListView(
-              controller: _refreshController,
-              onLoading: _onLoading,
-              onRefresh: _onRefresh,
-              errorMessage: Helpers.parseResponseError(
-                statusCode: resource.statusCode,
-                errorMessage: resource.message,
+          return SmartRefresherListView(
+            controller: _refreshController,
+            onLoading: _onLoading,
+            onRefresh: _onRefresh,
+            errorMessage: Helpers.parseResponseError(
+              statusCode: resource.statusCode,
+              errorMessage: resource.message,
+            ),
+            child: ListView.builder(
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+              padding: const EdgeInsets.symmetric(
+                horizontal: Dimens.marginPaddingSizeXMini,
+                vertical: Dimens.marginPaddingSizeXXMini,
               ),
-              child: ListView.builder(
-                keyboardDismissBehavior:
-                    ScrollViewKeyboardDismissBehavior.onDrag,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: Dimens.marginPaddingSizeXMini,
-                  vertical: Dimens.marginPaddingSizeXXMini,
-                ),
-                itemCount: topicList.length,
-                itemBuilder: (context, i) {
-                  return _TopicItem(
-                    index: i,
-                    topic: topicList[i],
-                    // onItemClicked: _onItemClicked,
-                    // onGrClicked: _onGrClicked,
-                  );
-                },
-              ),
-            );
-          },
-        ),
+              itemCount: topicList.length,
+              itemBuilder: (context, i) {
+                return _TopicItem(
+                  index: i,
+                  topic: topicList[i],
+                  onItemApproved: _handleApprove,
+                );
+              },
+            ),
+          );
+        },
+      ),
       // ),
     );
   }
@@ -168,6 +168,58 @@ class _AdvisorTopicListViewState extends State<AdvisorTopicListView> {
       }
       return;
     }
+
+    if (state is LecturerAdvisorApprovedState) {
+      var resource = state.resource;
+      switch (resource.state) {
+        case Result.loading:
+          LoadingDialog.show(context);
+          break;
+        case Result.error:
+          LoadingDialog.hide(context);
+
+          Helpers.showErrorDialog(context: context, resource: resource);
+          break;
+        case Result.success:
+          _approveBloc.fetchAdvisorTopic();
+          LoadingDialog.hide(context);
+
+          SuccessDialog.show(
+            context: context,
+            msg: resource.data ?? "",
+          );
+          break;
+        default:
+          break;
+      }
+      return;
+    }
+
+    if (state is LecturerAdvisorDeclinedState) {
+      var resource = state.resource;
+      switch (resource.state) {
+        case Result.loading:
+          LoadingDialog.show(context);
+          break;
+        case Result.error:
+          LoadingDialog.hide(context);
+
+          Helpers.showErrorDialog(context: context, resource: resource);
+          break;
+        case Result.success:
+          _approveBloc.fetchAdvisorTopic();
+          LoadingDialog.hide(context);
+
+          SuccessDialog.show(
+            context: context,
+            msg: resource.data ?? "",
+          );
+          break;
+        default:
+          break;
+      }
+      return;
+    }
   }
 
   void _onRefresh() async {
@@ -177,6 +229,40 @@ class _AdvisorTopicListViewState extends State<AdvisorTopicListView> {
   void _onLoading() async {
     _approveBloc.loadMoreAdvisorTopic();
   }
+
+  void _handleApprove(TopicInfo topic) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Confirm"),
+          content: const Text("Are you sure you want approve this topic?"),
+          actions: [
+            TextButton(
+              child: Text("Approve"),
+              onPressed: () {
+                _approveBloc.advisorApprove(topic.id);
+                Navigator.pop(context);
+              },
+            ),
+            TextButton(
+              child: Text("Decline"),
+              onPressed: () {
+                _approveBloc.advisorDecline(topic.id);
+                Navigator.pop(context);
+              },
+            ),
+            TextButton(
+              child: Text("Cancel"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 }
 
 class _TopicItem extends StatelessWidget {
@@ -184,15 +270,13 @@ class _TopicItem extends StatelessWidget {
     Key? key,
     required this.index,
     required this.topic,
-    // required this.onItemClicked,
-    // required this.onGrClicked,
+    required this.onItemApproved,
   }) : super(key: key);
 
   final int index;
   final TopicInfo topic;
 
-  // final Function(UserModel) onItemClicked;
-  // final Function(UserModel) onGrClicked;
+  final Function(TopicInfo) onItemApproved;
 
   @override
   Widget build(BuildContext context) {
@@ -262,13 +346,24 @@ class _TopicItem extends StatelessWidget {
                           ],
                         ),
                         SizedBox(height: 8.0),
-                        Text(
-                          topic.description ?? "",
-                          style: const TextStyle(
-                            fontSize: 16.0,
-                          ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                topic.description ?? "",
+                                style: const TextStyle(
+                                  fontSize: 14.0,
+                                ),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.rule),
+                              onPressed: () => onItemApproved.call(topic),
+                            ),
+                          ],
                         ),
                         SizedBox(height: 16.0),
                         Row(
