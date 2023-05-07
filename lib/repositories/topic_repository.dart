@@ -83,6 +83,66 @@ class TopicRepository {
     }
   }
 
+  Future<Resource<ListTopicResponse>> listTopicAdvisorApprove(
+    String search,
+    int? scheduleId, [
+    int page = 1,
+    int itemPerPage = Constants.itemPerPage,
+  ]) async {
+    try {
+      var apiResource =
+          ApiResponse.create<ListTopicResponse>(await _apiService.listTopic(
+        search: search,
+        scheduleId: scheduleId,
+        isLecturerApprove: 1,
+        page: page,
+        limit: itemPerPage,
+      ));
+
+      if (apiResource is ApiSuccessResponse) {
+        return Resource.success(apiResource.body!);
+      } else if (apiResource is ApiEmptyResponse) {
+        return Resource.error("", apiResource.statusCode);
+      } else {
+        return Resource.error(apiResource.errorMessage, apiResource.statusCode);
+      }
+    } catch (e, s) {
+      var apiErrorResource = ApiResponse.error(e);
+      return Resource.error(
+          apiErrorResource.errorMessage, apiErrorResource.statusCode);
+    }
+  }
+
+  Future<Resource<ListTopicResponse>> listTopicCriticalApprove(
+    String search,
+    int? scheduleId, [
+    int page = 1,
+    int itemPerPage = Constants.itemPerPage,
+  ]) async {
+    try {
+      var apiResource =
+          ApiResponse.create<ListTopicResponse>(await _apiService.listTopic(
+        search: search,
+        scheduleId: scheduleId,
+        isCriticalApprove: 1,
+        page: page,
+        limit: itemPerPage,
+      ));
+
+      if (apiResource is ApiSuccessResponse) {
+        return Resource.success(apiResource.body!);
+      } else if (apiResource is ApiEmptyResponse) {
+        return Resource.error("", apiResource.statusCode);
+      } else {
+        return Resource.error(apiResource.errorMessage, apiResource.statusCode);
+      }
+    } catch (e, s) {
+      var apiErrorResource = ApiResponse.error(e);
+      return Resource.error(
+          apiErrorResource.errorMessage, apiErrorResource.statusCode);
+    }
+  }
+
   Future<Resource<ListTopicResponse>> listRegisterResult([
     int page = 1,
     int itemPerPage = Constants.itemPerPage,
@@ -162,6 +222,98 @@ class TopicRepository {
     try {
       var apiResource = ApiResponse.create<CommonSuccessResponse>(
           await _apiService.cancelRegister(
+        topicId: topicId,
+      ));
+
+      if (apiResource is ApiSuccessResponse) {
+        return Resource.success(apiResource.body!.message);
+      } else if (apiResource is ApiEmptyResponse) {
+        return Resource.error("", apiResource.statusCode);
+      } else {
+        return Resource.error(apiResource.errorMessage, apiResource.statusCode);
+      }
+    } catch (e, s) {
+      var apiErrorResource = ApiResponse.error(e);
+      return Resource.error(
+          apiErrorResource.errorMessage, apiErrorResource.statusCode);
+    }
+  }
+
+  Future<Resource<String>> advisorApproveToCommittee({
+    required int topicId,
+  }) async {
+    try {
+      var apiResource = ApiResponse.create<CommonSuccessResponse>(
+          await _apiService.advisorApproveToCommittee(
+        topicId: topicId,
+      ));
+
+      if (apiResource is ApiSuccessResponse) {
+        return Resource.success(apiResource.body!.message);
+      } else if (apiResource is ApiEmptyResponse) {
+        return Resource.error("", apiResource.statusCode);
+      } else {
+        return Resource.error(apiResource.errorMessage, apiResource.statusCode);
+      }
+    } catch (e, s) {
+      var apiErrorResource = ApiResponse.error(e);
+      return Resource.error(
+          apiErrorResource.errorMessage, apiErrorResource.statusCode);
+    }
+  }
+
+  Future<Resource<String>> advisorDeclineToCommittee({
+    required int topicId,
+  }) async {
+    try {
+      var apiResource = ApiResponse.create<CommonSuccessResponse>(
+          await _apiService.advisorDeclineToCommittee(
+        topicId: topicId,
+      ));
+
+      if (apiResource is ApiSuccessResponse) {
+        return Resource.success(apiResource.body!.message);
+      } else if (apiResource is ApiEmptyResponse) {
+        return Resource.error("", apiResource.statusCode);
+      } else {
+        return Resource.error(apiResource.errorMessage, apiResource.statusCode);
+      }
+    } catch (e, s) {
+      var apiErrorResource = ApiResponse.error(e);
+      return Resource.error(
+          apiErrorResource.errorMessage, apiErrorResource.statusCode);
+    }
+  }
+
+  Future<Resource<String>> criticalApproveToCommittee({
+    required int topicId,
+  }) async {
+    try {
+      var apiResource = ApiResponse.create<CommonSuccessResponse>(
+          await _apiService.criticalApproveToCommittee(
+        topicId: topicId,
+      ));
+
+      if (apiResource is ApiSuccessResponse) {
+        return Resource.success(apiResource.body!.message);
+      } else if (apiResource is ApiEmptyResponse) {
+        return Resource.error("", apiResource.statusCode);
+      } else {
+        return Resource.error(apiResource.errorMessage, apiResource.statusCode);
+      }
+    } catch (e, s) {
+      var apiErrorResource = ApiResponse.error(e);
+      return Resource.error(
+          apiErrorResource.errorMessage, apiErrorResource.statusCode);
+    }
+  }
+
+  Future<Resource<String>> criticalDeclineToCommittee({
+    required int topicId,
+  }) async {
+    try {
+      var apiResource = ApiResponse.create<CommonSuccessResponse>(
+          await _apiService.criticalDeclineToCommittee(
         topicId: topicId,
       ));
 

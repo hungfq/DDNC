@@ -68,7 +68,9 @@ abstract class ApiService extends ChopperService {
     @Query("scheduleId") int? scheduleId,
     @Query("lecturerId") int? lecturerId,
     @Query("is_lecturer") int? isLecturer,
+    @Query("is_lecturer_approve") int? isLecturerApprove,
     @Query("is_critical") int? isCritical,
+    @Query("is_critical_approve") int? isCriticalApprove,
     @Query("page") required int page,
     @Query("limit") int limit = Constants.itemPerPage,
   });
@@ -86,6 +88,26 @@ abstract class ApiService extends ChopperService {
 
   @Delete(path: 'v2/topic/{topicId}/register')
   Future<Response<CommonSuccessResponse>> cancelRegister({
+    @Path("topicId") required int topicId,
+  });
+
+  @Post(path: 'v2/topic/{topicId}/lecturer/approve')
+  Future<Response<CommonSuccessResponse>> advisorApproveToCommittee({
+    @Path("topicId") required int topicId,
+  });
+
+  @Delete(path: 'v2/topic/{topicId}/lecturer/approve')
+  Future<Response<CommonSuccessResponse>> advisorDeclineToCommittee({
+    @Path("topicId") required int topicId,
+  });
+
+  @Post(path: 'v2/topic/{topicId}/critical/approve')
+  Future<Response<CommonSuccessResponse>> criticalApproveToCommittee({
+    @Path("topicId") required int topicId,
+  });
+
+  @Delete(path: 'v2/topic/{topicId}/critical/approve')
+  Future<Response<CommonSuccessResponse>> criticalDeclineToCommittee({
     @Path("topicId") required int topicId,
   });
 
