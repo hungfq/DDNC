@@ -18,6 +18,7 @@ import 'package:provider/provider.dart';
 
 import '../commons/constants.dart';
 import 'header_interceptor.dart';
+import 'request/mark_topic_request.dart';
 import 'response/sign_in_response.dart';
 
 part 'api_service.chopper.dart';
@@ -113,6 +114,12 @@ abstract class ApiService extends ChopperService {
   @Delete(path: 'v2/topic/{topicId}/critical/decline')
   Future<Response<CommonSuccessResponse>> criticalDeclineToCommittee({
     @Path("topicId") required int topicId,
+  });
+
+  @Post(path: 'v2/topic/{topicId}/mark')
+  Future<Response<CommonSuccessResponse>> markTopic({
+    @Path("topicId") required int topicId,
+    @Body() required MarkTopicRequest request,
   });
 
   @Get(path: 'v2/topic/student/result')

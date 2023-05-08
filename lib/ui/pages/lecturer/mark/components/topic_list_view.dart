@@ -11,6 +11,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../blocs/mark_bloc.dart';
 import '../blocs/mark_state.dart';
+import 'mark_dialog.dart';
 import 'topic_show.dart';
 
 class MarkTopicListView extends StatefulWidget {
@@ -184,7 +185,7 @@ class _MarkTopicListViewState extends State<MarkTopicListView> {
           Helpers.showErrorDialog(context: context, resource: resource);
           break;
         case Result.success:
-          _markBloc.fetch();
+          // _markBloc.fetch();
           LoadingDialog.hide(context);
 
           SuccessDialog.show(
@@ -208,37 +209,15 @@ class _MarkTopicListViewState extends State<MarkTopicListView> {
   }
 
   void _handleApprove(TopicInfo topic) {
-    showDialog(
+    LecturerMarkDialog.show(
       context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text("Confirm"),
-          content: const Text("Are you sure you want approve this topic?"),
-          actions: [
-            TextButton(
-              child: Text("Approve"),
-              onPressed: () {
-                // _markBloc.advisorApprove(topic.id);
-                Navigator.pop(context);
-              },
-            ),
-            TextButton(
-              child: Text("Decline"),
-              onPressed: () {
-                // _markBloc.advisorDecline(topic.id);
-                Navigator.pop(context);
-              },
-            ),
-            TextButton(
-              child: Text("Cancel"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
+      topic: topic,
+      bloc: _markBloc,
+    ).then((result) {
+      if (result == null) return;
+
+      _markBloc.fetch();
+    });
   }
 }
 

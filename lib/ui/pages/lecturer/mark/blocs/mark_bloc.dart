@@ -1,3 +1,4 @@
+import 'package:ddnc_new/api/request/mark_topic_request.dart';
 import 'package:ddnc_new/api/response/list_topic_response.dart';
 import 'package:ddnc_new/api/response/resource.dart';
 import 'package:ddnc_new/api/response/result.dart';
@@ -107,14 +108,15 @@ class LecturerMarkBloc extends Bloc<LecturerMarkEvent, LecturerMarkState> {
   }
 
   Future<void> _onLecturerMark(
-    LecturerMarkEvent event,
+    LecturerMarkedEvent event,
     Emitter<LecturerMarkState> emit,
   ) async {
     emit(LecturerMarkedState(Resource.loading()));
 
-    // var result = await _topicRepository.advisorApproveToCommittee(
-    //     topicId: event.topicId);
-    // emit(LecturerMarkedState(result));
+    var result = await _topicRepository.markTopic(
+        topicId: event.topicId, request: event.request);
+
+    emit(LecturerMarkedState(result));
   }
 
 // region actions
@@ -127,8 +129,25 @@ class LecturerMarkBloc extends Bloc<LecturerMarkEvent, LecturerMarkState> {
     add(const LecturerTopicLoadMoreEvent());
   }
 
-  void mark(int topicId) {
-    add(LecturerMarkedEvent(topicId));
+  void mark(int topicId, String grade) {
+    var request = null;
+    switch (_TYPE) {
+      case 1:
+        request = MarkTopicRequest(grade, "", "", "");
+        break;
+      case 2:
+        request = MarkTopicRequest("", grade, "", "");
+        break;
+      case 3:
+        request = MarkTopicRequest("", "", grade, "");
+        break;
+      case 4:
+        request = MarkTopicRequest("", "", "", grade);
+        break;
+      default:
+        request = MarkTopicRequest("", "", "", "");
+    }
+    add(LecturerMarkedEvent(topicId, request));
   }
 
 //endregion

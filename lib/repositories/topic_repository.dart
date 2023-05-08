@@ -1,5 +1,6 @@
 import 'package:ddnc_new/api/api_response.dart';
 import 'package:ddnc_new/api/api_service.dart';
+import 'package:ddnc_new/api/request/mark_topic_request.dart';
 import 'package:ddnc_new/api/request/update_topic_request.dart';
 import 'package:ddnc_new/api/response/common_success_response.dart';
 import 'package:ddnc_new/api/response/list_schedule_response.dart';
@@ -170,6 +171,31 @@ class TopicRepository {
 
       if (apiResource is ApiSuccessResponse) {
         return Resource.success(apiResource.body!);
+      } else if (apiResource is ApiEmptyResponse) {
+        return Resource.error("", apiResource.statusCode);
+      } else {
+        return Resource.error(apiResource.errorMessage, apiResource.statusCode);
+      }
+    } catch (e, s) {
+      var apiErrorResource = ApiResponse.error(e);
+      return Resource.error(
+          apiErrorResource.errorMessage, apiErrorResource.statusCode);
+    }
+  }
+
+  Future<Resource<String>> markTopic({
+    required int topicId,
+    required MarkTopicRequest request,
+  }) async {
+    try {
+      var apiResource =
+          ApiResponse.create<CommonSuccessResponse>(await _apiService.markTopic(
+        request: request,
+        topicId: topicId,
+      ));
+
+      if (apiResource is ApiSuccessResponse) {
+        return Resource.success(apiResource.body!.message);
       } else if (apiResource is ApiEmptyResponse) {
         return Resource.error("", apiResource.statusCode);
       } else {

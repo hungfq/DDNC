@@ -1,3 +1,5 @@
+import 'package:ddnc_new/api/request/mark_topic_request.dart';
+
 abstract class LecturerMarkEvent {
   const LecturerMarkEvent();
 }
@@ -15,7 +17,8 @@ class LecturerTopicRefreshedEvent extends LecturerMarkEvent {
 }
 
 class LecturerMarkedEvent extends LecturerMarkEvent {
-  const LecturerMarkedEvent(this.topicId);
+  const LecturerMarkedEvent(this.topicId, this.request);
 
   final int topicId;
+  final MarkTopicRequest request;
 }
