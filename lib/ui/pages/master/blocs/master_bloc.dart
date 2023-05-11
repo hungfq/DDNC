@@ -319,15 +319,15 @@ final List<DashboardMenu> _adminMenuItems = [
     imageUrl: "images/pic/h_db_schedule.png",
     icon: null,
   ),
-  DashboardMenu(
-    title: "Approve",
-    permissionName: "",
-    accountPermissionName: "",
-    pageRoute: AppPages.approveListPage,
-    subPages: [],
-    imageUrl: "images/pic/h_db_approve.png",
-    icon: null,
-  ),
+  // DashboardMenu(
+  //   title: "Approve",
+  //   permissionName: "",
+  //   accountPermissionName: "",
+  //   pageRoute: AppPages.approveListPage,
+  //   subPages: [],
+  //   imageUrl: "images/pic/h_db_approve.png",
+  //   icon: null,
+  // ),
   DashboardMenu(
     title: "Statistics",
     permissionName: "",
@@ -337,15 +337,15 @@ final List<DashboardMenu> _adminMenuItems = [
     imageUrl: "images/pic/h_db_stats.png",
     icon: null,
   ),
-  DashboardMenu(
-    title: "Mockup UI",
-    permissionName: "",
-    accountPermissionName: "",
-    pageRoute: AppPages.homePage,
-    subPages: [],
-    imageUrl: "images/pic/h_db_draw.png",
-    icon: null,
-  ),
+  // DashboardMenu(
+  //   title: "Mockup UI",
+  //   permissionName: "",
+  //   accountPermissionName: "",
+  //   pageRoute: AppPages.homePage,
+  //   subPages: [],
+  //   imageUrl: "images/pic/h_db_draw.png",
+  //   icon: null,
+  // ),
 ];
 
 final List<DashboardMenu> _lecturerMenuItems = [
