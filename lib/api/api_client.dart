@@ -17,6 +17,7 @@ import 'package:provider/provider.dart';
 
 import 'header_interceptor.dart';
 import 'json_to_type_converter.dart';
+import 'response/list_stats_response.dart';
 import 'response/sign_in_response.dart';
 
 class ApiClient extends ChopperClient {
@@ -37,6 +38,7 @@ class ApiClient extends ChopperClient {
       ListCommitteeResponse: ListCommitteeResponse.fromJson,
       ListScheduleTodayResponse: ListScheduleTodayResponse.fromJson,
       ListNotificationResponse: ListNotificationResponse.fromJson,
+      ListStatsResponse: ListStatsResponse.fromJson,
     }),
   ) {
     if (kDebugMode) {

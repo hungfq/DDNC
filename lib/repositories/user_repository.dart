@@ -1,5 +1,7 @@
 import 'package:ddnc_new/api/request/update_user_request.dart';
 import 'package:ddnc_new/api/response/common_success_response.dart';
+import 'package:ddnc_new/api/response/list_stats_response.dart';
+import 'package:ddnc_new/api/response/list_stats_response.dart';
 import 'package:ddnc_new/api/response/list_user_response.dart';
 import 'package:ddnc_new/ui/data/account.dart';
 import 'package:flutter/cupertino.dart';
@@ -65,6 +67,25 @@ class UserRepository {
 
       if (apiResource is ApiSuccessResponse) {
         return Resource.success(apiResource.body!.message);
+      } else if (apiResource is ApiEmptyResponse) {
+        return Resource.error("", apiResource.statusCode);
+      } else {
+        return Resource.error(apiResource.errorMessage, apiResource.statusCode);
+      }
+    } catch (e, s) {
+      var apiErrorResource = ApiResponse.error(e);
+      return Resource.error(
+          apiErrorResource.errorMessage, apiErrorResource.statusCode);
+    }
+  }
+
+  Future<Resource<ListStatsResponse>> listStats() async {
+    try {
+      var apiResource =
+          ApiResponse.create<ListStatsResponse>(await _apiService.listStats());
+
+      if (apiResource is ApiSuccessResponse) {
+        return Resource.success(apiResource.body!);
       } else if (apiResource is ApiEmptyResponse) {
         return Resource.error("", apiResource.statusCode);
       } else {

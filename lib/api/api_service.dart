@@ -19,6 +19,7 @@ import 'package:provider/provider.dart';
 import '../commons/constants.dart';
 import 'header_interceptor.dart';
 import 'request/mark_topic_request.dart';
+import 'response/list_stats_response.dart';
 import 'response/sign_in_response.dart';
 
 part 'api_service.chopper.dart';
@@ -62,6 +63,9 @@ abstract class ApiService extends ChopperService {
     @Path("userId") required int userId,
     @Body() required UpdateUserRequest request,
   });
+
+  @Get(path: 'v2/user/stats')
+  Future<Response<ListStatsResponse>> listStats();
 
   @Get(path: 'v2/topic')
   Future<Response<ListTopicResponse>> listTopic({

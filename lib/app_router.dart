@@ -58,6 +58,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'commons/app_page.dart';
+import 'ui/pages/admin/stats/blocs/stats_bloc.dart';
 
 class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -307,9 +308,9 @@ class AppRouter {
         );
       case AppPages.statsPage:
         return MaterialPageRoute(
-          builder: (_) => BlocProvider<TopicListBloc>(
-            create: (context) => TopicListBloc(
-              topicRepository: TopicRepository.of(context),
+          builder: (_) => BlocProvider<StatsBloc>(
+            create: (context) => StatsBloc(
+              userRepository: UserRepository.of(context),
             ),
             child: StatsPage(),
           ),
