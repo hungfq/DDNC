@@ -29,6 +29,10 @@ class _RegisterDetailPageState extends State<RegisterDetailPage>
   late ModelSimple? _schedule;
   late ModelSimple? _lecturer;
   late List<String> _students = [];
+  late double? _advisorLecturerGrade;
+  late double? _criticalLecturerGrade;
+  late double? _committeePresidentGrade;
+  late double? _committeeSecretaryGrade;
 
   @override
   Future<void> pageInitState() async {
@@ -44,6 +48,14 @@ class _RegisterDetailPageState extends State<RegisterDetailPage>
     _schedule = arguments[RegisterListView.topic].schedule;
     _lecturer = arguments[RegisterListView.topic].lecturer;
     _students = arguments[RegisterListView.topic].studentCode ?? [];
+    _advisorLecturerGrade =
+        arguments[RegisterListView.topic].advisorLecturerGrade;
+    _criticalLecturerGrade =
+        arguments[RegisterListView.topic].criticalLecturerGrade;
+    _committeePresidentGrade =
+        arguments[RegisterListView.topic].committeePresidentGrade;
+    _committeeSecretaryGrade =
+        arguments[RegisterListView.topic].committeeSecretaryGrade;
 
     super.pageInitState();
   }
@@ -150,72 +162,189 @@ class _RegisterDetailPageState extends State<RegisterDetailPage>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TextFormField(
-                  readOnly: true,
-                  initialValue: _code,
-                  decoration: const InputDecoration(
-                    labelText: 'Code',
-                    border: OutlineInputBorder(),
+                Text(
+                  _title ?? "",
+                  style: const TextStyle(
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 8.0),
-                TextFormField(
-                  readOnly: true,
-                  initialValue: _title,
-                  decoration: const InputDecoration(
-                    labelText: 'Title',
-                    border: OutlineInputBorder(),
+                SizedBox(height: 20.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Code: ${_code}',
+                      style: const TextStyle(
+                        fontSize: 16.0,
+                      ),
+                    ),
+                    Text(
+                      'Limit: ${_limit}',
+                      style: const TextStyle(
+                        fontSize: 16.0,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 16.0),
+                const Text(
+                  'Lecturer',
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 16.0),
-                TextFormField(
-                  readOnly: true,
-                  maxLines: 3,
-                  initialValue: _description,
-                  decoration: const InputDecoration(
-                    labelText: 'Description',
-                    border: OutlineInputBorder(),
+                SizedBox(height: 8.0),
+                Text(
+                 "${_lecturer?.code ?? ''} - ${_lecturer?.name ?? ''}",
+                  style: const TextStyle(
+                    fontSize: 16.0,
                   ),
                 ),
-                const SizedBox(height: 16.0),
-                TextFormField(
-                  readOnly: true,
-                  initialValue: _limit.toString(),
-                  decoration: const InputDecoration(
-                    labelText: 'Limit',
-                    border: OutlineInputBorder(),
+                const SizedBox(height: 20.0),
+                const Text(
+                  'Description',
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 16.0),
-                TextFormField(
-                  readOnly: true,
-                  initialValue:
-                      " ${_lecturer?.code.toString()} -  ${_lecturer?.name}",
-                  decoration: const InputDecoration(
-                    labelText: 'Lecturer',
-                    border: OutlineInputBorder(),
+                SizedBox(height: 8.0),
+                Text(
+                  _description ?? "",
+                  style: const TextStyle(
+                    fontSize: 16.0,
                   ),
                 ),
-                const SizedBox(height: 16.0),
-                TextFormField(
-                  readOnly: true,
-                  initialValue: _students.join(', '),
-                  decoration: const InputDecoration(
-                    labelText: 'Students',
-                    border: OutlineInputBorder(),
+                const SizedBox(height: 20.0),
+                const Text(
+                  'Schedule',
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 16.0),
-                TextFormField(
-                  readOnly: true,
-                  initialValue:
-                      "${_schedule?.code.toString()} - ${_schedule?.name.toString()}",
-                  decoration: const InputDecoration(
-                    labelText: 'Schedule',
-                    border: OutlineInputBorder(),
+                SizedBox(height: 8.0),
+                Text(
+                  _schedule?.name ?? "",
+                  style: const TextStyle(
+                    fontSize: 16.0,
                   ),
                 ),
-                const SizedBox(height: 16.0),
+                SizedBox(height: 20.0),
+                const Text(
+                  'Students',
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 8.0),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    for (var item in _students ?? []) Text(item)
+                  ],
+                ),
+                SizedBox(height: 20.0),
+                const Text(
+                  'Grades',
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 8.0),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Advisor Lecturer',
+                            style: TextStyle(
+                              fontSize: 14.0,
+                            ),
+                          ),
+                          SizedBox(height: 8.0),
+                          Text(
+                            _advisorLecturerGrade?.toString() ?? "",
+                            style: const TextStyle(
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Critical Lecturer',
+                            style: TextStyle(
+                              fontSize: 14.0,
+                            ),
+                          ),
+                          SizedBox(height: 8.0),
+                          Text(
+                            _criticalLecturerGrade?.toString() ?? "",
+                            style: const TextStyle(
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Committee President',
+                            style: TextStyle(
+                              fontSize: 14.0,
+                            ),
+                          ),
+                          SizedBox(height: 8.0),
+                          Text(
+                            _committeePresidentGrade?.toString() ?? "",
+                            style: const TextStyle(
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Committee Secretary',
+                            style: TextStyle(
+                              fontSize: 14.0,
+                            ),
+                          ),
+                          SizedBox(height: 8.0),
+                          Text(
+                            _committeeSecretaryGrade?.toString() ?? "",
+                            style: const TextStyle(
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 16.0),
                 if (ACTION == 'REGISTER')
                   ElevatedButton(
                     onPressed: () {
@@ -251,6 +380,108 @@ class _RegisterDetailPageState extends State<RegisterDetailPage>
                     child: const Text('Cancel Registration'),
                   ),
               ],
+              // children: [
+              //   TextFormField(
+              //     readOnly: true,
+              //     initialValue: _code,
+              //     decoration: const InputDecoration(
+              //       labelText: 'Code',
+              //       border: OutlineInputBorder(),
+              //     ),
+              //   ),
+              //   const SizedBox(height: 16.0),
+              //   TextFormField(
+              //     readOnly: true,
+              //     initialValue: _title,
+              //     decoration: const InputDecoration(
+              //       labelText: 'Title',
+              //       border: OutlineInputBorder(),
+              //     ),
+              //   ),
+              //   const SizedBox(height: 16.0),
+              //   TextFormField(
+              //     readOnly: true,
+              //     maxLines: 3,
+              //     initialValue: _description,
+              //     decoration: const InputDecoration(
+              //       labelText: 'Description',
+              //       border: OutlineInputBorder(),
+              //     ),
+              //   ),
+              //   const SizedBox(height: 16.0),
+              //   TextFormField(
+              //     readOnly: true,
+              //     initialValue: _limit.toString(),
+              //     decoration: const InputDecoration(
+              //       labelText: 'Limit',
+              //       border: OutlineInputBorder(),
+              //     ),
+              //   ),
+              //   const SizedBox(height: 16.0),
+              //   TextFormField(
+              //     readOnly: true,
+              //     initialValue:
+              //         " ${_lecturer?.code.toString()} -  ${_lecturer?.name}",
+              //     decoration: const InputDecoration(
+              //       labelText: 'Lecturer',
+              //       border: OutlineInputBorder(),
+              //     ),
+              //   ),
+              //   const SizedBox(height: 16.0),
+              //   TextFormField(
+              //     readOnly: true,
+              //     initialValue: _students.join(', '),
+              //     decoration: const InputDecoration(
+              //       labelText: 'Students',
+              //       border: OutlineInputBorder(),
+              //     ),
+              //   ),
+              //   const SizedBox(height: 16.0),
+              //   TextFormField(
+              //     readOnly: true,
+              //     initialValue:
+              //         "${_schedule?.code.toString()} - ${_schedule?.name.toString()}",
+              //     decoration: const InputDecoration(
+              //       labelText: 'Schedule',
+              //       border: OutlineInputBorder(),
+              //     ),
+              //   ),
+              //   const SizedBox(height: 16.0),
+              //   if (ACTION == 'REGISTER')
+              //     ElevatedButton(
+              //       onPressed: () {
+              //         _saveRegistration();
+              //       },
+              //       style: ElevatedButton.styleFrom(
+              //         backgroundColor: Colors.green,
+              //         padding: const EdgeInsets.symmetric(
+              //           horizontal: 16.0,
+              //           vertical: 12.0,
+              //         ),
+              //         shape: RoundedRectangleBorder(
+              //           borderRadius: BorderRadius.circular(16.0),
+              //         ),
+              //       ),
+              //       child: const Text('Registration'),
+              //     )
+              //   else
+              //     ElevatedButton(
+              //       onPressed: () {
+              //         _cancelRegistration();
+              //       },
+              //       style: ElevatedButton.styleFrom(
+              //         backgroundColor: Colors.red,
+              //         padding: const EdgeInsets.symmetric(
+              //           horizontal: 16.0,
+              //           vertical: 12.0,
+              //         ),
+              //         shape: RoundedRectangleBorder(
+              //           borderRadius: BorderRadius.circular(16.0),
+              //         ),
+              //       ),
+              //       child: const Text('Cancel Registration'),
+              //     ),
+              // ],
             ),
           ),
         ),
