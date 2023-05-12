@@ -151,7 +151,7 @@ class _RegisterDetailPageState extends State<RegisterDetailPage>
       listener: _handleListeners,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Edit Topic'),
+          title: const Text('Topic Detail'),
           iconTheme: IconThemeData(
             color: theme.colorScheme.onPrimary,
           ),
