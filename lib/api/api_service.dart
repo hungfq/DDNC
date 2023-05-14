@@ -80,6 +80,7 @@ abstract class ApiService extends ChopperService {
     @Query("is_critical_mark") int? isCriticalMark,
     @Query("is_president_mark") int? isPresidentMark,
     @Query("is_secretary_mark") int? isSecretaryMark,
+    @Query("as_least_lecturer_approve") int? asLeastLecturerApprove,
     @Query("page") required int page,
     @Query("limit") int limit = Constants.itemPerPage,
   });

@@ -1,4 +1,5 @@
 import 'package:ddnc_new/api/request/update_committee_request.dart';
+import 'package:ddnc_new/api/response/list_topic_response.dart';
 import 'package:ddnc_new/api/response/list_user_response.dart';
 import 'package:ddnc_new/api/response/resource.dart';
 import 'package:ddnc_new/commons/constants.dart';
@@ -111,6 +112,11 @@ class CommitteeDetailBloc
 
   Future<List<UserInfo>> forceFetchUser(String search, String type) async {
     var result = await _committeeRepository.getUsers(search, type);
+    return result.data ?? [];
+  }
+
+  Future<List<TopicInfo>> forceFetchTopic() async {
+    var result = await _committeeRepository.getTopic();
     return result.data ?? [];
   }
 }

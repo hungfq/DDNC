@@ -35,7 +35,7 @@ class CommitteeInfo {
   @JsonKey(name: "criticalLecturerId")
   ModelSimple? criticalLecturer;
   @JsonKey(name: "topics")
-  List? topics;
+  List<int>? topics;
 
   CommitteeInfo(
     this.id,

@@ -3,6 +3,7 @@ import 'package:ddnc_new/api/response/list_user_response.dart';
 import 'package:ddnc_new/api/response/result.dart';
 import 'package:ddnc_new/commons/helpers.dart';
 import 'package:ddnc_new/ui/base/base_page_state.dart';
+import 'package:ddnc_new/ui/components/topic_selection_multi_with_id_page.dart';
 import 'package:ddnc_new/ui/components/user_selection_one_with_id_page.dart';
 import 'package:ddnc_new/ui/dialogs/loading_dialog.dart';
 import 'package:ddnc_new/ui/dialogs/success_dialog.dart';
@@ -29,6 +30,7 @@ class _CommitteeDetailPageState extends State<CommitteeDetailPage>
   final _presidentController = TextEditingController();
   final _secretaryController = TextEditingController();
   final _criticalController = TextEditingController();
+  final _topicsController = TextEditingController();
   final DateFormat _dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
   late int? _id;
   late String? _code;
@@ -39,7 +41,7 @@ class _CommitteeDetailPageState extends State<CommitteeDetailPage>
   late int? _committeeSecretaryId;
   late ModelSimple? _criticalLecturer;
   late int? _criticalLecturerId;
-  late List _topics = [];
+  late List<int> _topics = [];
 
   @override
   void pageInitState() {
@@ -69,6 +71,7 @@ class _CommitteeDetailPageState extends State<CommitteeDetailPage>
         "${_committeeSecretary?.code} - ${_committeeSecretary?.name}";
     _criticalController.text =
         "${_criticalLecturer?.code} - ${_criticalLecturer?.name}";
+    _topicsController.text = "${_topics.length.toString()} topics";
     super.pageInitState();
   }
 
@@ -112,6 +115,7 @@ class _CommitteeDetailPageState extends State<CommitteeDetailPage>
     _presidentController.dispose();
     _secretaryController.dispose();
     _criticalController.dispose();
+    _topicsController.dispose();
     super.dispose();
   }
 
@@ -372,6 +376,38 @@ class _CommitteeDetailPageState extends State<CommitteeDetailPage>
                         return 'Please select Critical';
                       }
                       return null;
+                    },
+                  ),
+                  SizedBox(height: 16.0),
+                  TextFormField(
+                    controller: _topicsController,
+                    readOnly: true,
+                    decoration: const InputDecoration(
+                      labelText: 'Topics',
+                      border: OutlineInputBorder(),
+                    ),
+                    onTap: () async {
+                      List<TopicInfo> allTopics =
+                          await _committeeDetailBloc.forceFetchTopic();
+
+                      final newSelectedTopics = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => TopicSelectionMultiWithIdPage(
+                            selectedTopics: _topics,
+                            pageTitle: 'Topic',
+                            allTopics: allTopics,
+                          ),
+                        ),
+                      );
+
+                      if (newSelectedTopics != null) {
+                        setState(() {
+                          _topicsController.text =
+                              "${newSelectedTopics.length.toString()} topics";
+                          _topics = newSelectedTopics;
+                        });
+                      }
                     },
                   ),
                   SizedBox(height: 16.0),
