@@ -418,7 +418,7 @@ final DashboardMenu _signOutMenuItem = DashboardMenu(
   pageRoute: AppPages.signOutPage,
   subPages: [],
   imageUrl: "",
-  icon: IconData(0xe3b3, fontFamily: 'MaterialIcons'),
+  icon: const IconData(0xe3b3, fontFamily: 'MaterialIcons'),
 );
 
 final DashboardMenu _notificationMenuItem = DashboardMenu(
@@ -428,5 +428,5 @@ final DashboardMenu _notificationMenuItem = DashboardMenu(
   pageRoute: AppPages.notificationPage,
   subPages: [],
   imageUrl: "images/pic/h_db_notification.png",
-  icon: IconData(0xe450, fontFamily: 'MaterialIcons'),
+  icon: const IconData(0xe450, fontFamily: 'MaterialIcons'),
 );
