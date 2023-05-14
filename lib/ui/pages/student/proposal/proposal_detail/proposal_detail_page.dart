@@ -237,6 +237,7 @@ class _TopicProposalDetailPageState extends State<TopicProposalDetailPage>
                   ),
                   const SizedBox(height: 16.0),
                   TextFormField(
+                    maxLines: 3,
                     initialValue: _description,
                     decoration: const InputDecoration(
                       labelText: 'Description',

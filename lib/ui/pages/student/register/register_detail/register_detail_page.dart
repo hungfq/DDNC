@@ -204,6 +204,7 @@ class _RegisterDetailPageState extends State<RegisterDetailPage>
                 ),
                 const SizedBox(height: 20.0),
                 const Text(
+                  maxLines: 3,
                   'Description',
                   style: TextStyle(
                     fontSize: 18.0,

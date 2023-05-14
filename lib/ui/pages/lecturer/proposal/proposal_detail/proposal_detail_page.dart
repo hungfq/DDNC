@@ -158,6 +158,7 @@ class _ApproveProposalDetailPageState extends State<ApproveProposalDetailPage>
                     ),
                     const SizedBox(height: 16.0),
                     TextFormField(
+                      maxLines: 2,
                       readOnly: true,
                       initialValue: _description,
                       decoration: const InputDecoration(

@@ -92,6 +92,7 @@ class TopicShowPage extends StatelessWidget {
                           style: const TextStyle(
                             fontSize: 16.0,
                           ),
+                          maxLines: 3,
                         ),
                         const SizedBox(height: 16.0),
                         const Text(

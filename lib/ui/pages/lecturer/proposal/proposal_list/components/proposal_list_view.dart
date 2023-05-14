@@ -258,7 +258,7 @@ class _TopicProposalItem extends StatelessWidget {
                           style: const TextStyle(
                             fontSize: 16.0,
                           ),
-                          maxLines: 2,
+                          maxLines: 3,
                           overflow: TextOverflow.ellipsis,
                         ),
                         SizedBox(height: 16.0),

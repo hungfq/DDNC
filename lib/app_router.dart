@@ -6,12 +6,10 @@ import 'package:ddnc_new/repositories/topic_proposal_repository.dart';
 import 'package:ddnc_new/repositories/topic_repository.dart';
 import 'package:ddnc_new/repositories/user_repository.dart';
 import 'package:ddnc_new/ui/homepage1.dart';
-import 'package:ddnc_new/ui/pages/admin/approve/approve_page.dart';
 import 'package:ddnc_new/ui/pages/admin/committee/committee_detail/blocs/committee_detail_bloc.dart';
 import 'package:ddnc_new/ui/pages/admin/committee/committee_detail/committee_detail_page.dart';
 import 'package:ddnc_new/ui/pages/admin/committee/committee_list/blocs/committee_list_bloc.dart';
 import 'package:ddnc_new/ui/pages/admin/committee/committee_list/committee_list_page.dart';
-import 'package:ddnc_new/ui/pages/admin/mark/mark_page.dart';
 import 'package:ddnc_new/ui/pages/admin/stats/stats_page.dart';
 import 'package:ddnc_new/ui/pages/dashboard/blocs/dashboard_bloc.dart';
 import 'package:ddnc_new/ui/pages/dashboard/dashboard_page.dart';
@@ -266,16 +264,6 @@ class AppRouter {
           ),
           settings: settings,
         );
-      case AppPages.approveListPage:
-        return MaterialPageRoute(
-          builder: (_) => BlocProvider<TopicListBloc>(
-            create: (context) => TopicListBloc(
-              topicRepository: TopicRepository.of(context),
-            ),
-            child: ApprovePage(),
-          ),
-          settings: settings,
-        );
       case AppPages.lecturerTopicApprovePage:
         return MaterialPageRoute(
           builder: (_) => BlocProvider<LecturerApproveBloc>(
@@ -293,16 +281,6 @@ class AppRouter {
               topicRepository: TopicRepository.of(context),
             ),
             child: LecturerMarkPage(),
-          ),
-          settings: settings,
-        );
-      case AppPages.markListPage:
-        return MaterialPageRoute(
-          builder: (_) => BlocProvider<TopicListBloc>(
-            create: (context) => TopicListBloc(
-              topicRepository: TopicRepository.of(context),
-            ),
-            child: MarkPage(),
           ),
           settings: settings,
         );

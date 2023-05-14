@@ -79,6 +79,7 @@ class MarkTopicShowPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
+                          maxLines: 3,
                           'Description',
                           style: TextStyle(
                             fontSize: 18.0,

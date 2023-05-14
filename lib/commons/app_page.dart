@@ -51,12 +51,6 @@ class AppPages {
   static const String committeeDetailPage = "committee_detail_page";
 
 
-  // approve
-  static const String approveListPage = "approve_list_page";
-
-  // mark
-  static const String markListPage = "mark_list_page";
-
   // statistics
   static const String statsPage = "stats_page";
 

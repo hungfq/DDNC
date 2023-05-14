@@ -187,6 +187,7 @@ class _TopicDetailPageState extends State<TopicDetailPage> with BasePageState {
                   ),
                   const SizedBox(height: 16.0),
                   TextFormField(
+                    maxLines: 3,
                     initialValue: _description,
                     decoration: const InputDecoration(
                       labelText: 'Description',
